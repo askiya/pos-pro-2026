@@ -1,64 +1,83 @@
-import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
-import bcrypt from 'bcryptjs';
-import { signJWT } from '@/lib/auth';
+import { NextResponse } from "next/server";
+
+import { fetchLaravel, readLaravelPayload, type SessionTokenPayload } from "@/lib/backend-api";
+import { createAuthSessionResponse } from "@/app/api/auth/shared";
+
+const BACKEND_API_URL = process.env.LARAVEL_API_URL ?? "http://127.0.0.1:8000/api";
 
 export async function POST(request: Request) {
   try {
-    const { email, password } = await request.json();
+    const body = (await request.json()) as {
+      identifier?: string;
+      email?: string;
+      password?: string;
+      isGoogle?: boolean;
+      googleIdToken?: string;
+    };
+    const identifier = body.identifier?.trim() ?? body.email?.trim() ?? "";
+    const email = body.email?.trim() ?? "";
+    const password = body.password?.trim() ?? "";
+    const isGoogle = body.isGoogle === true;
+    const googleIdToken = body.googleIdToken?.trim() ?? "";
 
-    if (!email || !password) {
-      return NextResponse.json({ error: 'Email and password are required' }, { status: 400 });
+    if (!isGoogle && (!(identifier || email) || !password)) {
+      return NextResponse.json({ error: "Username/email dan password wajib diisi." }, { status: 400 });
     }
 
-    const user = await prisma.user.findUnique({
-      where: { email },
-      include: { branch: true }
-    });
-
-    if (!user) {
-      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+    if (isGoogle && !googleIdToken) {
+      return NextResponse.json({ error: "Google credential wajib ada." }, { status: 400 });
     }
 
-    // Since we seeded the DB with plain 'password', we fallback if bcrypt fails and the string matches.
-    // In a real production app, all passwords would be hashed.
-    let isValid = false;
-    if (user.password === password) {
-      // It matches plaintext (from seed)
-      isValid = true;
-    } else {
-      isValid = await bcrypt.compare(password, user.password);
+    const backendEndpoint = isGoogle ? "/login/google" : "/login";
+    const backendBody = isGoogle
+      ? { id_token: googleIdToken }
+      : { identifier: identifier || email, password };
+
+    const backendResponse = await fetchLaravel(
+      backendEndpoint,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(backendBody),
+      },
+      { authRequired: false },
+    );
+
+    const payload = (await readLaravelPayload(backendResponse)) as {
+      error?: string;
+      errors?: Record<string, unknown>;
+      user?: SessionTokenPayload;
+    };
+
+    if (!backendResponse.ok) {
+      const fallbackError =
+        backendResponse.status >= 500
+          ? `Backend POS PRO sedang bermasalah. Jalankan Laravel API lewat ${BACKEND_API_URL}.`
+          : isGoogle
+            ? "Gagal masuk menggunakan Google."
+            : "Username/email atau password salah.";
+
+      return NextResponse.json(
+        {
+          error: payload?.error || fallbackError,
+          errors: payload?.errors ?? null,
+        },
+        { status: backendResponse.status },
+      );
     }
 
-    if (!isValid) {
-      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+    const session = payload.user;
+    if (!session?.id || !session.email || !session.role) {
+      return NextResponse.json({ error: "Data session dari backend tidak lengkap." }, { status: 502 });
     }
 
-    // Create JWT
-    const token = await signJWT({
-      id: user.id,
-      email: user.email,
-      role: user.role,
-      name: user.name,
-      branchId: user.branchId,
-      branchName: user.branch?.name
-    });
-
-    // Set cookie
-    const response = NextResponse.json({ success: true });
-    response.cookies.set({
-      name: 'pos_auth_token',
-      value: token,
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
-      maxAge: 60 * 60 * 24 // 1 day
-    });
-
-    return response;
-  } catch (error) {
-    console.error('Login error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return createAuthSessionResponse(request, session);
+  } catch {
+    return NextResponse.json(
+      {
+        error: `Backend POS PRO belum dapat dihubungi. Pastikan Laravel API aktif di ${BACKEND_API_URL}.`,
+      },
+      { status: 502 },
+    );
   }
 }

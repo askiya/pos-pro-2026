@@ -25,11 +25,23 @@ export default function DataTable({
   pagination,
   minWidth = "min-w-[800px]"
 }: DataTableProps) {
+  const hasItems = pagination ? pagination.totalItems > 0 : false;
+  const startItem = pagination
+    ? hasItems
+      ? (pagination.currentPage - 1) * pagination.itemsPerPage + 1
+      : 0
+    : 0;
+  const endItem = pagination
+    ? hasItems
+      ? Math.min(pagination.currentPage * pagination.itemsPerPage, pagination.totalItems)
+      : 0
+    : 0;
+
   return (
-    <div className="flex-1 bg-surface-container-lowest rounded-xl flex flex-col overflow-hidden relative shadow-sm border border-outline-variant/15">
+    <div className="app-surface flex-1 rounded-[30px] flex flex-col overflow-hidden relative">
       
       {/* Table Header Row */}
-      <div className={`flex w-full gap-4 px-6 py-4 bg-surface-container-lowest border-b border-surface-container-low sticky top-0 z-20 font-body text-xs font-semibold text-on-surface-variant uppercase tracking-wider ${minWidth}`}>
+      <div className={`flex w-full gap-4 px-6 py-4 bg-white/92 border-b border-outline-variant/10 sticky top-0 z-20 font-body text-xs font-semibold text-on-surface-variant uppercase tracking-[0.18em] ${minWidth}`}>
         {columns.map((col, idx) => (
           <div key={idx} className={col.className}>
             {col.header}
@@ -38,19 +50,19 @@ export default function DataTable({
       </div>
 
       {/* Table Body */}
-      <div className={`flex-1 overflow-y-auto bg-surface-container-lowest flex flex-col ${minWidth}`}>
+      <div className={`flex-1 overflow-y-auto bg-transparent flex flex-col ${minWidth}`}>
         {children}
       </div>
 
       {/* Table Footer / Pagination */}
       {pagination && (
-        <div className={`border-t border-surface-container-low px-6 py-4 flex items-center justify-between bg-surface-container-lowest text-sm ${minWidth}`}>
+        <div className={`border-t border-outline-variant/10 px-6 py-4 flex items-center justify-between bg-white/88 text-sm ${minWidth}`}>
           <span className="font-body text-on-surface-variant">
-            Showing {(pagination.currentPage - 1) * pagination.itemsPerPage + 1} to {Math.min(pagination.currentPage * pagination.itemsPerPage, pagination.totalItems)} of {pagination.totalItems} entries
+            Showing {startItem} to {endItem} of {pagination.totalItems} entries
           </span>
           <div className="flex gap-1">
             <button 
-              className="p-1 rounded bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors disabled:opacity-50" 
+              className="app-icon-btn h-9 w-9 rounded-xl disabled:opacity-50" 
               disabled={pagination.currentPage <= 1}
               onClick={() => pagination.onPageChange?.(pagination.currentPage - 1)}
             >
@@ -64,8 +76,8 @@ export default function DataTable({
               return (
                 <button 
                   key={pageNum}
-                  className={`w-7 h-7 rounded font-headline font-medium text-xs flex items-center justify-center transition-colors ${
-                    isActive ? 'bg-secondary text-white font-bold' : 'bg-surface text-on-surface-variant hover:bg-surface-container-high'
+                  className={`h-9 min-w-[2.25rem] rounded-xl px-3 font-headline font-medium text-xs flex items-center justify-center transition-colors ${
+                    isActive ? 'app-primary-btn text-white font-bold' : 'app-secondary-btn text-on-surface-variant'
                   }`}
                   onClick={() => pagination.onPageChange?.(pageNum)}
                 >
@@ -79,7 +91,7 @@ export default function DataTable({
             )}
             
             <button 
-              className="p-1 rounded bg-surface text-on-surface-variant hover:bg-surface-container-high transition-colors disabled:opacity-50"
+              className="app-icon-btn h-9 w-9 rounded-xl disabled:opacity-50"
               disabled={pagination.currentPage >= pagination.totalPages}
               onClick={() => pagination.onPageChange?.(pagination.currentPage + 1)}
             >

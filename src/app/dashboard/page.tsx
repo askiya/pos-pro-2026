@@ -1,9 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
-import ResponsiveLayout from "@/components/layout/ResponsiveLayout";
-import MetricCard from "@/components/ui/MetricCard";
 
-// ─── Types ───────────────────────────────────────────────────────────────────
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
+import type { CSSProperties } from "react";
+
+import ResponsiveLayout from "@/components/layout/ResponsiveLayout";
+import { readApiPayload, toApiObject } from "@/lib/client-api";
+
 interface RecentOrder {
   id: string;
   orderNumber: string;
@@ -14,11 +17,13 @@ interface RecentOrder {
   customer: { name: string } | null;
   items: { quantity: number }[];
 }
+
 interface DayData {
   label: string;
   revenue: number;
   transactions: number;
 }
+
 interface DashboardStats {
   today: { revenue: number; transactions: number };
   month: { revenue: number; transactions: number };
@@ -29,293 +34,562 @@ interface DashboardStats {
   dailyChart: DayData[];
 }
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
+type KpiTone = "indigo" | "emerald" | "amber" | "coral";
+
+const PAYMENT_LABEL: Record<string, string> = {
+  CASH: "Tunai",
+  TRANSFER: "Transfer",
+  QRIS: "QRIS",
+  SPLIT: "Split",
+};
+
+const palette = [
+  { name: "Royal Indigo", hex: "#a277ff", note: "Brand & fokus" },
+  { name: "Emerald Mint", hex: "#12b981", note: "Growth & aman" },
+  { name: "Amber Coral", hex: "#f59e0b", note: "Alert & aksi" },
+];
+
+const quickActions = [
+  {
+    href: "/",
+    icon: "point_of_sale",
+    title: "Buka Kasir",
+    subtitle: "Mulai transaksi",
+    tone: "from-[#271744] to-[#a277ff]",
+  },
+  {
+    href: "/purchase-orders",
+    icon: "add_shopping_cart",
+    title: "Purchase Order",
+    subtitle: "Restock cepat",
+    tone: "from-[#a277ff] to-[#7c3aed]",
+  },
+  {
+    href: "/inventory",
+    icon: "inventory_2",
+    title: "Inventori",
+    subtitle: "Cek stok",
+    tone: "from-[#047857] to-[#12b981]",
+  },
+  {
+    href: "/reports",
+    icon: "analytics",
+    title: "Laporan",
+    subtitle: "Pantau performa",
+    tone: "from-[#b45309] to-[#f59e0b]",
+  },
+];
+
+const toneClass: Record<KpiTone, { icon: string; glow: string; pill: string; line: string }> = {
+  indigo: {
+    icon: "bg-[#f5edff] text-[#a277ff]",
+    glow: "from-[#a277ff]/18 to-transparent",
+    pill: "bg-[#f5edff] text-[#8657ea]",
+    line: "from-[#a277ff] to-[#8b5cf6]",
+  },
+  emerald: {
+    icon: "bg-[#e6f7ef] text-[#047857]",
+    glow: "from-[#12b981]/18 to-transparent",
+    pill: "bg-[#e6f7ef] text-[#047857]",
+    line: "from-[#047857] to-[#12b981]",
+  },
+  amber: {
+    icon: "bg-[#fff7df] text-[#b45309]",
+    glow: "from-[#f59e0b]/18 to-transparent",
+    pill: "bg-[#fff7df] text-[#b45309]",
+    line: "from-[#f59e0b] to-[#fb7185]",
+  },
+  coral: {
+    icon: "bg-[#fff1f2] text-[#be123c]",
+    glow: "from-[#fb7185]/18 to-transparent",
+    pill: "bg-[#fff1f2] text-[#be123c]",
+    line: "from-[#fb7185] to-[#f59e0b]",
+  },
+};
+
 const fmt = (n: number) =>
-  new Intl.NumberFormat("id-ID", { maximumFractionDigits: 0 }).format(n);
+  new Intl.NumberFormat("id-ID", { maximumFractionDigits: 0 }).format(Number(n) || 0);
+
+const compactMoney = (n: number) => {
+  const value = Number(n) || 0;
+  if (value >= 1_000_000_000) return `Rp ${(value / 1_000_000_000).toFixed(1)}M`;
+  if (value >= 1_000_000) return `Rp ${(value / 1_000_000).toFixed(1)}jt`;
+  if (value >= 1_000) return `Rp ${Math.round(value / 1000)}rb`;
+  return `Rp ${fmt(value)}`;
+};
 
 const timeAgo = (iso: string) => {
   const diff = Date.now() - new Date(iso).getTime();
-  const m = Math.floor(diff / 60000);
-  if (m < 1)  return "Baru saja";
-  if (m < 60) return `${m} mnt lalu`;
-  const h = Math.floor(m / 60);
-  if (h < 24) return `${h} jam lalu`;
-  return `${Math.floor(h / 24)} hari lalu`;
+  const minutes = Math.floor(diff / 60000);
+  if (minutes < 1) return "Baru saja";
+  if (minutes < 60) return `${minutes} mnt lalu`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours} jam lalu`;
+  return `${Math.floor(hours / 24)} hari lalu`;
 };
 
-const PAYMENT_LABEL: Record<string, string> = {
-  CASH: "Tunai", TRANSFER: "Transfer", QRIS: "QRIS", SPLIT: "Split",
-};
+function Skeleton({ className = "", style }: { className?: string; style?: CSSProperties }) {
+  return <div className={`animate-pulse rounded-[22px] bg-white/70 ${className}`} style={style} />;
+}
 
-// ─── Mini Bar Chart ───────────────────────────────────────────────────────────
 function DashboardBarChart({ data }: { data: DayData[] }) {
-  const maxRev = Math.max(...data.map((d) => d.revenue), 1);
+  const maxRevenue = Math.max(...data.map((item) => Number(item.revenue) || 0), 1);
+
   return (
-    <div className="flex items-end gap-1.5 h-40 w-full">
-      {data.map((d, i) => {
-        const isToday = i === data.length - 1;
-        const pct = (d.revenue / maxRev) * 100;
-        return (
-          <div key={i} className="flex-1 flex flex-col items-center gap-1 group relative">
-            {/* Tooltip */}
-            <div className="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center z-20 pointer-events-none">
-              <div className="bg-on-surface text-surface text-[10px] px-2 py-1 rounded-lg whitespace-nowrap shadow-lg">
-                Rp {fmt(d.revenue)}<br />{d.transactions} trx
+    <div className="relative h-[260px] rounded-[28px] border border-white/70 bg-white/55 p-4 sm:p-5">
+      <div className="pointer-events-none absolute inset-x-5 bottom-[74px] top-5 grid grid-rows-4">
+        {[0, 1, 2, 3].map((line) => (
+          <div key={line} className="border-t border-dashed border-[#d4c8e3]/80" />
+        ))}
+      </div>
+
+      <div className="relative flex h-full items-end gap-2 sm:gap-3">
+        {data.map((item, index) => {
+          const isToday = index === data.length - 1;
+          const revenue = Number(item.revenue) || 0;
+          const percent = revenue > 0 ? Math.max((revenue / maxRevenue) * 100, 12) : 7;
+          const style = {
+            "--bar-height": `${percent}%`,
+            "--delay": `${index * 70}ms`,
+          } as CSSProperties;
+
+          return (
+            <div key={`${item.label}-${index}`} className="group flex h-full min-w-0 flex-1 flex-col justify-end gap-3">
+              <div className="relative flex h-[190px] items-end">
+                <div className="absolute bottom-full left-1/2 z-20 mb-3 hidden -translate-x-1/2 rounded-2xl border border-white/65 bg-[#271744] px-3 py-2 text-center text-[11px] font-semibold text-white shadow-[0_20px_44px_-24px_rgba(17,24,39,0.7)] group-hover:block">
+                  <span className="block whitespace-nowrap">{compactMoney(revenue)}</span>
+                  <span className="block whitespace-nowrap text-white/65">{item.transactions} transaksi</span>
+                </div>
+                <div className="h-full w-full rounded-full bg-[#eef1fb] p-1">
+                  <div
+                    className={`dashboard-bar-fill min-h-[12px] w-full rounded-full bg-gradient-to-t ${
+                      isToday ? "from-[#a277ff] via-[#12b981] to-[#a7f3d0]" : "from-[#c9cff8] to-[#f5edff]"
+                    } shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] group-hover:from-[#a277ff] group-hover:to-[#12b981]`}
+                    style={{ ...style, height: "var(--bar-height)" }}
+                  />
+                </div>
               </div>
-              <div className="w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-on-surface" />
+              <div className={`truncate text-center text-xs font-bold ${isToday ? "text-[#a277ff]" : "text-on-surface-variant"}`}>
+                {item.label}
+              </div>
             </div>
-            {/* Bar */}
-            <div className="w-full flex flex-col justify-end" style={{ height: "120px" }}>
-              <div
-                className={`w-full rounded-t-md transition-all duration-500 ${
-                  isToday
-                    ? "bg-gradient-to-t from-secondary to-[#6ffbbe]"
-                    : "bg-surface-container-high group-hover:bg-secondary/50"
-                }`}
-                style={{ height: `${Math.max(pct, 3)}%` }}
-              />
-            </div>
-            <span className={`text-[10px] font-medium ${isToday ? "text-secondary font-semibold" : "text-on-surface-variant"}`}>
-              {d.label}
-            </span>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 }
 
-// ─── Skeleton ─────────────────────────────────────────────────────────────────
-function Sk({ className = "" }: { className?: string }) {
-  return <div className={`animate-pulse rounded-lg bg-surface-container-high ${className}`} />;
+function KpiCard({
+  title,
+  value,
+  icon,
+  tone,
+  meta,
+  delay,
+}: {
+  title: string;
+  value: string;
+  icon: string;
+  tone: KpiTone;
+  meta: string;
+  delay: number;
+}) {
+  const toneStyle = toneClass[tone];
+
+  return (
+    <section
+      className="dashboard-entrance group relative overflow-hidden rounded-[30px] border border-white/70 bg-white/78 p-5 shadow-[0_24px_70px_-48px_rgba(39, 23, 68,0.38)] transition duration-300 hover:-translate-y-1 hover:bg-white"
+      style={{ "--delay": `${delay}ms` } as CSSProperties}
+    >
+      <div className={`pointer-events-none absolute -right-14 -top-14 h-36 w-36 rounded-full bg-gradient-to-br ${toneStyle.glow}`} />
+      <div className={`absolute inset-x-5 bottom-0 h-1 rounded-full bg-gradient-to-r ${toneStyle.line}`} />
+
+      <div className="relative flex items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-on-surface-variant/70">{title}</p>
+          <h3 className="mt-4 font-headline text-3xl font-black tracking-[-0.05em] text-on-surface sm:text-4xl">
+            {value}
+          </h3>
+        </div>
+        <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${toneStyle.icon}`}>
+          <span className="material-symbols-outlined icon-fill text-[23px]">{icon}</span>
+        </div>
+      </div>
+
+      <div className={`relative mt-5 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-bold ${toneStyle.pill}`}>
+        <span className="material-symbols-outlined text-[15px]">auto_graph</span>
+        {meta}
+      </div>
+    </section>
+  );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
+function HeroStat({ label, value, icon }: { label: string; value: string; icon: string }) {
+  return (
+    <div className="rounded-[24px] border border-white/16 bg-white/10 p-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">
+      <div className="flex items-center justify-between gap-3">
+        <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/58">{label}</span>
+        <span className="material-symbols-outlined text-[18px] text-[#a7f3d0]">{icon}</span>
+      </div>
+      <div className="mt-3 font-headline text-xl font-black tracking-[-0.04em]">{value}</div>
+    </div>
+  );
+}
+
+function QuickActionCard({
+  href,
+  icon,
+  title,
+  subtitle,
+  tone,
+}: {
+  href: string;
+  icon: string;
+  title: string;
+  subtitle: string;
+  tone: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="group relative overflow-hidden rounded-[26px] border border-white/70 bg-white/75 p-4 shadow-[0_18px_44px_-36px_rgba(39, 23, 68,0.32)] transition duration-300 hover:-translate-y-1 hover:bg-white"
+    >
+      <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${tone}`} />
+      <div className="flex items-center gap-3">
+        <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${tone} text-white shadow-[0_18px_34px_-26px_rgba(162, 119, 255,0.8)]`}>
+          <span className="material-symbols-outlined icon-fill text-[23px]">{icon}</span>
+        </div>
+        <div className="min-w-0">
+          <p className="truncate font-headline text-sm font-black text-on-surface">{title}</p>
+          <p className="mt-0.5 truncate text-xs font-medium text-on-surface-variant">{subtitle}</p>
+        </div>
+        <span className="material-symbols-outlined ml-auto text-[18px] text-on-surface-variant transition group-hover:translate-x-1 group-hover:text-[#a277ff]">
+          arrow_forward
+        </span>
+      </div>
+    </Link>
+  );
+}
+
+function RecentOrderRow({ order }: { order: RecentOrder }) {
+  const isCancelled = order.status === "CANCELLED";
+  const quantity = (order.items ?? []).reduce((sum, item) => sum + Number(item.quantity || 0), 0);
+
+  return (
+    <li className="group rounded-[24px] border border-transparent bg-white/58 p-3 transition duration-300 hover:border-white hover:bg-white hover:shadow-[0_18px_50px_-40px_rgba(39, 23, 68,0.38)]">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex min-w-0 items-center gap-3">
+          <div
+            className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl ${
+              isCancelled ? "bg-[#fff1f2] text-[#be123c]" : "bg-[#f5edff] text-[#a277ff]"
+            }`}
+          >
+            <span className="material-symbols-outlined icon-fill text-[20px]">
+              {isCancelled ? "cancel" : "receipt_long"}
+            </span>
+          </div>
+          <div className="min-w-0">
+            <p className="truncate font-headline text-sm font-black text-on-surface">{order.orderNumber}</p>
+            <p className="truncate text-xs font-medium text-on-surface-variant">
+              {order.customer?.name ?? "Walk-in"} - {quantity || 1} item - {timeAgo(order.createdAt)}
+            </p>
+          </div>
+        </div>
+
+        <div className="shrink-0 text-right">
+          <p className={`font-headline text-sm font-black ${isCancelled ? "text-on-surface-variant line-through" : "text-on-surface"}`}>
+            Rp {fmt(Number(order.totalAmount))}
+          </p>
+          <span
+            className={`mt-1 inline-flex rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] ${
+              isCancelled ? "bg-[#fff1f2] text-[#be123c]" : "bg-[#e6f7ef] text-[#047857]"
+            }`}
+          >
+            {isCancelled ? "Batal" : PAYMENT_LABEL[order.paymentType] ?? order.paymentType}
+          </span>
+        </div>
+      </div>
+    </li>
+  );
+}
+
 export default function DashboardPage() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/dashboard/stats")
-      .then((r) => r.json())
-      .then((d: DashboardStats) => { setStats(d); setLoading(false); })
-      .catch(() => setLoading(false));
+    let cancelled = false;
+
+    const loadStats = async () => {
+      try {
+        const response = await fetch("/api/dashboard/stats");
+        if (!response.ok) {
+          setStats(null);
+          return;
+        }
+
+        const payload = await readApiPayload(response);
+        if (!cancelled) {
+          setStats(toApiObject<DashboardStats>(payload));
+        }
+      } catch {
+        if (!cancelled) {
+          setStats(null);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    void loadStats();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
+
+  const lowStockCount = stats?.lowStockProducts?.length ?? 0;
+  const stockHealth = useMemo(() => {
+    if (loading) return "Memuat inventory";
+    if (lowStockCount === 0) return "Stok sehat";
+    if (lowStockCount < 3) return "Perlu pantauan";
+    return "Butuh restock";
+  }, [loading, lowStockCount]);
+
+  const dailyChart = stats?.dailyChart ?? [];
+  const recentOrders = stats?.recentOrders ?? [];
 
   return (
     <ResponsiveLayout>
-      <div className="flex-1 p-6 pb-24 md:pb-6 overflow-y-auto w-full">
-        <div className="max-w-7xl mx-auto space-y-6">
+      <div className="dashboard-page h-full overflow-y-auto px-4 py-5 pb-28 sm:px-5 md:px-6 md:pb-8">
+        <div className="mx-auto flex max-w-[1500px] flex-col gap-6">
+          <section className="dashboard-entrance dashboard-sheen relative overflow-hidden rounded-[36px] border border-white/70 bg-[linear-gradient(135deg,#271744_0%,#5c3d99_48%,#a277ff_100%)] p-5 text-white shadow-[0_28px_90px_-56px_rgba(17,24,39,0.78)] sm:p-7">
+            <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-[#12b981]/24" />
+            <div className="pointer-events-none absolute bottom-0 left-1/2 h-40 w-40 -translate-x-1/2 rounded-full bg-[#f59e0b]/16" />
 
-          {/* ── Header ──────────────────────────────────────────── */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div>
-              <h1 className="font-headline text-3xl font-bold text-on-surface tracking-tight">Overview</h1>
-              <p className="font-body text-sm text-on-surface-variant mt-1">
-                Performa hari ini di semua cabang.
-              </p>
-            </div>
-            <div className="flex gap-3">
-              <div className="px-4 py-2 bg-surface-container-highest text-on-surface rounded-lg font-body text-sm font-medium flex items-center gap-2">
-                <span className="material-symbols-outlined text-[18px] text-secondary">calendar_today</span>
-                Hari Ini
+            <div className="relative grid gap-6 xl:grid-cols-[minmax(0,1.25fr)_minmax(360px,0.75fr)] xl:items-end">
+              <div>
+                <div className="inline-flex items-center gap-2 rounded-full border border-white/16 bg-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-white/75">
+                  <span className="h-2 w-2 rounded-full bg-[#12b981] dashboard-soft-pulse" />
+                  Live Business Cockpit
+                </div>
+                <h1 className="mt-5 max-w-3xl font-headline text-4xl font-black tracking-[-0.06em] text-white sm:text-5xl xl:text-6xl">
+                  Dashboard yang lebih cepat, jelas, dan siap dipakai tim cabang.
+                </h1>
+                <p className="mt-4 max-w-2xl text-sm font-medium leading-7 text-white/72 sm:text-base">
+                  Pantau sales, transaksi, stok kritis, dan aksi operasional dari satu layar yang lebih premium.
+                </p>
+
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {palette.map((item) => (
+                    <div key={item.name} className="flex items-center gap-2 rounded-full border border-white/14 bg-white/10 px-3 py-2 text-xs font-bold text-white/82">
+                      <span className="h-3 w-3 rounded-full" style={{ background: item.hex }} />
+                      <span>{item.name}</span>
+                      <span className="hidden text-white/45 sm:inline">/ {item.note}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
+                <HeroStat
+                  label="Sales Hari Ini"
+                  value={loading ? "Memuat" : `Rp ${fmt(stats?.today?.revenue ?? 0)}`}
+                  icon="payments"
+                />
+                <HeroStat
+                  label="Transaksi"
+                  value={loading ? "Memuat" : `${stats?.today?.transactions ?? 0} order`}
+                  icon="receipt_long"
+                />
+                <HeroStat label="Inventory" value={stockHealth} icon="inventory_2" />
               </div>
             </div>
-          </div>
+          </section>
 
-          {/* ── KPI Cards ────────────────────────────────────────── */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <MetricCard
+          <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <KpiCard
               title="Revenue Hari Ini"
-              value={loading ? "..." : `Rp ${fmt(stats?.today.revenue ?? 0)}`}
-              icon="payments"
-              trend={{
-                value: loading ? "..." : `${stats?.month.transactions ?? 0} order bulan ini`,
-                icon: "trending_up",
-                isPositive: true,
-              }}
+              value={loading ? "..." : `Rp ${fmt(stats?.today?.revenue ?? 0)}`}
+              icon="paid"
+              tone="indigo"
+              meta={loading ? "Sinkronisasi data" : `${stats?.month?.transactions ?? 0} order bulan ini`}
+              delay={50}
             />
-            <MetricCard
+            <KpiCard
               title="Transaksi Hari Ini"
-              value={loading ? "..." : String(stats?.today.transactions ?? 0)}
-              icon="receipt_long"
-              trend={{
-                value: loading ? "..." : `Rp ${fmt(stats?.month.revenue ?? 0)} bulan ini`,
-                icon: "trending_up",
-                isPositive: true,
-              }}
+              value={loading ? "..." : String(stats?.today?.transactions ?? 0)}
+              icon="bolt"
+              tone="emerald"
+              meta={loading ? "Memuat aktivitas" : `${compactMoney(stats?.month?.revenue ?? 0)} bulan ini`}
+              delay={110}
             />
-            <MetricCard
+            <KpiCard
               title="Total Produk"
               value={loading ? "..." : String(stats?.totalProducts ?? 0)}
               icon="inventory_2"
-              subtitle={loading ? "..." : `${stats?.totalCustomers ?? 0} pelanggan terdaftar`}
+              tone="amber"
+              meta={loading ? "Memuat katalog" : `${stats?.totalCustomers ?? 0} pelanggan terdaftar`}
+              delay={170}
             />
-            <MetricCard
+            <KpiCard
               title="Stok Kritis"
-              value={loading ? "..." : String(stats?.lowStockProducts.length ?? 0)}
-              icon="warning"
-              subtitle={
-                loading
-                  ? "..."
-                  : (stats?.lowStockProducts.length ?? 0) > 0
-                  ? stats!.lowStockProducts[0].name
-                  : "Semua stok aman"
-              }
-              isAlert={(stats?.lowStockProducts.length ?? 0) > 0}
+              value={loading ? "..." : String(lowStockCount)}
+              icon="emergency_home"
+              tone={lowStockCount > 0 ? "coral" : "emerald"}
+              meta={stockHealth}
+              delay={230}
             />
-          </div>
+          </section>
 
-          {/* ── Main Grid ────────────────────────────────────────── */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-            {/* Left: Chart + Low Stock */}
-            <div className="lg:col-span-2 space-y-6">
-              {/* Revenue Chart */}
-              <div className="bg-surface-container-lowest rounded-xl p-5 shadow-sm border border-outline-variant/10">
-                <div className="flex justify-between items-center mb-6">
+          <section className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1.55fr)_minmax(360px,0.8fr)]">
+            <div className="flex flex-col gap-6">
+              <section className="dashboard-entrance rounded-[34px] border border-white/70 bg-white/75 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] sm:p-6" style={{ "--delay": "280ms" } as CSSProperties}>
+                <div className="mb-5 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                   <div>
-                    <h3 className="font-headline text-lg font-bold text-on-surface">Revenue 7 Hari</h3>
-                    <p className="text-xs text-on-surface-variant font-body mt-0.5">Hover untuk melihat detail</p>
+                    <p className="text-xs font-black uppercase tracking-[0.2em] text-[#a277ff]/70">Revenue Flow</p>
+                    <h2 className="mt-2 font-headline text-2xl font-black tracking-[-0.05em] text-on-surface">Revenue 7 Hari</h2>
+                    <p className="mt-1 text-sm font-medium text-on-surface-variant">Hover bar untuk lihat detail transaksi.</p>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-secondary" />
-                    <span className="font-body text-xs text-on-surface-variant">Revenue</span>
+                  <div className="flex items-center gap-2 rounded-full bg-[#f5edff] px-3 py-2 text-xs font-black text-[#8657ea]">
+                    <span className="h-2.5 w-2.5 rounded-full bg-[#12b981]" />
+                    Live revenue
                   </div>
                 </div>
+
                 {loading ? (
-                  <div className="flex items-end gap-1.5 h-40">
-                    {[65, 40, 80, 55, 90, 70, 95].map((h, i) => (
-                      <div key={i} className="flex-1 animate-pulse rounded-t-md bg-surface-container-high"
-                        style={{ height: `${h}%` }} />
+                  <div className="grid h-[260px] grid-cols-7 items-end gap-3 rounded-[28px] border border-white/70 bg-white/55 p-5">
+                    {[58, 36, 72, 48, 82, 64, 90].map((height, index) => (
+                      <Skeleton key={index} className="w-full rounded-full" style={{ height: `${height}%` } as CSSProperties} />
                     ))}
                   </div>
-                ) : stats?.dailyChart && stats.dailyChart.length > 0 ? (
-                  <DashboardBarChart data={stats.dailyChart} />
+                ) : dailyChart.length > 0 ? (
+                  <DashboardBarChart data={dailyChart} />
                 ) : (
-                  <div className="h-40 flex items-center justify-center text-on-surface-variant text-sm font-body">
-                    Belum ada data transaksi.
+                  <div className="flex h-[260px] flex-col items-center justify-center rounded-[28px] border border-dashed border-[#d4c8e3] bg-white/55 text-center">
+                    <span className="material-symbols-outlined text-4xl text-[#c9cff8]">monitoring</span>
+                    <p className="mt-3 font-headline text-lg font-black text-on-surface">Belum ada transaksi</p>
+                    <p className="mt-1 max-w-sm text-sm text-on-surface-variant">Begitu transaksi masuk, grafik akan hidup otomatis di sini.</p>
                   </div>
                 )}
-              </div>
+              </section>
 
-              {/* Top Selling (dari low stock jadi lebih berguna) */}
-              <div className="bg-surface-container-lowest rounded-xl p-5 shadow-sm border border-outline-variant/10">
-                <h3 className="font-headline text-lg font-bold text-on-surface mb-4">Stok Perlu Perhatian</h3>
-                {loading ? (
-                  <div className="space-y-3">
-                    {[1, 2, 3].map((i) => <Sk key={i} className="h-8 w-full" />)}
+              <section className="dashboard-entrance rounded-[34px] border border-white/70 bg-white/75 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] sm:p-6" style={{ "--delay": "340ms" } as CSSProperties}>
+                <div className="mb-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.2em] text-[#f59e0b]/80">Inventory Radar</p>
+                    <h2 className="mt-2 font-headline text-2xl font-black tracking-[-0.05em] text-on-surface">Stok Perlu Perhatian</h2>
                   </div>
-                ) : (stats?.lowStockProducts.length ?? 0) === 0 ? (
-                  <div className="flex items-center gap-3 p-4 bg-[#e6f5f0] rounded-xl">
-                    <span className="material-symbols-outlined text-[#005236]">check_circle</span>
-                    <p className="font-body text-sm text-[#005236] font-medium">Semua stok produk dalam kondisi aman! 🎉</p>
+                  <Link href="/inventory" className="inline-flex items-center gap-2 rounded-full bg-[#fff7df] px-4 py-2 text-sm font-black text-[#b45309] hover:bg-[#ffefbd]">
+                    Kelola Stok
+                    <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                  </Link>
+                </div>
+
+                {loading ? (
+                  <div className="grid gap-3 md:grid-cols-3">
+                    {[1, 2, 3].map((item) => (
+                      <Skeleton key={item} className="h-24" />
+                    ))}
+                  </div>
+                ) : lowStockCount === 0 ? (
+                  <div className="rounded-[28px] border border-[#bbf7d0] bg-[linear-gradient(135deg,#ecfdf5_0%,#f8fffb_100%)] p-5">
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                      <div className="flex items-center gap-4">
+                        <div className="flex h-14 w-14 items-center justify-center rounded-3xl bg-[#12b981] text-white shadow-[0_18px_36px_-24px_rgba(18,185,129,0.9)]">
+                          <span className="material-symbols-outlined icon-fill text-[28px]">verified</span>
+                        </div>
+                        <div>
+                          <p className="font-headline text-xl font-black text-[#064e3b]">Semua stok aman</p>
+                          <p className="mt-1 text-sm font-medium text-[#047857]">Tidak ada produk kritis untuk saat ini.</p>
+                        </div>
+                      </div>
+                      <div className="rounded-full bg-white/80 px-4 py-2 text-sm font-black text-[#047857]">Healthy inventory</div>
+                    </div>
                   </div>
                 ) : (
-                  <div className="space-y-2">
-                    {stats!.lowStockProducts.map((p) => (
-                      <div key={p.id} className="flex items-center justify-between p-3 hover:bg-surface-container-highest rounded-xl transition-colors">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-error-container/30 flex items-center justify-center">
-                            <span className="material-symbols-outlined text-error text-[16px]">warning</span>
+                  <div className="grid gap-3 md:grid-cols-2">
+                    {stats?.lowStockProducts?.map((product) => (
+                      <div key={product.id} className="rounded-[26px] border border-[#fee2e2] bg-[#fff7f7] p-4 transition hover:-translate-y-0.5 hover:bg-white">
+                        <div className="flex items-center justify-between gap-4">
+                          <div className="flex min-w-0 items-center gap-3">
+                            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-[#be123c]">
+                              <span className="material-symbols-outlined icon-fill text-[22px]">warning</span>
+                            </div>
+                            <div className="min-w-0">
+                              <p className="truncate font-headline text-sm font-black text-on-surface">{product.name}</p>
+                              <p className="text-xs font-medium text-on-surface-variant">Segera cek stok cabang</p>
+                            </div>
                           </div>
-                          <span className="font-body text-sm font-medium text-on-surface">{p.name}</span>
+                          <span className="rounded-full bg-[#fff1f2] px-3 py-1.5 text-xs font-black text-[#be123c]">
+                            {product.stock === 0 ? "Habis" : `${product.stock} pcs`}
+                          </span>
                         </div>
-                        <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${
-                          p.stock === 0 ? "bg-error-container/40 text-error" : "bg-yellow-50 text-yellow-700"
-                        }`}>
-                          {p.stock === 0 ? "HABIS" : `${p.stock} pcs`}
-                        </span>
                       </div>
                     ))}
                   </div>
                 )}
-              </div>
+              </section>
             </div>
 
-            {/* Right: Recent Transactions */}
-            <div className="space-y-6">
-              {/* Quick Actions */}
-              <div className="bg-surface-container-lowest rounded-xl p-5 shadow-sm border border-outline-variant/10">
-                <h3 className="font-headline text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-4">Aksi Cepat</h3>
-                <div className="grid grid-cols-2 gap-3">
-                  <a href="/purchase-orders" className="flex flex-col items-center justify-center p-3 bg-surface-container hover:bg-surface-container-highest rounded-lg transition-colors gap-2 text-on-surface font-body text-xs font-medium">
-                    <span className="material-symbols-outlined text-[20px] text-secondary">add_shopping_cart</span>
-                    Purchase Order
-                  </a>
-                  <a href="/inventory" className="flex flex-col items-center justify-center p-3 bg-surface-container hover:bg-surface-container-highest rounded-lg transition-colors gap-2 text-on-surface font-body text-xs font-medium">
-                    <span className="material-symbols-outlined text-[20px] text-secondary">inventory_2</span>
-                    Inventori
-                  </a>
-                  <a href="/reports" className="flex flex-col items-center justify-center p-3 bg-surface-container hover:bg-surface-container-highest rounded-lg transition-colors gap-2 text-on-surface font-body text-xs font-medium">
-                    <span className="material-symbols-outlined text-[20px] text-secondary">bar_chart</span>
-                    Laporan
-                  </a>
-                  <a href="/shifts" className="flex flex-col items-center justify-center p-3 bg-surface-container hover:bg-surface-container-highest rounded-lg transition-colors gap-2 text-on-surface font-body text-xs font-medium">
-                    <span className="material-symbols-outlined text-[20px] text-secondary">schedule</span>
-                    Shift
-                  </a>
+            <aside className="flex flex-col gap-6">
+              <section className="dashboard-entrance rounded-[34px] border border-white/70 bg-white/75 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] sm:p-5" style={{ "--delay": "380ms" } as CSSProperties}>
+                <div className="mb-4 flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.2em] text-[#a277ff]/70">Command Center</p>
+                    <h2 className="mt-2 font-headline text-2xl font-black tracking-[-0.05em] text-on-surface">Aksi Cepat</h2>
+                  </div>
+                  <span className="rounded-full bg-[#f5edff] px-3 py-1.5 text-xs font-black text-[#8657ea]">4 shortcut</span>
                 </div>
-              </div>
+                <div className="grid gap-3">
+                  {quickActions.map((action) => (
+                    <QuickActionCard key={action.href} {...action} />
+                  ))}
+                </div>
+              </section>
 
-              {/* Recent Transactions */}
-              <div className="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-outline-variant/10 flex flex-col">
-                <div className="p-5 pb-3 border-b border-surface-container flex justify-between items-center">
-                  <h3 className="font-headline text-lg font-bold text-on-surface">Transaksi Terbaru</h3>
-                  <a href="/reports" className="text-secondary text-xs font-body font-medium hover:underline">Lihat Semua</a>
+              <section className="dashboard-entrance min-h-[420px] rounded-[34px] border border-white/70 bg-white/75 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] sm:p-5" style={{ "--delay": "440ms" } as CSSProperties}>
+                <div className="mb-4 flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.2em] text-[#12b981]/80">Activity Stream</p>
+                    <h2 className="mt-2 font-headline text-2xl font-black tracking-[-0.05em] text-on-surface">Transaksi Terbaru</h2>
+                  </div>
+                  <Link href="/reports" className="rounded-full bg-[#e6f7ef] px-3 py-1.5 text-xs font-black text-[#047857] hover:bg-[#d8f8e8]">
+                    Lihat Semua
+                  </Link>
                 </div>
-                <div className="overflow-y-auto flex-1 p-2 max-h-[380px]">
-                  {loading ? (
-                    <div className="p-3 space-y-3">
-                      {[1, 2, 3].map((i) => <Sk key={i} className="h-14 w-full" />)}
-                    </div>
-                  ) : (stats?.recentOrders.length ?? 0) === 0 ? (
-                    <div className="flex flex-col items-center justify-center gap-2 py-8 text-on-surface-variant">
-                      <span className="material-symbols-outlined text-4xl opacity-30">receipt_long</span>
-                      <p className="text-sm font-body">Belum ada transaksi hari ini.</p>
-                    </div>
-                  ) : (
-                    <ul className="space-y-1">
-                      {stats!.recentOrders.map((order) => (
-                        <li key={order.id} className="flex items-center justify-between p-3 hover:bg-surface-container-highest rounded-xl transition-colors cursor-pointer group">
-                          <div className="flex items-center gap-3">
-                            <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${
-                              order.status === "CANCELLED"
-                                ? "bg-error-container/30 text-error"
-                                : "bg-secondary/10 text-secondary"
-                            }`}>
-                              <span className="material-symbols-outlined text-[18px]">
-                                {order.status === "CANCELLED" ? "cancel" : "receipt"}
-                              </span>
-                            </div>
-                            <div>
-                              <p className="font-body text-sm font-semibold text-on-surface">{order.orderNumber}</p>
-                              <p className="font-body text-xs text-on-surface-variant">
-                                {order.customer?.name ?? "Walk-in"} • {timeAgo(order.createdAt)}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="text-right shrink-0">
-                            <p className={`font-headline text-sm font-bold ${order.status === "CANCELLED" ? "line-through text-on-surface-variant" : "text-on-surface"}`}>
-                              Rp {fmt(Number(order.totalAmount))}
-                            </p>
-                            <span className={`inline-block text-[10px] px-2 py-0.5 rounded-full font-medium mt-0.5 ${
-                              order.status === "CANCELLED"
-                                ? "bg-error-container text-on-error-container"
-                                : "bg-[#e6f5f0] text-[#005236]"
-                            }`}>
-                              {order.status === "CANCELLED" ? "Dibatalkan" : PAYMENT_LABEL[order.paymentType] ?? order.paymentType}
-                            </span>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
 
+                {loading ? (
+                  <div className="space-y-3">
+                    {[1, 2, 3, 4].map((item) => (
+                      <Skeleton key={item} className="h-20" />
+                    ))}
+                  </div>
+                ) : recentOrders.length === 0 ? (
+                  <div className="flex min-h-[290px] flex-col items-center justify-center rounded-[28px] border border-dashed border-[#d4c8e3] bg-white/55 px-6 text-center">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-[28px] bg-[#f5edff] text-[#a277ff]">
+                      <span className="material-symbols-outlined icon-fill text-[30px]">receipt_long</span>
+                    </div>
+                    <p className="mt-4 font-headline text-lg font-black text-on-surface">Belum ada transaksi</p>
+                    <p className="mt-1 text-sm leading-6 text-on-surface-variant">Mulai transaksi pertama dari POS Cashier, nanti aktivitasnya muncul di sini.</p>
+                    <Link href="/" className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#a277ff] px-5 py-3 text-sm font-black text-white shadow-[0_18px_38px_-26px_rgba(162, 119, 255,0.9)] hover:bg-[#8657ea]">
+                      Buka Kasir
+                      <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                    </Link>
+                  </div>
+                ) : (
+                  <ul className="max-h-[430px] space-y-2 overflow-y-auto pr-1">
+                    {recentOrders.map((order) => (
+                      <RecentOrderRow key={order.id} order={order} />
+                    ))}
+                  </ul>
+                )}
+              </section>
+            </aside>
+          </section>
         </div>
       </div>
     </ResponsiveLayout>
