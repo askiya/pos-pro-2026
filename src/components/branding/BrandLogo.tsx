@@ -14,8 +14,8 @@ export function BrandLogoMark({
       className={`flex items-center justify-center overflow-hidden rounded-[18px] bg-white/8 ${sizeClassName} ${className}`.trim()}
     >
       <img
-        src={APP_OWNER_PROFILE.logoUrl}
-        alt={APP_OWNER_PROFILE.logoAlt}
+        src={APP_OWNER_PROFILE.displayLogoUrl}
+        alt={APP_OWNER_PROFILE.displayLogoAlt}
         className={`h-full w-full object-contain ${imageClassName}`.trim()}
         loading="eager"
         referrerPolicy="no-referrer"

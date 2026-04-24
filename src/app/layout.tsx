@@ -13,9 +13,9 @@ export const metadata: Metadata = {
   description: "Platform POS modern untuk kasir, inventory, CRM, shift, dan laporan bisnis.",
   applicationName: APP_OWNER_PROFILE.appName,
   icons: {
-    icon: [{ url: APP_OWNER_PROFILE.logoUrl, type: "image/png" }],
-    shortcut: [APP_OWNER_PROFILE.logoUrl],
-    apple: [{ url: APP_OWNER_PROFILE.logoUrl }],
+    icon: [{ url: "/brand-favicon.svg?v=20260424-2", type: "image/svg+xml" }],
+    shortcut: ["/brand-favicon.svg?v=20260424-2"],
+    apple: [{ url: "/brand-favicon.svg?v=20260424-2" }],
   },
   openGraph: {
     title: "POS PRO V2",
@@ -23,10 +23,10 @@ export const metadata: Metadata = {
     siteName: APP_OWNER_PROFILE.studioName,
     images: [
       {
-        url: APP_OWNER_PROFILE.logoUrl,
+        url: APP_OWNER_PROFILE.displayLogoUrl,
         width: 512,
         height: 512,
-        alt: APP_OWNER_PROFILE.logoAlt,
+        alt: APP_OWNER_PROFILE.displayLogoAlt,
       },
     ],
   },
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "POS PRO V2",
     description: "Platform POS modern untuk kasir, inventory, CRM, shift, dan laporan bisnis.",
-    images: [APP_OWNER_PROFILE.logoUrl],
+    images: [APP_OWNER_PROFILE.displayLogoUrl],
   },
 };
 
