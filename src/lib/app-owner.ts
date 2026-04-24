@@ -14,6 +14,9 @@ export const APP_OWNER_PROFILE = {
   appName: "POS PRO V2",
   studioName: "Santriman Studios",
   developerName: "nasimulaskiyaa",
+  logoUrl:
+    "https://i.ibb.co.com/vC99K56S/Chat-GPT-Image-24-Apr-2026-19-33-50-removebg-preview.png",
+  logoAlt: "Logo POS PRO V2 by Santriman Studios",
   primaryWhatsapp: "+62 822-3264-0762",
   backupWhatsapp: "+62 812-4683-4988",
   primaryEmail: "nasimulaskiya26@gmail.com",

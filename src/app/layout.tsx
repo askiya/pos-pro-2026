@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import { AppShell } from "@/components/layout/AppShell";
 import { ToastProvider } from "@/components/ui/ToastProvider";
+import { APP_OWNER_PROFILE } from "@/lib/app-owner";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: '--font-inter' });
@@ -10,6 +11,31 @@ const plusJakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: '--font-pl
 export const metadata: Metadata = {
   title: "POS PRO V2",
   description: "Platform POS modern untuk kasir, inventory, CRM, shift, dan laporan bisnis.",
+  applicationName: APP_OWNER_PROFILE.appName,
+  icons: {
+    icon: [{ url: APP_OWNER_PROFILE.logoUrl, type: "image/png" }],
+    shortcut: [APP_OWNER_PROFILE.logoUrl],
+    apple: [{ url: APP_OWNER_PROFILE.logoUrl }],
+  },
+  openGraph: {
+    title: "POS PRO V2",
+    description: "Platform POS modern untuk kasir, inventory, CRM, shift, dan laporan bisnis.",
+    siteName: APP_OWNER_PROFILE.studioName,
+    images: [
+      {
+        url: APP_OWNER_PROFILE.logoUrl,
+        width: 512,
+        height: 512,
+        alt: APP_OWNER_PROFILE.logoAlt,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "POS PRO V2",
+    description: "Platform POS modern untuk kasir, inventory, CRM, shift, dan laporan bisnis.",
+    images: [APP_OWNER_PROFILE.logoUrl],
+  },
 };
 
 export default function RootLayout({

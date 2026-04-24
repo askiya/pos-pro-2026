@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
+import { BrandLockup } from "@/components/branding/BrandLogo";
 import { useToast } from "@/components/ui/ToastProvider";
 import { readApiPayload, toApiObject } from "@/lib/client-api";
 import { formatCurrency } from "@/lib/format";
@@ -278,14 +279,19 @@ function ResponsiveShell({ children }: { children: React.ReactNode }) {
               <div className="flex items-center justify-between gap-3">
                 <div className="flex min-w-0 items-center gap-3 md:gap-5">
                   <Link href="/dashboard" className="group flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-[18px] bg-gradient-to-br from-primary-container to-secondary text-white shadow-[0_16px_28px_-22px_rgba(162, 119, 255,0.82)]">
-                      <span className="material-symbols-outlined icon-fill text-[20px]">point_of_sale</span>
-                    </div>
                     <div className="hidden min-w-0 sm:block">
-                      <div className="font-headline text-lg font-black tracking-[-0.04em] text-on-surface">
-                        POS PRO V2
-                      </div>
-                      <div className="max-w-[180px] text-[11px] leading-4 text-on-surface-variant">Retail cockpit for modern branches</div>
+                      <BrandLockup
+                        markSizeClassName="h-10 w-10"
+                        markClassName="bg-gradient-to-br from-primary-container to-secondary shadow-[0_16px_28px_-22px_rgba(162,119,255,0.82)] p-1.5"
+                      />
+                    </div>
+                    <div className="sm:hidden">
+                      <BrandLockup
+                        markSizeClassName="h-10 w-10"
+                        markClassName="bg-gradient-to-br from-primary-container to-secondary shadow-[0_16px_28px_-22px_rgba(162,119,255,0.82)] p-1.5"
+                        showSubtitle={false}
+                        titleClassName="sr-only"
+                      />
                     </div>
                   </Link>
 

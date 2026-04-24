@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { BrandLockup } from "@/components/branding/BrandLogo";
 import { useToast } from "@/components/ui/ToastProvider";
 import { getApiErrorMessage, readApiPayload, toApiObject } from "@/lib/client-api";
 import { APP_OWNER_LINKS, APP_OWNER_PROFILE, SUBSCRIPTION_FEATURES, SUBSCRIPTION_MODEL } from "@/lib/app-owner";
@@ -20,12 +21,12 @@ function Navbar({ onLoginClick }: { onLoginClick: () => void }) {
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-[#0A0F1F]/80 backdrop-blur-xl border-b border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.36)]' : 'bg-transparent py-2'}`}>
       <div className="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#2C21A0] to-[#8B5CF6] flex items-center justify-center shadow-[0_0_15px_rgba(139,92,246,0.5)]">
-            <span className="material-symbols-outlined text-white text-[18px]">point_of_sale</span>
-          </div>
-          <div className="text-xl font-black tracking-tighter text-white">POS PRO V2</div>
-        </div>
+        <BrandLockup
+          showSubtitle={false}
+          titleClassName="text-xl font-black tracking-tighter text-white"
+          markSizeClassName="h-8 w-8"
+          markClassName="rounded-lg bg-gradient-to-br from-[#2C21A0] to-[#8B5CF6] p-1 shadow-[0_0_15px_rgba(139,92,246,0.5)]"
+        />
         <div className="hidden lg:flex space-x-6 items-center">
           {["Fitur", "Modul", "Cara Kerja", "Harga", "Testimoni", "FAQ"].map((item) => (
             <a key={item} href={`#${item.toLowerCase().replace(" ", "-")}`} className="text-sm font-medium text-slate-300 hover:text-[#22D3EE] transition-colors">
@@ -1451,13 +1452,15 @@ export default function LandingPage() {
         <footer className="bg-[#0F172A] border-t border-white/10 pt-16 pb-8 px-6 relative z-10">
           <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-8 mb-12">
             <div className="col-span-2">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-6 h-6 rounded bg-gradient-to-br from-[#2C21A0] to-[#8B5CF6] flex items-center justify-center">
-                  <span className="material-symbols-outlined text-white text-[14px]">point_of_sale</span>
-                </div>
-                <span className="text-lg font-black text-white">POS PRO V2</span>
+              <div className="mb-4">
+                <BrandLockup
+                  subtitle="Retail cockpit for modern branches. Solusi lengkap manajemen retail multi-cabang masa depan."
+                  titleClassName="text-lg font-black text-white"
+                  subtitleClassName="mt-2 max-w-xs text-sm leading-6 text-slate-400"
+                  markSizeClassName="h-7 w-7"
+                  markClassName="rounded bg-gradient-to-br from-[#2C21A0] to-[#8B5CF6] p-1"
+                />
               </div>
-              <p className="text-slate-400 text-sm max-w-xs">Retail cockpit for modern branches. Solusi lengkap manajemen retail multi-cabang masa depan.</p>
             </div>
             <div>
               <h4 className="text-white font-bold mb-4">Produk</h4>
@@ -1470,13 +1473,14 @@ export default function LandingPage() {
             <div>
               <h4 className="text-white font-bold mb-4">Hubungi Kami</h4>
               <ul className="space-y-2 text-sm text-slate-400">
-                <li className="flex items-center gap-2"><span className="material-symbols-outlined text-[16px]">call</span> WA: 085643052000</li>
-                <li className="flex items-center gap-2"><span className="material-symbols-outlined text-[16px]">mail</span> hello@pospro.com</li>
+                <li className="flex items-center gap-2"><span className="material-symbols-outlined text-[16px]">call</span> WA: {APP_OWNER_PROFILE.primaryWhatsapp}</li>
+                <li className="flex items-center gap-2"><span className="material-symbols-outlined text-[16px]">mail</span> {APP_OWNER_PROFILE.billingEmail}</li>
+                <li className="flex items-center gap-2"><span className="material-symbols-outlined text-[16px]">language</span> {APP_OWNER_PROFILE.websiteLabel}</li>
               </ul>
             </div>
           </div>
           <div className="max-w-7xl mx-auto border-t border-white/10 pt-8 text-center text-slate-500 text-sm">
-            © 2026 POS PRO V2. All rights reserved.
+            © 2026 {APP_OWNER_PROFILE.studioName}. All rights reserved.
           </div>
         </footer>
 
