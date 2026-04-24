@@ -14,12 +14,10 @@ export const APP_OWNER_PROFILE = {
   appName: "POS PRO V2",
   studioName: "Santriman Studios",
   developerName: "nasimulaskiyaa",
-  displayLogoUrl:
-    "https://i.ibb.co.com/gLv6m2gr/Chat-GPT-Image-24-Apr-2026-20-03-36.png",
-  faviconLogoUrl:
-    "https://i.ibb.co.com/vC99K56S/Chat-GPT-Image-24-Apr-2026-19-33-50-removebg-preview.png",
-  displayLogoAlt: "Logo putih POS PRO V2 by Santriman Studios",
-  faviconLogoAlt: "Favicon berwarna POS PRO V2 by Santriman Studios",
+  displayLogoUrl: "/brand-favicon.svg?v=20260424-3",
+  faviconLogoUrl: "/brand-favicon.svg?v=20260424-3",
+  displayLogoAlt: "Logo original POS PRO V2 by Santriman Studios",
+  faviconLogoAlt: "Favicon original POS PRO V2 by Santriman Studios",
   primaryWhatsapp: "+62 822-3264-0762",
   backupWhatsapp: "+62 812-4683-4988",
   primaryEmail: "nasimulaskiya26@gmail.com",

@@ -7,15 +7,28 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: '--font-inter' });
 const plusJakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: '--font-plus-jakarta' });
+const appBaseUrl =
+  process.env.NEXT_PUBLIC_APP_URL?.trim() ||
+  process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim() ||
+  process.env.VERCEL_URL?.trim();
+
+const metadataBase = new URL(
+  appBaseUrl
+    ? appBaseUrl.startsWith("http")
+      ? appBaseUrl
+      : `https://${appBaseUrl}`
+    : "http://localhost:3000",
+);
 
 export const metadata: Metadata = {
   title: "POS PRO V2",
   description: "Platform POS modern untuk kasir, inventory, CRM, shift, dan laporan bisnis.",
+  metadataBase,
   applicationName: APP_OWNER_PROFILE.appName,
   icons: {
-    icon: [{ url: "/brand-favicon.svg?v=20260424-2", type: "image/svg+xml" }],
-    shortcut: ["/brand-favicon.svg?v=20260424-2"],
-    apple: [{ url: "/brand-favicon.svg?v=20260424-2" }],
+    icon: [{ url: APP_OWNER_PROFILE.faviconLogoUrl, type: "image/svg+xml" }],
+    shortcut: [APP_OWNER_PROFILE.faviconLogoUrl],
+    apple: [{ url: APP_OWNER_PROFILE.faviconLogoUrl }],
   },
   openGraph: {
     title: "POS PRO V2",

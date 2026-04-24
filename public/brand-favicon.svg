@@ -1,8 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <image
-    href="https://i.ibb.co.com/vC99K56S/Chat-GPT-Image-24-Apr-2026-19-33-50-removebg-preview.png"
-    width="64"
-    height="64"
-    preserveAspectRatio="xMidYMid meet"
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <defs>
+    <linearGradient id="brand-bg" x1="22" y1="18" x2="106" y2="110" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2C21A0" />
+      <stop offset="1" stop-color="#8B5CF6" />
+    </linearGradient>
+    <filter
+      id="brand-shadow"
+      x="0"
+      y="0"
+      width="128"
+      height="128"
+      filterUnits="userSpaceOnUse"
+      color-interpolation-filters="sRGB"
+    >
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#8B5CF6" flood-opacity="0.35" />
+    </filter>
+  </defs>
+  <g filter="url(#brand-shadow)">
+    <rect x="18" y="18" width="92" height="92" rx="26" fill="url(#brand-bg)" />
+  </g>
+  <path
+    d="M38 42.5A8.5 8.5 0 0 1 46.5 34h35A8.5 8.5 0 0 1 90 42.5V74a7 7 0 0 1-7 7h-9v6h6.5a3.5 3.5 0 1 1 0 7h-33a3.5 3.5 0 1 1 0-7H54v-6h-9a7 7 0 0 1-7-7V42.5Z"
+    fill="#FFF"
   />
+  <rect x="46" y="42" width="36" height="10" rx="5" fill="#C4B5FD" />
+  <rect x="46" y="58" width="12" height="7" rx="3.5" fill="#E9DDFF" />
+  <rect x="62" y="58" width="20" height="7" rx="3.5" fill="#E9DDFF" />
+  <rect x="58" y="81" width="12" height="6" rx="3" fill="#FFF" />
 </svg>

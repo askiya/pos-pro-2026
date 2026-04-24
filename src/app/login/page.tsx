@@ -10,6 +10,8 @@ import { useToast } from "@/components/ui/ToastProvider";
 import { getApiErrorMessage, readApiPayload, toApiObject } from "@/lib/client-api";
 import { APP_OWNER_LINKS, APP_OWNER_PROFILE, SUBSCRIPTION_FEATURES, SUBSCRIPTION_MODEL } from "@/lib/app-owner";
 
+const BUILD_TIME_GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID?.trim() ?? "";
+
 function Navbar({ onLoginClick }: { onLoginClick: () => void }) {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
@@ -54,6 +56,28 @@ function MaybeGoogleProvider({
   }
 
   return <GoogleOAuthProvider clientId={clientId}>{children}</GoogleOAuthProvider>;
+}
+
+function GoogleConfigNotice({
+  loading,
+  message,
+}: {
+  loading: boolean;
+  message: string;
+}) {
+  if (loading) {
+    return (
+      <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-slate-300">
+        Sedang mengecek konfigurasi Google Sign-In...
+      </div>
+    );
+  }
+
+  return (
+    <div className="rounded-2xl border border-amber-400/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
+      {message}
+    </div>
+  );
 }
 
 function HeroSection({
@@ -577,6 +601,7 @@ function TrialAccessModal({
   isOpen,
   onClose,
   googleEnabled,
+  googleConfigLoading,
   onGoogleSuccess,
   onManualLogin,
   onManualRegister,
@@ -585,6 +610,7 @@ function TrialAccessModal({
   isOpen: boolean;
   onClose: () => void;
   googleEnabled: boolean;
+  googleConfigLoading: boolean;
   onGoogleSuccess: (credential: string, intent: "login" | "register") => Promise<AuthActionResult>;
   onManualLogin: (credentials: LoginCredentials) => Promise<AuthActionResult>;
   onManualRegister: (credentials: RegisterCredentials) => Promise<AuthActionResult>;
@@ -935,9 +961,10 @@ function TrialAccessModal({
                     ) : null}
                   </div>
                 ) : (
-                  <div className="rounded-2xl border border-amber-400/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
-                    Login Google belum aktif karena client ID belum diisi.
-                  </div>
+                  <GoogleConfigNotice
+                    loading={googleConfigLoading}
+                    message="Login Google belum aktif karena client ID Google belum tersedia di frontend atau backend."
+                  />
                 )}
 
                 <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm leading-6 text-slate-300">
@@ -1092,9 +1119,10 @@ function TrialAccessModal({
                     ) : null}
                   </div>
                 ) : (
-                  <div className="rounded-2xl border border-amber-400/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
-                    Google Sign-In belum aktif karena NEXT_PUBLIC_GOOGLE_CLIENT_ID belum diisi.
-                  </div>
+                  <GoogleConfigNotice
+                    loading={googleConfigLoading}
+                    message="Google Sign-In belum aktif karena client ID Google belum tersedia di frontend atau backend."
+                  />
                 )}
 
                 <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm leading-6 text-slate-300">
@@ -1225,8 +1253,46 @@ export default function LandingPage() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const router = useRouter();
   const { showToast } = useToast();
-  const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID?.trim() ?? '';
+  const [googleClientId, setGoogleClientId] = useState(BUILD_TIME_GOOGLE_CLIENT_ID);
+  const [googleConfigLoading, setGoogleConfigLoading] = useState(BUILD_TIME_GOOGLE_CLIENT_ID.length === 0);
   const googleEnabled = googleClientId.length > 0;
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadGoogleConfig = async () => {
+      try {
+        const response = await fetch("/api/auth/google-config", {
+          cache: "no-store",
+        });
+
+        if (!response.ok) {
+          return;
+        }
+
+        const payload = (await response.json()) as {
+          clientId?: string | null;
+        };
+        const runtimeClientId = payload.clientId?.trim() ?? "";
+
+        if (!cancelled && runtimeClientId) {
+          setGoogleClientId(runtimeClientId);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        if (!cancelled) {
+          setGoogleConfigLoading(false);
+        }
+      }
+    };
+
+    void loadGoogleConfig();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const handleAuthFinish = (redirectTo = "/dashboard") => {
     setIsLoginModalOpen(false);
@@ -1488,6 +1554,7 @@ export default function LandingPage() {
           isOpen={isLoginModalOpen}
           onClose={() => setIsLoginModalOpen(false)}
           googleEnabled={googleEnabled}
+          googleConfigLoading={googleConfigLoading}
           onGoogleSuccess={handleGoogleLogin}
           onManualLogin={handleManualLogin}
           onManualRegister={handleManualRegister}
