@@ -9,6 +9,31 @@ import {
 } from "@/lib/backend-api";
 import { createAuthSessionResponse } from "@/app/api/auth/shared";
 
+function resolveSessionPayload(
+  payload: {
+    user?: SessionTokenPayload;
+  } & Partial<SessionTokenPayload>,
+): SessionTokenPayload | null {
+  const candidate = payload.user && typeof payload.user === "object"
+    ? payload.user
+    : payload;
+
+  if (!candidate?.id || !candidate.email || !candidate.role || !candidate.name) {
+    return null;
+  }
+
+  return {
+    id: candidate.id,
+    name: candidate.name,
+    username: candidate.username,
+    email: candidate.email,
+    role: candidate.role,
+    branchId: candidate.branchId,
+    trialEndsAt: candidate.trialEndsAt,
+    licenseActive: candidate.licenseActive,
+  };
+}
+
 export async function POST(request: Request) {
   try {
     const body = (await request.json()) as {
@@ -51,7 +76,7 @@ export async function POST(request: Request) {
       error?: string;
       errors?: Record<string, unknown>;
       user?: SessionTokenPayload;
-    };
+    } & Partial<SessionTokenPayload>;
 
     if (!backendResponse.ok) {
       const fallbackError =
@@ -70,8 +95,8 @@ export async function POST(request: Request) {
       );
     }
 
-    const session = payload.user;
-    if (!session?.id || !session.email || !session.role) {
+    const session = resolveSessionPayload(payload);
+    if (!session) {
       return NextResponse.json({ error: "Data session dari backend tidak lengkap." }, { status: 502 });
     }
 
