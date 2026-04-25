@@ -16,6 +16,13 @@ export interface SessionTokenPayload {
   licenseActive?: boolean;
 }
 
+class BackendConfigurationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "BackendConfigurationError";
+  }
+}
+
 class UnauthorizedError extends Error {
   constructor(message = "Unauthorized") {
     super(message);
@@ -23,10 +30,37 @@ class UnauthorizedError extends Error {
   }
 }
 
-const BACKEND_API_URL = (process.env.LARAVEL_API_URL ?? "http://127.0.0.1:8000/api").replace(/\/$/, "");
+const BACKEND_API_URL = (process.env.LARAVEL_API_URL?.trim() ?? "").replace(/\/$/, "");
 const BACKEND_API_KEY = process.env.LARAVEL_INTERNAL_API_KEY ?? "pospro-v2-internal-dev-key";
 
+export function getBackendApiUrl() {
+  return BACKEND_API_URL;
+}
+
+export function getBackendUnavailableMessage() {
+  if (!BACKEND_API_URL) {
+    return "Backend POS PRO belum dikonfigurasi. Isi LARAVEL_API_URL di pos-pro-web/.env lalu restart frontend Next.js.";
+  }
+
+  return `Backend POS PRO belum dapat dihubungi. Pastikan Laravel API aktif di ${BACKEND_API_URL}.`;
+}
+
+export function getBackendProblemMessage() {
+  if (!BACKEND_API_URL) {
+    return "Backend POS PRO belum dikonfigurasi. Isi LARAVEL_API_URL di pos-pro-web/.env lalu restart frontend Next.js.";
+  }
+
+  return `Backend POS PRO sedang bermasalah. Pastikan Laravel API aktif di ${BACKEND_API_URL}.`;
+}
+
+function ensureBackendConfigured() {
+  if (!BACKEND_API_URL) {
+    throw new BackendConfigurationError(getBackendUnavailableMessage());
+  }
+}
+
 function backendUrl(path: string, search = "") {
+  ensureBackendConfigured();
   return `${BACKEND_API_URL}${path}${search}`;
 }
 
@@ -109,6 +143,7 @@ export async function fetchLaravel(
   init: RequestInit = {},
   options: { authRequired?: boolean } = {},
 ) {
+  ensureBackendConfigured();
   const headers = await buildLaravelHeaders(init.headers, options);
 
   return fetch(backendUrl(path), {
@@ -174,9 +209,12 @@ export async function proxyToLaravel(
 
     return NextResponse.json(
       {
-        error: `Backend POS PRO belum dapat dihubungi. Pastikan Laravel API aktif di ${BACKEND_API_URL}.`,
+        error:
+          error instanceof BackendConfigurationError
+            ? error.message
+            : getBackendUnavailableMessage(),
       },
-      { status: 502 },
+      { status: error instanceof BackendConfigurationError ? 500 : 502 },
     );
   }
 }

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { fetchLaravel, readLaravelPayload } from "@/lib/backend-api";
+import { fetchLaravel, getBackendUnavailableMessage, readLaravelPayload } from "@/lib/backend-api";
 
 export const dynamic = "force-dynamic";
 
@@ -32,6 +32,8 @@ export async function GET() {
       googleEnabled: true,
       clientId: localClientId,
       source: "web-env",
+      backendReachable: null,
+      reason: "frontend_client_id_ready",
     });
   }
 
@@ -55,7 +57,9 @@ export async function GET() {
           googleEnabled: false,
           clientId: "",
           source: "backend",
-          error: payload.error ?? "Google client ID belum tersedia di backend.",
+          backendReachable: false,
+          reason: "backend_unavailable",
+          error: payload.error ?? getBackendUnavailableMessage(),
         },
         backendResponse.status,
       );
@@ -66,6 +70,11 @@ export async function GET() {
       googleEnabled: backendClientId.length > 0,
       clientId: backendClientId,
       source: "backend",
+      backendReachable: true,
+      reason:
+        backendClientId.length > 0
+          ? "backend_client_id_ready"
+          : "backend_client_id_missing",
     });
   } catch {
     return jsonResponse(
@@ -74,7 +83,9 @@ export async function GET() {
         googleEnabled: false,
         clientId: "",
         source: "backend",
-        error: "Google client ID belum bisa diambil dari backend.",
+        backendReachable: false,
+        reason: "backend_unavailable",
+        error: getBackendUnavailableMessage(),
       },
       502,
     );

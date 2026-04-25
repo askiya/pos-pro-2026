@@ -602,6 +602,7 @@ function TrialAccessModal({
   onClose,
   googleEnabled,
   googleConfigLoading,
+  googleConfigMessage,
   onGoogleSuccess,
   onManualLogin,
   onManualRegister,
@@ -611,6 +612,7 @@ function TrialAccessModal({
   onClose: () => void;
   googleEnabled: boolean;
   googleConfigLoading: boolean;
+  googleConfigMessage: string;
   onGoogleSuccess: (credential: string, intent: "login" | "register") => Promise<AuthActionResult>;
   onManualLogin: (credentials: LoginCredentials) => Promise<AuthActionResult>;
   onManualRegister: (credentials: RegisterCredentials) => Promise<AuthActionResult>;
@@ -963,7 +965,7 @@ function TrialAccessModal({
                 ) : (
                   <GoogleConfigNotice
                     loading={googleConfigLoading}
-                    message="Login Google belum aktif karena client ID Google belum tersedia di frontend atau backend."
+                    message={googleConfigMessage}
                   />
                 )}
 
@@ -1121,7 +1123,7 @@ function TrialAccessModal({
                 ) : (
                   <GoogleConfigNotice
                     loading={googleConfigLoading}
-                    message="Google Sign-In belum aktif karena client ID Google belum tersedia di frontend atau backend."
+                    message={googleConfigMessage}
                   />
                 )}
 
@@ -1255,6 +1257,9 @@ export default function LandingPage() {
   const { showToast } = useToast();
   const [googleClientId, setGoogleClientId] = useState(BUILD_TIME_GOOGLE_CLIENT_ID);
   const [googleConfigLoading, setGoogleConfigLoading] = useState(BUILD_TIME_GOOGLE_CLIENT_ID.length === 0);
+  const [googleConfigMessage, setGoogleConfigMessage] = useState(
+    "Google Sign-In belum aktif karena client ID Google belum tersedia di frontend atau backend.",
+  );
   const googleEnabled = googleClientId.length > 0;
 
   useEffect(() => {
@@ -1267,19 +1272,49 @@ export default function LandingPage() {
         });
 
         if (!response.ok) {
+          const payload = (await response.json()) as {
+            error?: string;
+          };
+
+          if (!cancelled) {
+            setGoogleConfigMessage(
+              payload.error ??
+                "Google Sign-In belum bisa dicek karena backend POS PRO belum aktif atau belum terhubung.",
+            );
+          }
           return;
         }
 
         const payload = (await response.json()) as {
           clientId?: string | null;
+          backendReachable?: boolean | null;
+          reason?: string;
+          error?: string;
         };
         const runtimeClientId = payload.clientId?.trim() ?? "";
 
-        if (!cancelled && runtimeClientId) {
-          setGoogleClientId(runtimeClientId);
+        if (!cancelled) {
+          if (runtimeClientId) {
+            setGoogleClientId(runtimeClientId);
+            setGoogleConfigMessage("Google Sign-In siap dipakai.");
+          } else if (payload.backendReachable === false) {
+            setGoogleConfigMessage(
+              payload.error ??
+                "Google Sign-In menunggu backend POS PRO aktif lebih dulu.",
+            );
+          } else if (payload.reason === "backend_client_id_missing") {
+            setGoogleConfigMessage(
+              "Login Google belum aktif karena GOOGLE_CLIENT_ID di backend atau NEXT_PUBLIC_GOOGLE_CLIENT_ID di frontend belum diisi.",
+            );
+          }
         }
       } catch (error) {
         console.error(error);
+        if (!cancelled) {
+          setGoogleConfigMessage(
+            "Google Sign-In belum bisa dicek karena backend POS PRO belum aktif atau belum terhubung.",
+          );
+        }
       } finally {
         if (!cancelled) {
           setGoogleConfigLoading(false);
@@ -1555,6 +1590,7 @@ export default function LandingPage() {
           onClose={() => setIsLoginModalOpen(false)}
           googleEnabled={googleEnabled}
           googleConfigLoading={googleConfigLoading}
+          googleConfigMessage={googleConfigMessage}
           onGoogleSuccess={handleGoogleLogin}
           onManualLogin={handleManualLogin}
           onManualRegister={handleManualRegister}

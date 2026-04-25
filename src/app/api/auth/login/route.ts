@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 
-import { fetchLaravel, readLaravelPayload, type SessionTokenPayload } from "@/lib/backend-api";
+import {
+  fetchLaravel,
+  getBackendProblemMessage,
+  getBackendUnavailableMessage,
+  readLaravelPayload,
+  type SessionTokenPayload,
+} from "@/lib/backend-api";
 import { createAuthSessionResponse } from "@/app/api/auth/shared";
-
-const BACKEND_API_URL = process.env.LARAVEL_API_URL ?? "http://127.0.0.1:8000/api";
 
 export async function POST(request: Request) {
   try {
@@ -52,7 +56,7 @@ export async function POST(request: Request) {
     if (!backendResponse.ok) {
       const fallbackError =
         backendResponse.status >= 500
-          ? `Backend POS PRO sedang bermasalah. Jalankan Laravel API lewat ${BACKEND_API_URL}.`
+          ? getBackendProblemMessage()
           : isGoogle
             ? "Gagal masuk menggunakan Google."
             : "Username/email atau password salah.";
@@ -75,7 +79,7 @@ export async function POST(request: Request) {
   } catch {
     return NextResponse.json(
       {
-        error: `Backend POS PRO belum dapat dihubungi. Pastikan Laravel API aktif di ${BACKEND_API_URL}.`,
+        error: getBackendUnavailableMessage(),
       },
       { status: 502 },
     );

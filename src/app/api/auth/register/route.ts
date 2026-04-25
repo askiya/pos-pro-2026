@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 
 import { createAuthSessionResponse } from "@/app/api/auth/shared";
-import { fetchLaravel, readLaravelPayload, type SessionTokenPayload } from "@/lib/backend-api";
-
-const BACKEND_API_URL = process.env.LARAVEL_API_URL ?? "http://127.0.0.1:8000/api";
+import {
+  fetchLaravel,
+  getBackendProblemMessage,
+  getBackendUnavailableMessage,
+  readLaravelPayload,
+  type SessionTokenPayload,
+} from "@/lib/backend-api";
 
 export async function POST(request: Request) {
   try {
@@ -56,7 +60,7 @@ export async function POST(request: Request) {
           error:
             payload?.error ||
             (backendResponse.status >= 500
-              ? `Backend POS PRO sedang bermasalah. Jalankan Laravel API lewat ${BACKEND_API_URL}.`
+              ? getBackendProblemMessage()
               : "Pendaftaran trial belum berhasil."),
           errors: payload?.errors ?? null,
         },
@@ -73,7 +77,7 @@ export async function POST(request: Request) {
   } catch {
     return NextResponse.json(
       {
-        error: `Backend POS PRO belum dapat dihubungi. Pastikan Laravel API aktif di ${BACKEND_API_URL}.`,
+        error: getBackendUnavailableMessage(),
       },
       { status: 502 },
     );
