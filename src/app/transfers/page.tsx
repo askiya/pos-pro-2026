@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { CSSProperties } from "react";
@@ -270,18 +270,18 @@ export default function TransfersPage() {
   return (
     <ResponsiveLayout>
       <div className="h-full overflow-y-auto px-4 py-5 pb-28 md:px-6 md:pb-8">
-        <div className="mx-auto flex max-w-[1500px] flex-col gap-6">
-          <section className="transfer-entrance transfer-sheen relative overflow-hidden rounded-[36px] border border-white/70 bg-[linear-gradient(135deg,#271744_0%,#5c3d99_48%,#a277ff_100%)] p-5 text-white shadow-[0_28px_90px_-58px_rgba(17,24,39,0.82)] sm:p-7">
-            <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[#12b981]/22" />
-            <div className="pointer-events-none absolute bottom-0 left-1/3 h-44 w-44 rounded-full bg-[#f59e0b]/14" />
+        <div className="mx-auto flex max-w-[1500px] flex-col gap-4">
+          <section className="transfer-entrance transfer-sheen relative overflow-hidden rounded-2xl border border-white/70 bg-[linear-gradient(135deg,#271744_0%,#5c3d99_48%,#a277ff_100%)] p-5 text-white shadow-[0_28px_90px_-58px_rgba(17,24,39,0.82)] sm:p-7">
+            <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-[#12b981]/22" />
+            <div className="pointer-events-none absolute bottom-0 left-1/3 h-32 w-32 rounded-full bg-[#f59e0b]/14" />
 
-            <div className="relative grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(420px,0.8fr)] xl:items-end">
+            <div className="relative grid gap-4 xl:grid-cols-[minmax(0,1.2fr)_minmax(420px,0.8fr)] xl:items-end">
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full border border-white/16 bg-white/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.18em] text-white/75">
                   <span className="h-2 w-2 rounded-full bg-[#12b981] transfer-live-dot" />
                   Stock Transfer Command
                 </div>
-                <h1 className="mt-5 max-w-3xl font-headline text-4xl font-black tracking-[-0.06em] text-white sm:text-5xl xl:text-6xl">
+                <h1 className="mt-5 max-w-3xl font-headline text-3xl font-black tracking-[-0.06em] text-white sm:text-5xl xl:text-6xl">
                   Mutasi stok antar cabang jadi lebih rapi, cepat, dan aman direview.
                 </h1>
                 <p className="mt-4 max-w-2xl text-sm font-medium leading-7 text-white/72 sm:text-base">
@@ -320,8 +320,8 @@ export default function TransfersPage() {
 
           <TransferStepper activeStep={activeStep} />
 
-          <section className="grid gap-6 xl:grid-cols-[minmax(0,1.25fr)_minmax(360px,0.75fr)]">
-            <div className="flex min-w-0 flex-col gap-6">
+          <section className="grid gap-4 xl:grid-cols-[minmax(0,1.25fr)_minmax(360px,0.75fr)]">
+            <div className="flex min-w-0 flex-col gap-4">
               <BranchSelector
                 branches={branches}
                 sourceBranchId={sourceBranchId}
@@ -381,14 +381,14 @@ export default function TransfersPage() {
 
 function TransferStepper({ activeStep }: { activeStep: number }) {
   return (
-    <section className="transfer-entrance rounded-[34px] border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "230ms" } as CSSProperties}>
+    <section className="transfer-entrance rounded-2xl border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "230ms" } as CSSProperties}>
       <div className="grid gap-3 sm:grid-cols-4">
         {transferSteps.map((step, index) => {
           const stepNumber = index + 1;
           const isDone = activeStep > stepNumber;
           const isActive = activeStep === stepNumber;
           return (
-            <div key={step.label} className="relative overflow-hidden rounded-[26px] border border-[#ecdfff] bg-white/70 p-4">
+            <div key={step.label} className="relative overflow-hidden rounded-xl border border-[#ecdfff] bg-white/70 p-4">
               <div className={`absolute inset-x-0 bottom-0 h-1 ${isDone || isActive ? "bg-[linear-gradient(90deg,#12b981,#a277ff)]" : "bg-[#ecdfff]"}`} />
               <div className="flex items-center gap-3">
                 <div className={`flex h-11 w-11 items-center justify-center rounded-2xl ${isDone ? "bg-[#e6f7ef] text-[#047857]" : isActive ? "bg-[#f5edff] text-[#a277ff]" : "bg-[#f4f6ff] text-on-surface-variant"}`}>
@@ -423,10 +423,10 @@ function BranchSelector({
   loading: boolean;
 }) {
   return (
-    <section className="transfer-entrance overflow-hidden rounded-[34px] border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "280ms" } as CSSProperties}>
+    <section className="transfer-entrance overflow-hidden rounded-2xl border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "280ms" } as CSSProperties}>
       <div className="border-b border-[#ecdfff] px-5 py-4">
         <p className="text-xs font-black uppercase tracking-[0.2em] text-[#a277ff]/75">Route Builder</p>
-        <h2 className="mt-2 font-headline text-2xl font-black tracking-[-0.05em] text-on-surface">Pilih rute transfer</h2>
+        <h2 className="mt-2 font-headline text-xl font-black tracking-[-0.05em] text-on-surface">Pilih rute transfer</h2>
         <p className="mt-1 text-sm font-medium text-on-surface-variant">Source dan destination harus berbeda supaya mutasi stok jelas.</p>
       </div>
 
@@ -482,7 +482,7 @@ function BranchSelectCard({
   const style = toneClass[tone];
 
   return (
-    <div className="rounded-[30px] border border-white/70 bg-white/78 p-4 shadow-[0_18px_48px_-40px_rgba(39, 23, 68,0.4)]">
+    <div className="rounded-xl border border-white/70 bg-white/78 p-4 shadow-[0_18px_48px_-40px_rgba(39, 23, 68,0.4)]">
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.2em] text-on-surface-variant/70">{title}</p>
@@ -531,12 +531,12 @@ function ProductTransferList({
   onResetSearch: () => void;
 }) {
   return (
-    <section className="transfer-entrance overflow-hidden rounded-[34px] border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "330ms" } as CSSProperties}>
+    <section className="transfer-entrance overflow-hidden rounded-2xl border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "330ms" } as CSSProperties}>
       <div className="border-b border-[#ecdfff] px-5 py-4">
         <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.2em] text-[#12b981]/80">Product Manifest</p>
-            <h2 className="mt-2 font-headline text-2xl font-black tracking-[-0.05em] text-on-surface">Pilih item transfer</h2>
+            <h2 className="mt-2 font-headline text-xl font-black tracking-[-0.05em] text-on-surface">Pilih item transfer</h2>
             <p className="mt-1 text-sm font-medium text-on-surface-variant">Atur quantity tanpa melebihi stok source.</p>
           </div>
           <button
@@ -562,7 +562,7 @@ function ProductTransferList({
             />
           </div>
           <button
-            className="inline-flex items-center justify-center gap-2 rounded-[22px] bg-[#271744] px-5 py-3 text-sm font-black text-white shadow-[0_18px_36px_-28px_rgba(17,24,39,0.75)] hover:-translate-y-0.5"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#271744] px-5 py-3 text-sm font-black text-white shadow-[0_18px_36px_-28px_rgba(17,24,39,0.75)] hover:-translate-y-0.5"
             type="button"
           >
             <span className="material-symbols-outlined text-[18px]">barcode_scanner</span>
@@ -574,7 +574,7 @@ function ProductTransferList({
       <div className="grid gap-3 p-4">
         {loading ? (
           Array.from({ length: 5 }).map((_, index) => (
-            <div key={index} className="h-24 animate-pulse rounded-[28px] bg-white/80" />
+            <div key={index} className="h-24 animate-pulse rounded-xl bg-white/80" />
           ))
         ) : filteredProducts.length === 0 ? (
           <EmptyTransferState />
@@ -611,13 +611,13 @@ function ProductTransferRow({
 
   return (
     <div
-      className={`transfer-row grid gap-4 rounded-[28px] border p-4 shadow-[0_20px_54px_-42px_rgba(39, 23, 68,0.38)] lg:grid-cols-[minmax(0,1fr)_220px] lg:items-center ${
+      className={`transfer-row grid gap-4 rounded-xl border p-4 shadow-[0_20px_54px_-42px_rgba(39, 23, 68,0.38)] lg:grid-cols-[minmax(0,1fr)_220px] lg:items-center ${
         selected ? "border-[#a277ff]/38 bg-[#f6f7ff]" : "border-white/70 bg-white/78 hover:bg-white"
       }`}
       style={{ "--delay": `${delay}ms` } as CSSProperties}
     >
       <div className="flex min-w-0 gap-4">
-        <div className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-[24px] ${style.icon}`}>
+        <div className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-xl ${style.icon}`}>
           <span className="material-symbols-outlined icon-fill text-[28px]">inventory_2</span>
         </div>
         <div className="min-w-0">
@@ -687,11 +687,11 @@ function TransferContext({
   onReset: () => void;
 }) {
   return (
-    <aside className="transfer-entrance flex flex-col gap-6 xl:sticky xl:top-4 xl:self-start" style={{ "--delay": "360ms" } as CSSProperties}>
-      <section className="overflow-hidden rounded-[34px] border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]">
+    <aside className="transfer-entrance flex flex-col gap-4 xl:sticky xl:top-4 xl:self-start" style={{ "--delay": "360ms" } as CSSProperties}>
+      <section className="overflow-hidden rounded-2xl border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]">
         <div className="transfer-sheen relative overflow-hidden bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-5 text-white">
           <p className="text-xs font-black uppercase tracking-[0.22em] text-white/55">Transfer Route</p>
-          <h2 className="mt-3 font-headline text-3xl font-black tracking-[-0.05em]">Konteks mutasi</h2>
+          <h2 className="mt-3 font-headline text-xl font-black tracking-[-0.05em]">Konteks mutasi</h2>
           <p className="mt-2 text-sm font-medium leading-6 text-white/68">Pastikan source dan destination sudah benar sebelum review.</p>
         </div>
         <div className="grid gap-4 p-4">
@@ -701,7 +701,7 @@ function TransferContext({
         </div>
       </section>
 
-      <section className="rounded-[34px] border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]">
+      <section className="rounded-2xl border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]">
         <p className="text-xs font-black uppercase tracking-[0.2em] text-[#a277ff]/75">Transfer Summary</p>
         <div className="mt-4 grid gap-3">
           <SummaryLine label="Items Selected" value={String(selectedItems.length)} />
@@ -712,7 +712,7 @@ function TransferContext({
         <button
           onClick={onReview}
           disabled={!canReview}
-          className="mt-5 flex w-full items-center justify-between rounded-[26px] bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] px-5 py-4 text-left text-white shadow-[0_24px_52px_-34px_rgba(162, 119, 255,0.85)] hover:-translate-y-0.5 disabled:opacity-45"
+          className="mt-5 flex w-full items-center justify-between rounded-xl bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] px-5 py-4 text-left text-white shadow-[0_24px_52px_-34px_rgba(162, 119, 255,0.85)] hover:-translate-y-0.5 disabled:opacity-45"
           type="button"
         >
           <span className="font-headline text-xl font-black">Review Transfer</span>
@@ -720,7 +720,7 @@ function TransferContext({
         </button>
         <button
           onClick={onReset}
-          className="mt-3 w-full rounded-[22px] border border-[#ecdfff] bg-white/80 px-5 py-3 text-sm font-black text-on-surface-variant hover:bg-white hover:text-[#a277ff]"
+          className="mt-3 w-full rounded-xl border border-[#ecdfff] bg-white/80 px-5 py-3 text-sm font-black text-on-surface-variant hover:bg-white hover:text-[#a277ff]"
           type="button"
         >
           Reset Transfer
@@ -749,7 +749,7 @@ function TransferReviewDock({
         hidden ? "pointer-events-none translate-y-4 opacity-0" : "translate-y-0 opacity-100"
       }`}
     >
-      <div className="rounded-[24px] border border-white/70 bg-white/92 p-2.5 shadow-[0_26px_80px_-42px_rgba(39, 23, 68,0.55)] backdrop-blur-xl">
+      <div className="rounded-xl border border-white/70 bg-white/92 p-2.5 shadow-[0_26px_80px_-42px_rgba(39, 23, 68,0.55)] backdrop-blur-xl">
         <div className="flex items-center gap-2.5">
           <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-[18px] bg-[#f5edff] text-[#a277ff]">
             <span className="material-symbols-outlined icon-fill text-[22px]">swap_horiz</span>
@@ -820,7 +820,7 @@ function TransferReviewDrawer({
         </div>
 
         <div className="flex-1 overflow-y-auto p-3">
-          <div className="transfer-sheen relative overflow-hidden rounded-[24px] bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-4 text-white shadow-[0_28px_70px_-44px_rgba(162, 119, 255,0.92)]">
+          <div className="transfer-sheen relative overflow-hidden rounded-xl bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-4 text-white shadow-[0_28px_70px_-44px_rgba(162, 119, 255,0.92)]">
             <p className="text-xs font-black uppercase tracking-[0.22em] text-white/55">Transfer Summary</p>
             <h3 className="mt-2.5 font-headline text-[2rem] font-black tracking-[-0.05em]">Siap diproses</h3>
             <p className="mt-2 text-[13px] font-medium leading-5 text-white/68">
@@ -909,7 +909,7 @@ function TransferKpi({
 
   return (
     <div
-      className="transfer-entrance group relative overflow-hidden rounded-[30px] border border-white/70 bg-white/78 p-5 shadow-[0_24px_70px_-48px_rgba(39, 23, 68,0.38)] hover:-translate-y-1 hover:bg-white"
+      className="transfer-entrance group relative overflow-hidden rounded-xl border border-white/70 bg-white/78 p-5 shadow-[0_24px_70px_-48px_rgba(39, 23, 68,0.38)] hover:-translate-y-1 hover:bg-white"
       style={{ "--delay": `${delay}ms` } as CSSProperties}
     >
       <div className={`pointer-events-none absolute -right-14 -top-14 h-36 w-36 rounded-full bg-gradient-to-br ${style.glow}`} />
@@ -917,7 +917,7 @@ function TransferKpi({
       <div className="relative flex items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="text-xs font-black uppercase tracking-[0.18em] text-on-surface-variant/70">{label}</p>
-          <p className="mt-4 truncate font-headline text-3xl font-black tracking-[-0.05em] text-on-surface sm:text-4xl">{value}</p>
+          <p className="mt-4 truncate font-headline text-xl font-black tracking-[-0.05em] text-on-surface sm:text-4xl">{value}</p>
         </div>
         <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${style.icon}`}>
           <span className="material-symbols-outlined icon-fill text-[23px]">{icon}</span>
@@ -933,7 +933,7 @@ function TransferKpi({
 
 function HeroMiniStat({ label, value, icon }: { label: string; value: string; icon: string }) {
   return (
-    <div className="rounded-[24px] border border-white/16 bg-white/10 p-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">
+    <div className="rounded-xl border border-white/16 bg-white/10 p-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">
       <div className="flex items-center justify-between gap-3">
         <span className="text-[11px] font-black uppercase tracking-[0.2em] text-white/55">{label}</span>
         <span className="material-symbols-outlined text-[18px] text-[#a7f3d0]">{icon}</span>
@@ -953,7 +953,7 @@ function MiniBadge({ label, value }: { label: string; value: string }) {
 
 function SummaryLine({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between gap-3 rounded-[22px] border border-[#ecdfff] bg-white/72 px-4 py-3">
+    <div className="flex items-center justify-between gap-3 rounded-xl border border-[#ecdfff] bg-white/72 px-4 py-3">
       <span className="text-sm font-bold text-on-surface-variant">{label}</span>
       <span className="font-headline text-lg font-black text-on-surface">{value}</span>
     </div>
@@ -971,8 +971,8 @@ function SummaryBox({ label, value }: { label: string; value: string }) {
 
 function EmptyTransferState({ compact = false }: { compact?: boolean }) {
   return (
-    <div className={`flex flex-col items-center justify-center border border-dashed border-[#d4c8e3] bg-white/60 text-center ${compact ? "min-h-[190px] rounded-[24px] p-6" : "min-h-[320px] rounded-[30px] p-8"}`}>
-      <div className={`flex items-center justify-center bg-[#f5edff] text-[#a277ff] ${compact ? "h-16 w-16 rounded-[22px]" : "h-20 w-20 rounded-[30px]"}`}>
+    <div className={`flex flex-col items-center justify-center border border-dashed border-[#d4c8e3] bg-white/60 text-center ${compact ? "min-h-[190px] rounded-xl p-6" : "min-h-[320px] rounded-xl p-5"}`}>
+      <div className={`flex items-center justify-center bg-[#f5edff] text-[#a277ff] ${compact ? "h-16 w-16 rounded-xl" : "h-20 w-20 rounded-xl"}`}>
         <span className={`material-symbols-outlined icon-fill ${compact ? "text-[30px]" : "text-4xl"}`}>inventory_2</span>
       </div>
       <p className={`font-headline font-black text-on-surface ${compact ? "mt-4 text-xl" : "mt-5 text-2xl"}`}>Belum ada item transfer</p>
@@ -983,7 +983,7 @@ function EmptyTransferState({ compact = false }: { compact?: boolean }) {
 
 function TransferError({ message, onRetry }: { message: string; onRetry: () => void }) {
   return (
-    <div className="transfer-entrance rounded-[30px] border border-[#fecdd3] bg-[#fff7f7] p-5 text-[#be123c]" style={{ "--delay": "20ms" } as CSSProperties}>
+    <div className="transfer-entrance rounded-xl border border-[#fecdd3] bg-[#fff7f7] p-5 text-[#be123c]" style={{ "--delay": "20ms" } as CSSProperties}>
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div className="flex gap-3">
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#fff1f2]">
@@ -1001,3 +1001,4 @@ function TransferError({ message, onRetry }: { message: string; onRetry: () => v
     </div>
   );
 }
+

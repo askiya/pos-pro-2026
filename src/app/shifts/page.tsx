@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { CSSProperties, FormEvent } from "react";
@@ -267,9 +267,9 @@ export default function ShiftsPage() {
         size="sm"
       >
         <form onSubmit={handleOpenShift} className="space-y-5">
-          <div className="rounded-[28px] bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-5 text-white">
+          <div className="rounded-xl bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-5 text-white">
             <p className="text-xs font-black uppercase tracking-[0.22em] text-white/55">Opening Session</p>
-            <h3 className="mt-3 font-headline text-3xl font-black tracking-[-0.05em]">Kas awal shift</h3>
+            <h3 className="mt-3 font-headline text-xl font-black tracking-[-0.05em]">Kas awal shift</h3>
             <p className="mt-2 text-sm font-medium text-white/68">Nominal ini jadi baseline saat shift ditutup.</p>
           </div>
 
@@ -312,18 +312,18 @@ export default function ShiftsPage() {
       </AppModal>
 
       <div className="h-full overflow-y-auto px-4 py-5 pb-28 md:px-6 md:pb-8">
-        <div className="mx-auto flex max-w-[1500px] flex-col gap-6">
-          <section className="shift-entrance shift-sheen relative overflow-hidden rounded-[36px] border border-white/70 bg-[linear-gradient(135deg,#271744_0%,#5c3d99_50%,#a277ff_100%)] p-5 text-white shadow-[0_28px_90px_-58px_rgba(17,24,39,0.82)] sm:p-7">
-            <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[#12b981]/22" />
-            <div className="pointer-events-none absolute bottom-0 left-1/3 h-44 w-44 rounded-full bg-[#f59e0b]/14" />
+        <div className="mx-auto flex max-w-[1500px] flex-col gap-4">
+          <section className="shift-entrance shift-sheen relative overflow-hidden rounded-2xl border border-white/70 bg-[linear-gradient(135deg,#271744_0%,#5c3d99_50%,#a277ff_100%)] p-5 text-white shadow-[0_28px_90px_-58px_rgba(17,24,39,0.82)] sm:p-7">
+            <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-[#12b981]/22" />
+            <div className="pointer-events-none absolute bottom-0 left-1/3 h-32 w-32 rounded-full bg-[#f59e0b]/14" />
 
-            <div className="relative grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(420px,0.8fr)] xl:items-end">
+            <div className="relative grid gap-4 xl:grid-cols-[minmax(0,1.2fr)_minmax(420px,0.8fr)] xl:items-end">
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full border border-white/16 bg-white/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.18em] text-white/75">
                   <span className={`h-2 w-2 rounded-full ${activeShift ? "bg-[#12b981]" : "bg-[#f59e0b]"} shift-live-dot`} />
                   Shift Control Center
                 </div>
-                <h1 className="mt-5 max-w-3xl font-headline text-4xl font-black tracking-[-0.06em] text-white sm:text-5xl xl:text-6xl">
+                <h1 className="mt-5 max-w-3xl font-headline text-3xl font-black tracking-[-0.06em] text-white sm:text-5xl xl:text-6xl">
                   Shift kasir lebih jelas, disiplin, dan mudah direkonsiliasi.
                 </h1>
                 <p className="mt-4 max-w-2xl text-sm font-medium leading-7 text-white/72 sm:text-base">
@@ -414,11 +414,11 @@ export default function ShiftsPage() {
             />
           </section>
 
-          <section className="grid gap-6 xl:grid-cols-[minmax(0,1.42fr)_minmax(360px,0.78fr)]">
-            <div className="flex flex-col gap-6">
+          <section className="grid gap-4 xl:grid-cols-[minmax(0,1.42fr)_minmax(360px,0.78fr)]">
+            <div className="flex flex-col gap-4">
               {loading ? (
-                <div className="shift-entrance rounded-[34px] border border-white/70 bg-white/76 p-8 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]">
-                  <div className="h-72 animate-pulse rounded-[30px] bg-white/80" />
+                <div className="shift-entrance rounded-2xl border border-white/70 bg-white/76 p-5 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]">
+                  <div className="h-72 animate-pulse rounded-xl bg-white/80" />
                 </div>
               ) : activeShift ? (
                 <ActiveShiftPanel activeShift={activeShift} elapsed={elapsed} actualCash={actualCash} setActualCash={setActualCash} variance={variance} isClosing={isClosing} onCloseShift={handleCloseShift} />
@@ -429,7 +429,7 @@ export default function ShiftsPage() {
               <ShiftHistory shifts={shifts} loading={loading} />
             </div>
 
-            <aside className="flex flex-col gap-6">
+            <aside className="flex flex-col gap-4">
               {activeShift ? (
                 <ReconciliationPanel
                   activeShift={activeShift}
@@ -441,10 +441,10 @@ export default function ShiftsPage() {
                 />
               ) : null}
 
-              <section className="shift-entrance rounded-[34px] border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "340ms" } as CSSProperties}>
-                <div className="overflow-hidden rounded-[30px] bg-[linear-gradient(135deg,#ffffff_0%,#f5edff_100%)] p-5">
+              <section className="shift-entrance rounded-2xl border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "340ms" } as CSSProperties}>
+                <div className="overflow-hidden rounded-xl bg-[linear-gradient(135deg,#ffffff_0%,#f5edff_100%)] p-5">
                   <p className="text-xs font-black uppercase tracking-[0.2em] text-[#a277ff]/70">Tip Operasional</p>
-                  <h3 className="mt-3 font-headline text-3xl font-black tracking-[-0.05em] text-on-surface">
+                  <h3 className="mt-3 font-headline text-xl font-black tracking-[-0.05em] text-on-surface">
                     Shift rapi bikin laporan kas makin akurat.
                   </h3>
                   <p className="mt-3 text-sm leading-6 text-on-surface-variant">
@@ -473,16 +473,16 @@ function ActiveShiftPanel({
   onCloseShift: () => void;
 }) {
   return (
-    <section className="shift-entrance overflow-hidden rounded-[34px] border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "280ms" } as CSSProperties}>
-      <div className="rounded-[30px] bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-5 text-white shadow-[0_28px_70px_-44px_rgba(162, 119, 255,0.92)] sm:p-6">
+    <section className="shift-entrance overflow-hidden rounded-2xl border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "280ms" } as CSSProperties}>
+      <div className="rounded-xl bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-5 text-white shadow-[0_28px_70px_-44px_rgba(162, 119, 255,0.92)] sm:p-6">
         <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-start">
           <div className="flex gap-4">
-            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[24px] bg-white/12 text-white">
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-white/12 text-white">
               <span className="material-symbols-outlined icon-fill text-[32px]">account_circle</span>
             </div>
             <div>
               <p className="text-xs font-black uppercase tracking-[0.22em] text-white/55">Active Session</p>
-              <h2 className="mt-2 font-headline text-3xl font-black tracking-[-0.05em]">{activeShift.user?.name ?? "Current Session"}</h2>
+              <h2 className="mt-2 font-headline text-xl font-black tracking-[-0.05em]">{activeShift.user?.name ?? "Current Session"}</h2>
               <p className="mt-1 text-sm font-medium text-white/68">{activeShift.branch?.name ?? "Cabang aktif"}</p>
             </div>
           </div>
@@ -524,10 +524,10 @@ function ReconciliationPanel({
   onCloseShift: () => void;
 }) {
   return (
-    <section className="shift-entrance rounded-[34px] border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] xl:sticky xl:top-4" style={{ "--delay": "320ms" } as CSSProperties}>
-      <div className="overflow-hidden rounded-[30px] bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-5 text-white">
+    <section className="shift-entrance rounded-2xl border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] xl:sticky xl:top-4" style={{ "--delay": "320ms" } as CSSProperties}>
+      <div className="overflow-hidden rounded-xl bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-5 text-white">
         <p className="text-xs font-black uppercase tracking-[0.22em] text-white/55">Close Shift</p>
-        <h3 className="mt-3 font-headline text-3xl font-black tracking-[-0.05em]">Rekonsiliasi kas</h3>
+        <h3 className="mt-3 font-headline text-xl font-black tracking-[-0.05em]">Rekonsiliasi kas</h3>
         <p className="mt-2 text-sm font-medium text-white/68">Masukkan kas aktual untuk melihat variance sebelum closing.</p>
 
         <div className="mt-5 grid grid-cols-2 gap-3">
@@ -536,7 +536,7 @@ function ReconciliationPanel({
         </div>
       </div>
 
-      <div className="mt-4 rounded-[30px] border border-[#ecdfff] bg-white/70 p-4">
+      <div className="mt-4 rounded-xl border border-[#ecdfff] bg-white/70 p-4">
         <label className="block">
           <span className="mb-2 block text-xs font-black uppercase tracking-[0.18em] text-on-surface-variant">
             Actual Cash Counted (Rp)
@@ -555,7 +555,7 @@ function ReconciliationPanel({
         <button
           onClick={onCloseShift}
           disabled={isClosing || !actualCash}
-          className="app-primary-btn mt-5 w-full rounded-[24px] px-6 py-4 text-sm font-black disabled:opacity-60"
+          className="app-primary-btn mt-5 w-full rounded-xl px-6 py-4 text-sm font-black disabled:opacity-60"
           type="button"
         >
           {isClosing ? "Closing..." : "Confirm & Close Shift"}
@@ -567,17 +567,17 @@ function ReconciliationPanel({
 
 function NoActiveShiftPanel({ onOpen }: { onOpen: () => void }) {
   return (
-    <section className="shift-entrance rounded-[34px] border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "280ms" } as CSSProperties}>
-      <div className="flex min-h-[360px] flex-col items-center justify-center rounded-[30px] border border-dashed border-[#d4c8e3] bg-white/62 p-8 text-center">
-        <div className="relative flex h-24 w-24 items-center justify-center rounded-[34px] bg-[#f5edff] text-[#a277ff]">
+    <section className="shift-entrance rounded-2xl border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "280ms" } as CSSProperties}>
+      <div className="flex min-h-[360px] flex-col items-center justify-center rounded-xl border border-dashed border-[#d4c8e3] bg-white/62 p-5 text-center">
+        <div className="relative flex h-24 w-24 items-center justify-center rounded-2xl bg-[#f5edff] text-[#a277ff]">
           <span className="material-symbols-outlined icon-fill text-5xl">lock_clock</span>
           <span className="shift-scan absolute inset-x-5 bottom-6 h-1 rounded-full bg-[#12b981]" />
         </div>
-        <p className="mt-5 font-headline text-3xl font-black tracking-[-0.05em] text-on-surface">Belum ada shift aktif</p>
+        <p className="mt-5 font-headline text-xl font-black tracking-[-0.05em] text-on-surface">Belum ada shift aktif</p>
         <p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-on-surface-variant">
           Buka shift baru supaya kasir bisa menerima transaksi dan sistem mulai menghitung performa kas.
         </p>
-        <button onClick={onOpen} className="app-primary-btn mt-6 rounded-[24px] px-6 py-3 text-sm font-black" type="button">
+        <button onClick={onOpen} className="app-primary-btn mt-6 rounded-xl px-6 py-3 text-sm font-black" type="button">
           Open New Shift
         </button>
       </div>
@@ -587,11 +587,11 @@ function NoActiveShiftPanel({ onOpen }: { onOpen: () => void }) {
 
 function ShiftHistory({ shifts, loading }: { shifts: Shift[]; loading: boolean }) {
   return (
-    <section className="shift-entrance overflow-hidden rounded-[34px] border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "360ms" } as CSSProperties}>
+    <section className="shift-entrance overflow-hidden rounded-2xl border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "360ms" } as CSSProperties}>
       <div className="flex flex-col justify-between gap-3 border-b border-[#ecdfff] px-5 py-4 md:flex-row md:items-center">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.2em] text-[#a277ff]/75">Session Ledger</p>
-          <h3 className="mt-2 font-headline text-2xl font-black tracking-[-0.05em] text-on-surface">Shift History</h3>
+          <h3 className="mt-2 font-headline text-xl font-black tracking-[-0.05em] text-on-surface">Shift History</h3>
         </div>
         <div className="rounded-full bg-[#f5edff] px-4 py-2 text-sm font-black text-[#8657ea]">{shifts.length} session</div>
       </div>
@@ -599,12 +599,12 @@ function ShiftHistory({ shifts, loading }: { shifts: Shift[]; loading: boolean }
       {loading ? (
         <div className="grid gap-3 p-4">
           {Array.from({ length: 4 }).map((_, index) => (
-            <div key={index} className="h-24 animate-pulse rounded-[28px] bg-white/80" />
+            <div key={index} className="h-24 animate-pulse rounded-xl bg-white/80" />
           ))}
         </div>
       ) : shifts.length === 0 ? (
-        <div className="p-8 text-center">
-          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-[30px] bg-[#f5edff] text-[#a277ff]">
+        <div className="p-5 text-center">
+          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-xl bg-[#f5edff] text-[#a277ff]">
             <span className="material-symbols-outlined icon-fill text-4xl">history</span>
           </div>
           <p className="mt-5 font-headline text-2xl font-black text-on-surface">Belum ada riwayat shift</p>
@@ -629,12 +629,12 @@ function ShiftHistoryRow({ shift, delay }: { shift: Shift; delay: number }) {
 
   return (
     <div
-      className="shift-row rounded-[28px] border border-white/70 bg-white/78 p-4 shadow-[0_20px_54px_-42px_rgba(39, 23, 68,0.38)]"
+      className="shift-row rounded-xl border border-white/70 bg-white/78 p-4 shadow-[0_20px_54px_-42px_rgba(39, 23, 68,0.38)]"
       style={{ "--delay": `${delay}ms` } as CSSProperties}
     >
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div className="flex min-w-0 items-center gap-4">
-          <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-[22px] ${shift.status === "ACTIVE" ? "bg-[#e6f7ef] text-[#047857]" : "bg-[#f5edff] text-[#a277ff]"}`}>
+          <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl ${shift.status === "ACTIVE" ? "bg-[#e6f7ef] text-[#047857]" : "bg-[#f5edff] text-[#a277ff]"}`}>
             <span className="material-symbols-outlined icon-fill text-[24px]">{shift.status === "ACTIVE" ? "play_circle" : "task_alt"}</span>
           </div>
           <div className="min-w-0">
@@ -678,7 +678,7 @@ function ShiftKpi({
 
   return (
     <div
-      className="shift-entrance group relative overflow-hidden rounded-[30px] border border-white/70 bg-white/78 p-5 shadow-[0_24px_70px_-48px_rgba(39, 23, 68,0.38)] hover:-translate-y-1 hover:bg-white"
+      className="shift-entrance group relative overflow-hidden rounded-xl border border-white/70 bg-white/78 p-5 shadow-[0_24px_70px_-48px_rgba(39, 23, 68,0.38)] hover:-translate-y-1 hover:bg-white"
       style={{ "--delay": `${delay}ms` } as CSSProperties}
     >
       <div className={`pointer-events-none absolute -right-14 -top-14 h-36 w-36 rounded-full bg-gradient-to-br ${style.glow}`} />
@@ -686,7 +686,7 @@ function ShiftKpi({
       <div className="relative flex items-start justify-between gap-3">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.18em] text-on-surface-variant/70">{label}</p>
-          <p className="mt-4 font-headline text-3xl font-black tracking-[-0.05em] text-on-surface sm:text-4xl">{value}</p>
+          <p className="mt-4 font-headline text-xl font-black tracking-[-0.05em] text-on-surface sm:text-4xl">{value}</p>
         </div>
         <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${style.icon}`}>
           <span className="material-symbols-outlined icon-fill text-[23px]">{icon}</span>
@@ -718,7 +718,7 @@ function ActionButton({
   return (
     <button
       onClick={onClick}
-      className="group relative overflow-hidden rounded-[28px] border border-white/70 bg-white/76 p-5 text-left shadow-[0_20px_54px_-42px_rgba(39, 23, 68,0.38)] hover:-translate-y-1 hover:bg-white"
+      className="group relative overflow-hidden rounded-xl border border-white/70 bg-white/76 p-5 text-left shadow-[0_20px_54px_-42px_rgba(39, 23, 68,0.38)] hover:-translate-y-1 hover:bg-white"
       type="button"
     >
       <div className={`absolute inset-x-5 top-0 h-1 rounded-full bg-gradient-to-r ${style.line}`} />
@@ -737,7 +737,7 @@ function ActionButton({
 
 function HeroMiniStat({ label, value, icon }: { label: string; value: string; icon: string }) {
   return (
-    <div className="rounded-[24px] border border-white/16 bg-white/10 p-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">
+    <div className="rounded-xl border border-white/16 bg-white/10 p-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">
       <div className="flex items-center justify-between gap-3">
         <span className="text-[11px] font-black uppercase tracking-[0.2em] text-white/55">{label}</span>
         <span className="material-symbols-outlined text-[18px] text-[#a7f3d0]">{icon}</span>
@@ -749,7 +749,7 @@ function HeroMiniStat({ label, value, icon }: { label: string; value: string; ic
 
 function SessionBox({ label, value, icon }: { label: string; value: string; icon: string }) {
   return (
-    <div className="rounded-[24px] border border-white/14 bg-white/10 p-4">
+    <div className="rounded-xl border border-white/14 bg-white/10 p-4">
       <div className="flex items-center justify-between gap-3">
         <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/52">{label}</p>
         <span className="material-symbols-outlined text-[18px] text-[#a7f3d0]">{icon}</span>
@@ -761,7 +761,7 @@ function SessionBox({ label, value, icon }: { label: string; value: string; icon
 
 function SummaryBox({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-[24px] border border-white/14 bg-white/10 p-4">
+    <div className="rounded-xl border border-white/14 bg-white/10 p-4">
       <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/52">{label}</p>
       <p className="mt-2 truncate font-headline text-lg font-black text-white">{value}</p>
     </div>
@@ -772,7 +772,7 @@ function MetricBox({ label, value, tone }: { label: string; value: string; tone:
   const style = toneClass[tone];
 
   return (
-    <div className="relative overflow-hidden rounded-[26px] border border-white/70 bg-white/78 p-4 shadow-[0_18px_42px_-34px_rgba(39, 23, 68,0.34)]">
+    <div className="relative overflow-hidden rounded-xl border border-white/70 bg-white/78 p-4 shadow-[0_18px_42px_-34px_rgba(39, 23, 68,0.34)]">
       <div className={`absolute inset-x-4 bottom-0 h-1 rounded-full bg-gradient-to-r ${style.line}`} />
       <p className="text-xs font-black uppercase tracking-[0.18em] text-on-surface-variant/70">{label}</p>
       <p className="mt-2 truncate font-headline text-2xl font-black text-on-surface">{value}</p>
@@ -793,11 +793,11 @@ function VarianceCard({ variance }: { variance: number }) {
   const positive = variance >= 0;
 
   return (
-    <div className={`mt-4 rounded-[26px] border px-4 py-4 ${
+    <div className={`mt-4 rounded-xl border px-4 py-4 ${
       positive ? "border-[#bbf7d0] bg-[#ecfdf5] text-[#047857]" : "border-[#fecdd3] bg-[#fff1f2] text-[#be123c]"
     }`}>
       <p className="text-xs font-black uppercase tracking-[0.18em]">Variance</p>
-      <p className="mt-2 font-headline text-3xl font-black tracking-[-0.05em]">
+      <p className="mt-2 font-headline text-xl font-black tracking-[-0.05em]">
         {positive ? "+" : "-"}{formatCurrency(Math.abs(variance))}
       </p>
       <p className="mt-1 text-sm font-semibold opacity-80">
@@ -818,3 +818,4 @@ function StatusBadge({ status }: { status: "ACTIVE" | "CLOSED" }) {
     </span>
   );
 }
+

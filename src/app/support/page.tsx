@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 
@@ -19,15 +19,15 @@ export default function SupportPage() {
     <ResponsiveLayout>
       <div className="h-full min-h-0 overflow-y-auto bg-[#fcfbff] px-4 py-6 md:px-8 md:py-8 lg:px-12">
         <div className="mx-auto max-w-[1260px] space-y-6">
-          <section className="relative overflow-hidden rounded-[32px] border border-white/70 bg-[linear-gradient(135deg,#271744_0%,#5d43a5_48%,#9f7cff_100%)] px-6 py-7 text-white shadow-[0_24px_80px_-44px_rgba(39,23,68,0.68)] md:px-8">
+          <section className="relative overflow-hidden rounded-2xl border border-white/70 bg-[linear-gradient(135deg,#271744_0%,#5d43a5_48%,#9f7cff_100%)] px-6 py-7 text-white shadow-[0_24px_80px_-44px_rgba(39,23,68,0.68)] md:px-8">
             <div className="absolute inset-y-0 right-0 w-[38%] bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.18),transparent_62%)]" />
-            <div className="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div className="relative flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
               <div className="max-w-3xl">
                 <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.18em] text-white/80">
                   <span className="material-symbols-outlined text-[16px]">support_agent</span>
                   Support & Billing Desk
                 </div>
-                <h1 className="mt-4 font-headline text-4xl font-black tracking-[-0.06em] text-white sm:text-5xl">
+                <h1 className="mt-4 font-headline text-3xl font-black tracking-[-0.06em] text-white sm:text-5xl">
                   Semua jalur resmi untuk menghubungi pemilik aplikasi.
                 </h1>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-white/80 sm:text-base">
@@ -44,9 +44,9 @@ export default function SupportPage() {
             </div>
           </section>
 
-          <div className="grid gap-6 xl:grid-cols-[0.95fr_1.3fr]">
+          <div className="grid gap-4 xl:grid-cols-[0.95fr_1.3fr]">
             <div className="space-y-6">
-              <section className="app-surface rounded-[28px] p-6 shadow-sm">
+              <section className="app-surface rounded-xl p-6 shadow-sm">
                 <div className="flex items-center gap-4">
                   <div className="flex h-14 w-14 items-center justify-center rounded-[20px] bg-[linear-gradient(135deg,#f5edff_0%,#e0e5ff_100%)] text-[#a277ff] shadow-inner">
                     <span className="material-symbols-outlined text-[28px]">deployed_code</span>
@@ -64,7 +64,7 @@ export default function SupportPage() {
                 </div>
               </section>
 
-              <section className="app-surface rounded-[28px] p-6 shadow-sm">
+              <section className="app-surface rounded-xl p-6 shadow-sm">
                 <h2 className="font-headline text-lg font-black text-on-surface">Kontak Resmi</h2>
                 <p className="mt-2 text-sm leading-7 text-on-surface-variant">
                   Gunakan channel di bawah ini untuk aktivasi, perpanjangan, pertanyaan teknis, atau permintaan bantuan terkait penggunaan aplikasi.
@@ -102,7 +102,7 @@ export default function SupportPage() {
                 </div>
               </section>
 
-              <section className="app-surface rounded-[28px] p-6 shadow-sm">
+              <section className="app-surface rounded-xl p-6 shadow-sm">
                 <h2 className="font-headline text-lg font-black text-on-surface">Sosial & Profil Online</h2>
                 <div className="mt-5 grid gap-3">
                   {SOCIAL_LINKS.map((item) => (
@@ -130,7 +130,7 @@ export default function SupportPage() {
             </div>
 
             <div className="space-y-6">
-              <section className="app-surface rounded-[28px] p-6 shadow-sm">
+              <section className="app-surface rounded-xl p-6 shadow-sm">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
                     <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#8657ea]">Billing Model</p>
@@ -166,14 +166,14 @@ export default function SupportPage() {
                     href={APP_OWNER_LINKS.primaryWhatsapp}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-[22px] bg-[linear-gradient(135deg,#059669_0%,#10b981_100%)] px-5 py-4 text-sm font-black text-white shadow-[0_18px_42px_-24px_rgba(16,185,129,0.84)] transition hover:scale-[1.01]"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-[linear-gradient(135deg,#059669_0%,#10b981_100%)] px-5 py-4 text-sm font-black text-white shadow-[0_18px_42px_-24px_rgba(16,185,129,0.84)] transition hover:scale-[1.01]"
                   >
                     <span className="material-symbols-outlined text-[18px]">chat</span>
                     {SUBSCRIPTION_MODEL.whatsAppCta}
                   </a>
                   <a
                     href={APP_OWNER_LINKS.billingEmail}
-                    className="inline-flex items-center justify-center gap-2 rounded-[22px] border border-outline-variant/15 bg-white px-5 py-4 text-sm font-black text-on-surface transition hover:bg-slate-50"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-outline-variant/15 bg-white px-5 py-4 text-sm font-black text-on-surface transition hover:bg-slate-50"
                   >
                     <span className="material-symbols-outlined text-[18px]">mail</span>
                     {SUBSCRIPTION_MODEL.emailCta}
@@ -181,8 +181,8 @@ export default function SupportPage() {
                 </div>
               </section>
 
-              <div className="grid gap-6 lg:grid-cols-2">
-                <section className="app-surface rounded-[28px] p-6 shadow-sm">
+              <div className="grid gap-4 lg:grid-cols-2">
+                <section className="app-surface rounded-xl p-6 shadow-sm">
                   <h2 className="font-headline text-lg font-black text-on-surface">Kebijakan Trial</h2>
                   <ul className="mt-5 space-y-3 text-sm leading-7 text-on-surface-variant">
                     {TRIAL_POLICY.map((item) => (
@@ -194,7 +194,7 @@ export default function SupportPage() {
                   </ul>
                 </section>
 
-                <section className="app-surface rounded-[28px] p-6 shadow-sm">
+                <section className="app-surface rounded-xl p-6 shadow-sm">
                   <h2 className="font-headline text-lg font-black text-on-surface">Kebijakan Refund</h2>
                   <ul className="mt-5 space-y-3 text-sm leading-7 text-on-surface-variant">
                     {REFUND_POLICY.map((item) => (
@@ -207,13 +207,13 @@ export default function SupportPage() {
                 </section>
               </div>
 
-              <section className="app-surface rounded-[28px] p-6 shadow-sm">
+              <section className="app-surface rounded-xl p-6 shadow-sm">
                 <h2 className="font-headline text-lg font-black text-on-surface">FAQ Billing & Support</h2>
                 <div className="mt-5 space-y-3">
                   {SUPPORT_FAQS.map((faq) => (
                     <details
                       key={faq.q}
-                      className="group overflow-hidden rounded-[22px] border border-outline-variant/12 bg-surface-container-low [&_summary::-webkit-details-marker]:hidden"
+                      className="group overflow-hidden rounded-xl border border-outline-variant/12 bg-surface-container-low [&_summary::-webkit-details-marker]:hidden"
                     >
                       <summary className="flex cursor-pointer items-center justify-between gap-4 p-4 text-sm font-black text-on-surface outline-none transition hover:bg-white">
                         {faq.q}
@@ -227,7 +227,7 @@ export default function SupportPage() {
                 </div>
               </section>
 
-              <section className="overflow-hidden rounded-[28px] border border-[#d2d9f4] bg-[linear-gradient(135deg,#fcfbff_0%,#f4f6ff_100%)] p-6 shadow-sm">
+              <section className="overflow-hidden rounded-xl border border-[#d2d9f4] bg-[linear-gradient(135deg,#fcfbff_0%,#f4f6ff_100%)] p-6 shadow-sm">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                   <div className="max-w-2xl">
                     <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#8657ea]">Panduan Penggunaan</p>
@@ -238,7 +238,7 @@ export default function SupportPage() {
                   </div>
                   <Link
                     href="/docs"
-                    className="inline-flex items-center gap-2 rounded-[22px] bg-white px-5 py-3.5 text-sm font-black text-on-surface shadow-sm transition hover:bg-[#f8f6ff]"
+                    className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3.5 text-sm font-black text-on-surface shadow-sm transition hover:bg-[#f8f6ff]"
                   >
                     Baca Dokumentasi
                     <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
@@ -255,7 +255,7 @@ export default function SupportPage() {
 
 function HeroMetric({ label, value, icon }: { label: string; value: string; icon: string }) {
   return (
-    <div className="min-w-[180px] rounded-[22px] border border-white/15 bg-white/10 px-4 py-3 backdrop-blur-sm">
+    <div className="min-w-[180px] rounded-xl border border-white/15 bg-white/10 px-4 py-3 backdrop-blur-sm">
       <div className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.18em] text-white/65">
         <span className="material-symbols-outlined text-[16px]">{icon}</span>
         {label}
@@ -326,7 +326,7 @@ function ContactCard({
       href={href}
       target={href.startsWith("http") ? "_blank" : undefined}
       rel={href.startsWith("http") ? "noreferrer" : undefined}
-      className="flex items-center gap-4 rounded-[22px] border border-outline-variant/12 bg-surface-container-low px-4 py-3 transition hover:bg-white"
+      className="flex items-center gap-4 rounded-xl border border-outline-variant/12 bg-surface-container-low px-4 py-3 transition hover:bg-white"
     >
       <div className={`flex h-11 w-11 items-center justify-center rounded-2xl ${accentClass}`}>
         <span className="material-symbols-outlined text-[20px]">{icon}</span>
@@ -349,7 +349,7 @@ function PanelCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-[24px] border border-outline-variant/12 bg-surface-container-low p-5">
+    <div className="rounded-xl border border-outline-variant/12 bg-surface-container-low p-5">
       <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.18em] text-on-surface-variant/70">
         <span className="material-symbols-outlined text-[16px]">{icon}</span>
         {title}
@@ -358,3 +358,4 @@ function PanelCard({
     </div>
   );
 }
+

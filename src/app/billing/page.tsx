@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -96,15 +96,15 @@ export default function BillingPage() {
   return (
     <ResponsiveLayout>
       <div className="flex h-full min-h-0 flex-col gap-4 overflow-y-auto pr-1">
-        <section className="relative overflow-hidden rounded-[34px] border border-white/70 bg-[linear-gradient(135deg,#1f1638_0%,#6f51c6_58%,#9c7bff_100%)] px-6 py-6 text-white shadow-[0_24px_80px_-42px_rgba(39,23,68,0.58)]">
+        <section className="relative overflow-hidden rounded-2xl border border-white/70 bg-[linear-gradient(135deg,#1f1638_0%,#6f51c6_58%,#9c7bff_100%)] px-6 py-6 text-white shadow-[0_24px_80px_-42px_rgba(39,23,68,0.58)]">
           <div className="absolute inset-y-0 right-0 w-[38%] bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.2),transparent_62%)]" />
-          <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+          <div className="relative flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-3xl">
               <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.18em] text-white/80">
                 <span className="material-symbols-outlined text-[16px]">workspace_premium</span>
                 Billing & License Center
               </div>
-              <h1 className="mt-4 font-headline text-4xl font-black tracking-[-0.06em] text-white sm:text-5xl">
+              <h1 className="mt-4 font-headline text-3xl font-black tracking-[-0.06em] text-white sm:text-5xl">
                 Pantau trial dan aktivasi langganan full access.
               </h1>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-white/80 sm:text-base">
@@ -112,7 +112,7 @@ export default function BillingPage() {
               </p>
             </div>
 
-            <div className="relative min-w-[290px] rounded-[28px] border border-white/15 bg-white/10 p-5 backdrop-blur-sm">
+            <div className="relative min-w-[290px] rounded-xl border border-white/15 bg-white/10 p-5 backdrop-blur-sm">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <div className="text-[11px] uppercase tracking-[0.18em] text-white/65">Status Saat Ini</div>
@@ -133,7 +133,7 @@ export default function BillingPage() {
         </section>
 
         {error ? (
-          <section className="rounded-[30px] border border-rose-200 bg-rose-50/80 px-5 py-4 text-sm text-rose-700">
+          <section className="rounded-xl border border-rose-200 bg-rose-50/80 px-5 py-4 text-sm text-rose-700">
             {error}
           </section>
         ) : null}
@@ -170,13 +170,13 @@ export default function BillingPage() {
         </section>
 
         <section className="grid gap-4 xl:grid-cols-[1.4fr_0.9fr]">
-          <div className="rounded-[32px] border border-white/70 bg-white/82 p-6 shadow-[0_20px_60px_-48px_rgba(39,23,68,0.4)]">
+          <div className="rounded-2xl border border-white/70 bg-white/82 p-6 shadow-[0_20px_60px_-48px_rgba(39,23,68,0.4)]">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <div className="text-xs font-black uppercase tracking-[0.18em] text-on-surface-variant/70">
                   Progress Trial
                 </div>
-                <h2 className="mt-2 font-headline text-2xl font-black tracking-[-0.04em] text-on-surface">
+                <h2 className="mt-2 font-headline text-xl font-black tracking-[-0.04em] text-on-surface">
                   {licenseSummary.isLicensed ? "Akun sudah di-upgrade penuh" : "Pantau sisa masa aktif sebelum lisensi dibeli"}
                 </h2>
               </div>
@@ -185,7 +185,7 @@ export default function BillingPage() {
               </span>
             </div>
 
-            <div className="mt-6 rounded-[26px] border border-outline-variant/12 bg-[#f8f6ff] p-5">
+            <div className="mt-6 rounded-xl border border-outline-variant/12 bg-[#f8f6ff] p-5">
               <div className="flex items-center justify-between gap-3 text-sm font-semibold text-on-surface">
                 <span>Penggunaan masa trial / status lisensi</span>
                 <span>{progressValue}%</span>
@@ -216,11 +216,11 @@ export default function BillingPage() {
             </div>
           </div>
 
-          <div className="rounded-[32px] border border-white/70 bg-white/82 p-6 shadow-[0_20px_60px_-48px_rgba(39,23,68,0.4)]">
+          <div className="rounded-2xl border border-white/70 bg-white/82 p-6 shadow-[0_20px_60px_-48px_rgba(39,23,68,0.4)]">
             <div className="text-xs font-black uppercase tracking-[0.18em] text-on-surface-variant/70">
               Tindakan Cepat
             </div>
-            <h2 className="mt-2 font-headline text-2xl font-black tracking-[-0.04em] text-on-surface">
+            <h2 className="mt-2 font-headline text-xl font-black tracking-[-0.04em] text-on-surface">
               Aktivasi dan kontrol langganan
             </h2>
             <p className="mt-2 text-sm leading-7 text-on-surface-variant">
@@ -232,35 +232,35 @@ export default function BillingPage() {
                 href={LICENSE_WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-[22px] bg-[linear-gradient(135deg,#059669_0%,#10b981_100%)] px-4 py-4 text-sm font-black text-white shadow-[0_18px_46px_-26px_rgba(16,185,129,0.82)] transition hover:scale-[1.01]"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-[linear-gradient(135deg,#059669_0%,#10b981_100%)] px-4 py-4 text-sm font-black text-white shadow-[0_18px_46px_-26px_rgba(16,185,129,0.82)] transition hover:scale-[1.01]"
               >
                 <span className="material-symbols-outlined text-[20px]">chat</span>
                 {SUBSCRIPTION_MODEL.whatsAppCta}
               </a>
               <a
                 href={APP_OWNER_LINKS.billingEmail}
-                className="inline-flex items-center justify-center gap-2 rounded-[22px] border border-outline-variant/15 bg-white px-4 py-4 text-sm font-black text-on-surface transition hover:bg-slate-50"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-outline-variant/15 bg-white px-4 py-4 text-sm font-black text-on-surface transition hover:bg-slate-50"
               >
                 <span className="material-symbols-outlined text-[20px]">mail</span>
                 {SUBSCRIPTION_MODEL.emailCta}
               </a>
               <Link
                 href="/dashboard"
-                className="inline-flex items-center justify-center gap-2 rounded-[22px] border border-outline-variant/15 bg-[#f8f6ff] px-4 py-4 text-sm font-black text-on-surface transition hover:bg-white"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-outline-variant/15 bg-[#f8f6ff] px-4 py-4 text-sm font-black text-on-surface transition hover:bg-white"
               >
                 <span className="material-symbols-outlined text-[20px]">dashboard</span>
                 Kembali ke Dashboard
               </Link>
               <Link
                 href="/support"
-                className="inline-flex items-center justify-center gap-2 rounded-[22px] border border-outline-variant/15 bg-white px-4 py-4 text-sm font-black text-on-surface transition hover:bg-slate-50"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-outline-variant/15 bg-white px-4 py-4 text-sm font-black text-on-surface transition hover:bg-slate-50"
               >
                 <span className="material-symbols-outlined text-[20px]">support_agent</span>
                 Buka Support Center
               </Link>
             </div>
 
-            <div className="mt-5 rounded-[24px] border border-outline-variant/12 bg-[#fcfbff] p-4">
+            <div className="mt-5 rounded-xl border border-outline-variant/12 bg-[#fcfbff] p-4">
               <div className="text-xs font-black uppercase tracking-[0.18em] text-on-surface-variant/70">
                 Ringkasan Billing
               </div>
@@ -290,11 +290,11 @@ export default function BillingPage() {
             active={licenseSummary.stage === "licensed"}
             features={[...SUBSCRIPTION_FEATURES]}
           />
-          <div className="rounded-[32px] border border-white/70 bg-white/82 p-6 shadow-[0_20px_60px_-48px_rgba(39,23,68,0.4)]">
+          <div className="rounded-2xl border border-white/70 bg-white/82 p-6 shadow-[0_20px_60px_-48px_rgba(39,23,68,0.4)]">
             <div className="text-xs font-black uppercase tracking-[0.18em] text-on-surface-variant/70">
               Kontak Resmi
             </div>
-            <h2 className="mt-2 font-headline text-2xl font-black tracking-[-0.04em] text-on-surface">
+            <h2 className="mt-2 font-headline text-xl font-black tracking-[-0.04em] text-on-surface">
               Hubungi pemilik aplikasi
             </h2>
 
@@ -305,7 +305,7 @@ export default function BillingPage() {
               <ContactRow icon="alternate_email" label="Email Utama" value={APP_OWNER_PROFILE.primaryEmail} href={APP_OWNER_LINKS.primaryEmail} />
             </div>
 
-            <div className="mt-5 rounded-[26px] border border-outline-variant/12 bg-[#fcfbff] p-4">
+            <div className="mt-5 rounded-xl border border-outline-variant/12 bg-[#fcfbff] p-4">
               <div className="text-xs font-black uppercase tracking-[0.18em] text-on-surface-variant/70">
                 Data yang Perlu Disiapkan
               </div>
@@ -319,7 +319,7 @@ export default function BillingPage() {
               </ul>
             </div>
 
-            <div className="mt-5 rounded-[26px] border border-outline-variant/12 bg-[#fff9f0] p-4">
+            <div className="mt-5 rounded-xl border border-outline-variant/12 bg-[#fff9f0] p-4">
               <div className="text-xs font-black uppercase tracking-[0.18em] text-on-surface-variant/70">
                 Refund Singkat
               </div>
@@ -350,11 +350,11 @@ function BillingMetricCard({
   tone: "indigo" | "emerald" | "amber" | "rose" | "slate";
 }) {
   return (
-    <section className="rounded-[30px] border border-white/70 bg-white/82 p-5 shadow-[0_20px_60px_-48px_rgba(39,23,68,0.4)]">
+    <section className="rounded-xl border border-white/70 bg-white/82 p-5 shadow-[0_20px_60px_-48px_rgba(39,23,68,0.4)]">
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="text-xs font-black uppercase tracking-[0.18em] text-on-surface-variant/70">{label}</div>
-          <div className="mt-3 font-headline text-2xl font-black tracking-[-0.05em] text-on-surface">{value}</div>
+          <div className="mt-3 font-headline text-xl font-black tracking-[-0.05em] text-on-surface">{value}</div>
         </div>
         <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${softToneClass(tone)}`}>
           <span className="material-symbols-outlined text-[22px]">{icon}</span>
@@ -376,7 +376,7 @@ function MiniMetric({ label, value }: { label: string; value: string }) {
 
 function TimelineItem({ label, value, icon }: { label: string; value: string; icon: string }) {
   return (
-    <div className="rounded-[22px] border border-outline-variant/12 bg-white px-4 py-4">
+    <div className="rounded-xl border border-outline-variant/12 bg-white px-4 py-4">
       <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.18em] text-on-surface-variant/70">
         <span className="material-symbols-outlined text-[16px]">{icon}</span>
         {label}
@@ -402,7 +402,7 @@ function ContactRow({
       href={href}
       target={href.startsWith("http") ? "_blank" : undefined}
       rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-      className="flex items-center gap-3 rounded-[22px] border border-outline-variant/12 bg-[#fcfbff] px-4 py-3 transition hover:bg-white"
+      className="flex items-center gap-3 rounded-xl border border-outline-variant/12 bg-[#fcfbff] px-4 py-3 transition hover:bg-white"
     >
       <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#f5edff] text-[#7c3aed]">
         <span className="material-symbols-outlined text-[20px]">{icon}</span>
@@ -431,11 +431,11 @@ function PlanCard({
   features: string[];
 }) {
   return (
-    <section className="rounded-[32px] border border-white/70 bg-white/82 p-6 shadow-[0_20px_60px_-48px_rgba(39,23,68,0.4)]">
+    <section className="rounded-2xl border border-white/70 bg-white/82 p-6 shadow-[0_20px_60px_-48px_rgba(39,23,68,0.4)]">
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="text-xs font-black uppercase tracking-[0.18em] text-on-surface-variant/70">{eyebrow}</div>
-          <h2 className="mt-2 font-headline text-2xl font-black tracking-[-0.04em] text-on-surface">{title}</h2>
+          <h2 className="mt-2 font-headline text-xl font-black tracking-[-0.04em] text-on-surface">{title}</h2>
         </div>
         {active ? (
           <span className={`rounded-full px-3 py-1 text-xs font-black ${softToneClass(tone)}`}>
@@ -444,7 +444,7 @@ function PlanCard({
         ) : null}
       </div>
 
-      <div className="mt-5 font-headline text-4xl font-black tracking-[-0.05em] text-on-surface">{price}</div>
+      <div className="mt-5 font-headline text-3xl font-black tracking-[-0.05em] text-on-surface">{price}</div>
 
       <ul className="mt-5 space-y-3 text-sm leading-6 text-on-surface-variant">
         {features.map((feature) => (
@@ -519,3 +519,4 @@ function toneBarClass(tone: "indigo" | "emerald" | "amber" | "rose" | "slate") {
 
   return "from-slate-500 to-slate-400";
 }
+

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { CSSProperties, FormEvent } from "react";
@@ -374,9 +374,9 @@ export default function InventoryPage() {
         size="md"
       >
         <form className="flex flex-col gap-5" onSubmit={handleSubmitAdjustment}>
-          <div className="rounded-[28px] bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-5 text-white">
+          <div className="rounded-xl bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-5 text-white">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-white/55">Adjustment Ledger</p>
-            <h3 className="mt-2 font-headline text-2xl font-black tracking-[-0.04em]">Koreksi stok dengan jejak yang rapi.</h3>
+            <h3 className="mt-2 font-headline text-xl font-black tracking-[-0.04em]">Koreksi stok dengan jejak yang rapi.</h3>
             <p className="mt-2 text-sm font-medium leading-6 text-white/70">
               Quantity bisa positif untuk stok masuk, atau negatif untuk stok keluar.
             </p>
@@ -459,9 +459,9 @@ export default function InventoryPage() {
         size="md"
       >
         <form className="flex flex-col gap-5" onSubmit={handleSubmitOpname}>
-          <div className="rounded-[28px] bg-[linear-gradient(135deg,#0f766e_0%,#12b981_100%)] p-5 text-white">
+          <div className="rounded-xl bg-[linear-gradient(135deg,#0f766e_0%,#12b981_100%)] p-5 text-white">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-white/60">Audit Stok</p>
-            <h3 className="mt-2 font-headline text-2xl font-black tracking-[-0.04em]">Rekonsiliasi stok fisik cabang.</h3>
+            <h3 className="mt-2 font-headline text-xl font-black tracking-[-0.04em]">Rekonsiliasi stok fisik cabang.</h3>
             <p className="mt-2 text-sm font-medium leading-6 text-white/75">
               Cocokkan angka fisik dengan sistem, lalu selisihnya akan dibukukan otomatis.
             </p>
@@ -533,18 +533,18 @@ export default function InventoryPage() {
       </AppModal>
 
       <div className="h-full overflow-y-auto px-4 py-5 pb-28 md:px-6 md:pb-8">
-        <div className="mx-auto flex max-w-[1500px] flex-col gap-6">
-          <section className="inventory-entrance inventory-sheen relative overflow-hidden rounded-[36px] border border-white/70 bg-[linear-gradient(135deg,#271744_0%,#5c3d99_50%,#a277ff_100%)] p-5 text-white shadow-[0_28px_90px_-58px_rgba(17,24,39,0.82)] sm:p-7">
-            <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[#12b981]/22" />
-            <div className="pointer-events-none absolute bottom-0 left-1/3 h-44 w-44 rounded-full bg-[#f59e0b]/14" />
+        <div className="mx-auto flex max-w-[1500px] flex-col gap-4">
+          <section className="inventory-entrance inventory-sheen relative overflow-hidden rounded-2xl border border-white/70 bg-[linear-gradient(135deg,#271744_0%,#5c3d99_50%,#a277ff_100%)] p-5 text-white shadow-[0_28px_90px_-58px_rgba(17,24,39,0.82)] sm:p-7">
+            <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-[#12b981]/22" />
+            <div className="pointer-events-none absolute bottom-0 left-1/3 h-32 w-32 rounded-full bg-[#f59e0b]/14" />
 
-            <div className="relative grid gap-6 xl:grid-cols-[minmax(0,1.25fr)_minmax(420px,0.75fr)] xl:items-end">
+            <div className="relative grid gap-4 xl:grid-cols-[minmax(0,1.25fr)_minmax(420px,0.75fr)] xl:items-end">
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full border border-white/16 bg-white/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.18em] text-white/75">
                   <span className="h-2 w-2 rounded-full bg-[#12b981] inventory-live-dot" />
                   Inventory Command Center
                 </div>
-                <h1 className="mt-5 max-w-3xl font-headline text-4xl font-black tracking-[-0.06em] text-white sm:text-5xl xl:text-6xl">
+                <h1 className="mt-5 max-w-3xl font-headline text-3xl font-black tracking-[-0.06em] text-white sm:text-5xl xl:text-6xl">
                   Stok lebih rapi, cepat dicek, dan siap restock.
                 </h1>
                 <p className="mt-4 max-w-2xl text-sm font-medium leading-7 text-white/72 sm:text-base">
@@ -629,7 +629,7 @@ export default function InventoryPage() {
             />
             <button
               onClick={() => setIsModalOpen(true)}
-              className="group overflow-hidden rounded-[28px] bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-5 text-left text-white shadow-[0_24px_64px_-44px_rgba(162, 119, 255,0.92)] hover:-translate-y-1"
+              className="group overflow-hidden rounded-xl bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-5 text-left text-white shadow-[0_24px_64px_-44px_rgba(162, 119, 255,0.92)] hover:-translate-y-1"
               type="button"
             >
               <div className="flex items-center justify-between gap-3">
@@ -642,7 +642,7 @@ export default function InventoryPage() {
             </button>
           </section>
 
-          <section className="inventory-entrance rounded-[34px] border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] sm:p-5" style={{ "--delay": "280ms" } as CSSProperties}>
+          <section className="inventory-entrance rounded-2xl border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] sm:p-5" style={{ "--delay": "280ms" } as CSSProperties}>
             <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-start">
               <div>
                 <div className="group relative">
@@ -694,7 +694,7 @@ export default function InventoryPage() {
               </div>
             </div>
 
-            <div className="mt-5 flex flex-col justify-between gap-3 rounded-[26px] border border-[#ecdfff] bg-[#f8f9ff] px-4 py-3 sm:flex-row sm:items-center">
+            <div className="mt-5 flex flex-col justify-between gap-3 rounded-xl border border-[#ecdfff] bg-[#f8f9ff] px-4 py-3 sm:flex-row sm:items-center">
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.18em] text-on-surface-variant/65">Hasil Inventory</p>
                 <p className="mt-1 font-headline text-xl font-black text-on-surface">
@@ -707,12 +707,12 @@ export default function InventoryPage() {
             </div>
           </section>
 
-          <section className="inventory-entrance overflow-hidden rounded-[34px] border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "330ms" } as CSSProperties}>
+          <section className="inventory-entrance overflow-hidden rounded-2xl border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "330ms" } as CSSProperties}>
             <div className="border-b border-[#ecdfff] px-5 py-4">
               <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
                 <div>
                   <p className="text-xs font-black uppercase tracking-[0.2em] text-[#a277ff]/75">Product Ledger</p>
-                  <h2 className="mt-2 font-headline text-2xl font-black tracking-[-0.05em] text-on-surface">Daftar Produk</h2>
+                  <h2 className="mt-2 font-headline text-xl font-black tracking-[-0.05em] text-on-surface">Daftar Produk</h2>
                 </div>
                 <button
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f5edff] px-4 py-2 text-sm font-black text-[#8657ea] hover:bg-[#e6d9ff]"
@@ -737,15 +737,15 @@ export default function InventoryPage() {
             {loading ? (
               <div className="grid gap-3 p-4">
                 {Array.from({ length: 5 }).map((_, index) => (
-                  <div key={index} className="h-24 animate-pulse rounded-[28px] bg-white/80" />
+                  <div key={index} className="h-24 animate-pulse rounded-xl bg-white/80" />
                 ))}
               </div>
             ) : filteredProducts.length === 0 ? (
-              <div className="m-4 rounded-[30px] border border-dashed border-[#d4c8e3] bg-white/70 p-8 text-center">
-                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-[30px] bg-[#f5edff] text-[#a277ff]">
+              <div className="m-4 rounded-xl border border-dashed border-[#d4c8e3] bg-white/70 p-5 text-center">
+                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-xl bg-[#f5edff] text-[#a277ff]">
                   <span className="material-symbols-outlined icon-fill text-4xl">inventory_2</span>
                 </div>
-                <p className="mt-5 font-headline text-3xl font-black tracking-[-0.05em] text-on-surface">
+                <p className="mt-5 font-headline text-xl font-black tracking-[-0.05em] text-on-surface">
                   Belum ada produk yang cocok
                 </p>
                 <p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-on-surface-variant">
@@ -799,7 +799,7 @@ function InventoryKpi({
 
   return (
     <div
-      className="inventory-entrance group relative overflow-hidden rounded-[30px] border border-white/70 bg-white/78 p-5 shadow-[0_24px_70px_-48px_rgba(39, 23, 68,0.38)] hover:-translate-y-1 hover:bg-white"
+      className="inventory-entrance group relative overflow-hidden rounded-xl border border-white/70 bg-white/78 p-5 shadow-[0_24px_70px_-48px_rgba(39, 23, 68,0.38)] hover:-translate-y-1 hover:bg-white"
       style={{ "--delay": `${delay}ms` } as CSSProperties}
     >
       <div className={`pointer-events-none absolute -right-14 -top-14 h-36 w-36 rounded-full bg-gradient-to-br ${style.glow}`} />
@@ -807,7 +807,7 @@ function InventoryKpi({
       <div className="relative flex items-start justify-between gap-3">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.18em] text-on-surface-variant/70">{label}</p>
-          <p className="mt-4 font-headline text-4xl font-black tracking-[-0.05em] text-on-surface">{value}</p>
+          <p className="mt-4 font-headline text-3xl font-black tracking-[-0.05em] text-on-surface">{value}</p>
         </div>
         <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${style.icon}`}>
           <span className="material-symbols-outlined icon-fill text-[23px]">{icon}</span>
@@ -839,7 +839,7 @@ function ActionButton({
   return (
     <button
       onClick={onClick}
-      className="group relative overflow-hidden rounded-[28px] border border-white/70 bg-white/76 p-5 text-left shadow-[0_20px_54px_-42px_rgba(39, 23, 68,0.38)] hover:-translate-y-1 hover:bg-white"
+      className="group relative overflow-hidden rounded-xl border border-white/70 bg-white/76 p-5 text-left shadow-[0_20px_54px_-42px_rgba(39, 23, 68,0.38)] hover:-translate-y-1 hover:bg-white"
       type="button"
     >
       <div className={`absolute inset-x-5 top-0 h-1 rounded-full bg-gradient-to-r ${style.line}`} />
@@ -858,7 +858,7 @@ function ActionButton({
 
 function HeroMiniStat({ label, value, icon }: { label: string; value: string; icon: string }) {
   return (
-    <div className="rounded-[24px] border border-white/16 bg-white/10 p-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">
+    <div className="rounded-xl border border-white/16 bg-white/10 p-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">
       <div className="flex items-center justify-between gap-3">
         <span className="text-[11px] font-black uppercase tracking-[0.2em] text-white/55">{label}</span>
         <span className="material-symbols-outlined text-[18px] text-[#a7f3d0]">{icon}</span>
@@ -906,11 +906,11 @@ function ProductRow({
 
   return (
     <div
-      className="inventory-row grid gap-4 rounded-[28px] border border-white/70 bg-white/78 p-4 shadow-[0_20px_54px_-42px_rgba(39, 23, 68,0.38)] hover:bg-white lg:grid-cols-12 lg:items-center"
+      className="inventory-row grid gap-4 rounded-xl border border-white/70 bg-white/78 p-4 shadow-[0_20px_54px_-42px_rgba(39, 23, 68,0.38)] hover:bg-white lg:grid-cols-12 lg:items-center"
       style={{ "--delay": `${delay}ms` } as CSSProperties}
     >
       <div className="flex min-w-0 items-center gap-3 lg:col-span-4">
-        <div className="relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-[24px] bg-gradient-to-br from-[#f5edff] to-white text-[#a277ff]">
+        <div className="relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#f5edff] to-white text-[#a277ff]">
           {product.imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img alt={product.name} className="h-full w-full object-cover" src={product.imageUrl} />
@@ -1020,3 +1020,4 @@ function StatusBadge({ status }: { status: ProductStockStatus }) {
 
   return <span className={`rounded-full px-3 py-1.5 text-xs font-black ${styles}`}>{labels[status]}</span>;
 }
+

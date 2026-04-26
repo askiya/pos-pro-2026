@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
@@ -539,16 +539,16 @@ function SettingsPageContent() {
       </AppModal>
 
       <div className="flex-1 overflow-y-auto px-4 pb-24 pt-4 md:px-8 md:pb-8 md:pt-6 w-full">
-        <div className="mx-auto flex max-w-7xl flex-col gap-6">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4">
           <motion.section 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="relative overflow-hidden rounded-[36px] bg-[linear-gradient(135deg,#271744_0%,#5c3d99_48%,#a277ff_100%)] p-6 text-white shadow-[0_28px_90px_-58px_rgba(17,24,39,0.82)] md:p-8"
+            className="relative overflow-hidden rounded-2xl bg-[linear-gradient(135deg,#271744_0%,#5c3d99_48%,#a277ff_100%)] p-6 text-white shadow-[0_28px_90px_-58px_rgba(17,24,39,0.82)] md:p-5"
           >
-            <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
+            <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/10 blur-3xl" />
             <div className="relative max-w-2xl">
               <p className="text-xs font-black uppercase tracking-[0.26em] text-white/60">Control Center</p>
-              <h1 className="mt-3 font-headline text-4xl font-black tracking-[-0.03em] md:text-5xl">
+              <h1 className="mt-3 font-headline text-3xl font-black tracking-[-0.03em] md:text-5xl">
                 Configuration Hub
               </h1>
               <p className="mt-3 text-sm font-medium leading-relaxed text-white/70 md:text-base">
@@ -557,7 +557,7 @@ function SettingsPageContent() {
             </div>
           </motion.section>
 
-          <div className="grid gap-6 xl:grid-cols-[280px_minmax(0,1fr)_320px]">
+          <div className="grid gap-4 xl:grid-cols-[280px_minmax(0,1fr)_320px]">
             {/* Horizontal Scroll on Mobile, Vertical Stack on Desktop */}
             <nav className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-4 xl:flex-col xl:overflow-visible xl:pb-0 scrollbar-hide">
               {tabs.map((tab) => {
@@ -566,12 +566,12 @@ function SettingsPageContent() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className="group relative flex min-w-[240px] shrink-0 snap-start items-center rounded-[24px] p-4 text-left outline-none transition-colors xl:min-w-0"
+                    className="group relative flex min-w-[240px] shrink-0 snap-start items-center rounded-xl p-4 text-left outline-none transition-colors xl:min-w-0"
                   >
                     {isActive && (
                       <motion.div
                         layoutId="activeTabIndicator"
-                        className="absolute inset-0 z-0 rounded-[24px] bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] shadow-[0_22px_48px_-34px_rgba(162, 119, 255,0.85)]"
+                        className="absolute inset-0 z-0 rounded-xl bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] shadow-[0_22px_48px_-34px_rgba(162, 119, 255,0.85)]"
                         transition={{ type: "spring", stiffness: 300, damping: 24 }}
                       />
                     )}
@@ -600,14 +600,14 @@ function SettingsPageContent() {
                   className="h-full"
                 >
                   {activeTab === "users" && (
-                    <section className="rounded-[36px] border border-white/70 bg-white/78 p-6 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] backdrop-blur-xl sm:p-8">
+                    <section className="rounded-2xl border border-white/70 bg-white/78 p-6 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] backdrop-blur-xl sm:p-5">
                       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                           <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#a277ff]/75">Team Management</p>
-                          <h2 className="mt-1 font-headline text-3xl font-black text-on-surface tracking-[-0.04em]">System Access</h2>
+                          <h2 className="mt-1 font-headline text-2xl font-black text-on-surface tracking-[-0.04em]">System Access</h2>
                           <p className="mt-2 text-sm font-semibold text-on-surface-variant">{users.length} users registered in the system</p>
                         </div>
-                        <button onClick={() => setIsAddUserOpen(true)} className="flex items-center justify-center gap-2 rounded-[22px] bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] px-6 py-3.5 text-sm font-black text-white shadow-[0_18px_36px_-28px_rgba(17,24,39,0.75)] hover:-translate-y-0.5 transition-all">
+                        <button onClick={() => setIsAddUserOpen(true)} className="flex items-center justify-center gap-2 rounded-xl bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] px-6 py-3.5 text-sm font-black text-white shadow-[0_18px_36px_-28px_rgba(17,24,39,0.75)] hover:-translate-y-0.5 transition-all">
                           <span className="material-symbols-outlined text-[20px]">add</span>
                           Add User
                         </button>
@@ -620,7 +620,7 @@ function SettingsPageContent() {
                       ) : (
                         <motion.div variants={containerVariants} initial="hidden" animate="show" className="grid gap-3">
                           {users.map((user) => (
-                            <motion.div key={user.id} variants={itemVariants} className="group flex flex-col gap-4 rounded-[28px] border border-white/70 bg-white/78 p-5 shadow-[0_18px_42px_-34px_rgba(39, 23, 68,0.34)] transition-all hover:-translate-y-1 hover:bg-white hover:shadow-[0_24px_54px_-38px_rgba(39, 23, 68,0.42)] sm:flex-row sm:items-center sm:justify-between">
+                            <motion.div key={user.id} variants={itemVariants} className="group flex flex-col gap-4 rounded-xl border border-white/70 bg-white/78 p-5 shadow-[0_18px_42px_-34px_rgba(39, 23, 68,0.34)] transition-all hover:-translate-y-1 hover:bg-white hover:shadow-[0_24px_54px_-38px_rgba(39, 23, 68,0.42)] sm:flex-row sm:items-center sm:justify-between">
                               <div className="flex items-center gap-4 min-w-0">
                                 <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[20px] bg-[#f5edff] font-headline text-xl font-black text-[#a277ff] shadow-inner">
                                   {user.name.slice(0, 2).toUpperCase()}
@@ -649,14 +649,14 @@ function SettingsPageContent() {
                   )}
 
                   {activeTab === "branches" && (
-                    <section className="rounded-[36px] border border-white/70 bg-white/78 p-6 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] backdrop-blur-xl sm:p-8">
+                    <section className="rounded-2xl border border-white/70 bg-white/78 p-6 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] backdrop-blur-xl sm:p-5">
                       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                           <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#12b981]/80">Network</p>
-                          <h2 className="mt-1 font-headline text-3xl font-black text-on-surface tracking-[-0.04em]">Branch Locations</h2>
+                          <h2 className="mt-1 font-headline text-2xl font-black text-on-surface tracking-[-0.04em]">Branch Locations</h2>
                           <p className="mt-2 text-sm font-semibold text-on-surface-variant">{branches.length} branches actively operating</p>
                         </div>
-                        <button onClick={() => setIsAddBranchOpen(true)} className="flex items-center justify-center gap-2 rounded-[22px] bg-[linear-gradient(135deg,#047857_0%,#12b981_100%)] px-6 py-3.5 text-sm font-black text-white shadow-[0_18px_36px_-28px_rgba(4,120,87,0.65)] hover:-translate-y-0.5 transition-all">
+                        <button onClick={() => setIsAddBranchOpen(true)} className="flex items-center justify-center gap-2 rounded-xl bg-[linear-gradient(135deg,#047857_0%,#12b981_100%)] px-6 py-3.5 text-sm font-black text-white shadow-[0_18px_36px_-28px_rgba(4,120,87,0.65)] hover:-translate-y-0.5 transition-all">
                           <span className="material-symbols-outlined text-[20px]">add_location</span>
                           Add Branch
                         </button>
@@ -669,7 +669,7 @@ function SettingsPageContent() {
                       ) : (
                         <motion.div variants={containerVariants} initial="hidden" animate="show" className="grid gap-4 md:grid-cols-2">
                           {branches.map((branch) => (
-                            <motion.div key={branch.id} variants={itemVariants} className="group rounded-[30px] border border-white/70 bg-white/78 p-6 shadow-[0_18px_42px_-34px_rgba(39, 23, 68,0.34)] transition-all hover:-translate-y-1 hover:bg-white hover:shadow-[0_24px_54px_-38px_rgba(39, 23, 68,0.42)]">
+                            <motion.div key={branch.id} variants={itemVariants} className="group rounded-xl border border-white/70 bg-white/78 p-6 shadow-[0_18px_42px_-34px_rgba(39, 23, 68,0.34)] transition-all hover:-translate-y-1 hover:bg-white hover:shadow-[0_24px_54px_-38px_rgba(39, 23, 68,0.42)]">
                               <div className="flex items-start gap-4">
                                 <div className="flex h-14 w-14 items-center justify-center rounded-[20px] bg-[#e6f7ef] text-[#047857] shadow-inner transition-transform group-hover:scale-105">
                                   <span className="material-symbols-outlined icon-fill text-[26px]">storefront</span>
@@ -706,10 +706,10 @@ function SettingsPageContent() {
                   )}
 
                   {activeTab === "store" && (
-                    <section className="rounded-[36px] border border-white/70 bg-white/78 p-6 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] backdrop-blur-xl sm:p-8">
+                    <section className="rounded-2xl border border-white/70 bg-white/78 p-6 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] backdrop-blur-xl sm:p-5">
                       <div className="mb-8">
                         <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#f59e0b]/90">Brand Identity</p>
-                        <h2 className="mt-1 font-headline text-3xl font-black text-on-surface tracking-[-0.04em]">Store Profile</h2>
+                        <h2 className="mt-1 font-headline text-2xl font-black text-on-surface tracking-[-0.04em]">Store Profile</h2>
                         <p className="mt-2 text-sm font-semibold text-on-surface-variant">Atur informasi toko yang akan muncul pada identitas operasional dan struk.</p>
                       </div>
                       <div className="grid gap-5">
@@ -769,7 +769,7 @@ function SettingsPageContent() {
                         <div className="mt-4 flex justify-end">
                           <button
                             disabled={savingSettings || loadingSettings}
-                            className="flex items-center gap-2 rounded-[22px] bg-[#271744] px-8 py-4 text-sm font-black text-white shadow-[0_18px_36px_-28px_rgba(17,24,39,0.75)] hover:-translate-y-0.5 transition-all"
+                            className="flex items-center gap-2 rounded-xl bg-[#271744] px-8 py-4 text-sm font-black text-white shadow-[0_18px_36px_-28px_rgba(17,24,39,0.75)] hover:-translate-y-0.5 transition-all"
                             onClick={() => void handleSaveSettings("store")}
                             type="button"
                           >
@@ -782,10 +782,10 @@ function SettingsPageContent() {
                   )}
 
                   {activeTab === "tax" && (
-                    <section className="rounded-[36px] border border-white/70 bg-white/78 p-6 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] backdrop-blur-xl sm:p-8">
+                    <section className="rounded-2xl border border-white/70 bg-white/78 p-6 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] backdrop-blur-xl sm:p-5">
                       <div className="mb-8">
                         <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#be123c]/80">Compliance</p>
-                        <h2 className="mt-1 font-headline text-3xl font-black text-on-surface tracking-[-0.04em]">Tax & Fees</h2>
+                        <h2 className="mt-1 font-headline text-2xl font-black text-on-surface tracking-[-0.04em]">Tax & Fees</h2>
                         <p className="mt-2 text-sm font-semibold text-on-surface-variant">Pastikan aturan pajak dan pembulatan sesuai kebijakan bisnis kamu.</p>
                       </div>
                       <div className="grid gap-5">
@@ -821,7 +821,7 @@ function SettingsPageContent() {
                         <div className="mt-4 flex justify-end">
                           <button
                             disabled={savingSettings || loadingSettings}
-                            className="flex items-center gap-2 rounded-[22px] bg-[#271744] px-8 py-4 text-sm font-black text-white shadow-[0_18px_36px_-28px_rgba(17,24,39,0.75)] hover:-translate-y-0.5 transition-all"
+                            className="flex items-center gap-2 rounded-xl bg-[#271744] px-8 py-4 text-sm font-black text-white shadow-[0_18px_36px_-28px_rgba(17,24,39,0.75)] hover:-translate-y-0.5 transition-all"
                             onClick={() => void handleSaveSettings("tax")}
                             type="button"
                           >
@@ -837,7 +837,7 @@ function SettingsPageContent() {
             </div>
 
             <aside className="space-y-6">
-              <div className="rounded-[36px] border border-white/70 bg-white/78 p-6 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] backdrop-blur-xl">
+              <div className="rounded-2xl border border-white/70 bg-white/78 p-6 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] backdrop-blur-xl">
                 <div className="mb-5 flex items-center justify-between">
                   <div>
                     <h3 className="font-headline text-lg font-black text-on-surface">Receipt Preview</h3>
@@ -895,14 +895,14 @@ function SettingsPageContent() {
                 </div>
               </div>
 
-              <div className="group relative overflow-hidden rounded-[36px] bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-7 text-white shadow-[0_36px_80px_-40px_rgba(162, 119, 255,0.92)]">
+              <div className="group relative overflow-hidden rounded-2xl bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-7 text-white shadow-[0_36px_80px_-40px_rgba(162, 119, 255,0.92)]">
                 <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10 blur-2xl transition-all duration-500 group-hover:scale-150" />
                 <div className="relative z-10">
                   <div className="flex items-center gap-2">
                     <span className="material-symbols-outlined text-[16px] text-amber-300">workspace_premium</span>
                     <p className="text-[10px] font-black uppercase tracking-[0.26em] text-white/80">Current Plan</p>
                   </div>
-                  <h3 className="mt-4 font-headline text-4xl font-black tracking-tight">Pro Tier</h3>
+                  <h3 className="mt-4 font-headline text-3xl font-black tracking-tight">Pro Tier</h3>
                   <div className="mt-6 space-y-4 text-sm font-semibold text-white/80">
                     <div className="flex items-center justify-between border-b border-white/10 pb-4">
                       <span>Active Branches</span>
@@ -914,7 +914,7 @@ function SettingsPageContent() {
                     </div>
                   </div>
                   <button
-                    className="mt-8 w-full rounded-[24px] border border-white/20 bg-white/10 px-5 py-4 text-sm font-black text-white backdrop-blur-md transition-all hover:bg-white hover:text-[#a277ff]"
+                    className="mt-8 w-full rounded-xl border border-white/20 bg-white/10 px-5 py-4 text-sm font-black text-white backdrop-blur-md transition-all hover:bg-white hover:text-[#a277ff]"
                     onClick={() =>
                       showToast({
                         title: "Upgrade plan siap disambungkan",
@@ -941,7 +941,7 @@ function SettingsPageFallback() {
     <ResponsiveLayout>
       <div className="flex-1 overflow-y-auto px-4 pb-24 pt-4 md:px-8 md:pb-8 md:pt-6 w-full">
         <div className="mx-auto max-w-7xl">
-          <div className="rounded-[36px] border border-outline-variant/30 bg-surface p-10 text-center font-semibold text-on-surface-variant shadow-sm">
+          <div className="rounded-2xl border border-outline-variant/30 bg-surface p-10 text-center font-semibold text-on-surface-variant shadow-sm">
             Menyiapkan konfigurasi...
           </div>
         </div>
@@ -961,7 +961,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 function EmptyPanel({ icon, title, description }: { icon: string; title: string; description: string }) {
   return (
-    <div className="flex min-h-[300px] flex-col items-center justify-center gap-4 rounded-[30px] border border-dashed border-outline-variant/30 bg-white/40 p-8 text-center text-on-surface-variant backdrop-blur-sm">
+    <div className="flex min-h-[300px] flex-col items-center justify-center gap-4 rounded-xl border border-dashed border-outline-variant/30 bg-white/40 p-5 text-center text-on-surface-variant backdrop-blur-sm">
       <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-surface-container-low text-on-surface-variant shadow-inner">
         <span className="material-symbols-outlined text-[36px]">{icon}</span>
       </div>
@@ -972,3 +972,4 @@ function EmptyPanel({ icon, title, description }: { icon: string; title: string;
     </div>
   );
 }
+

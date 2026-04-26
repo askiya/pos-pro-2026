@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useMemo, useState } from "react";
 import type { CSSProperties } from "react";
@@ -206,18 +206,18 @@ export default function PPOBPage() {
   return (
     <ResponsiveLayout>
       <div className="h-full overflow-y-auto px-4 py-5 pb-28 md:px-6 md:pb-8">
-        <div className="mx-auto flex max-w-[1500px] flex-col gap-6">
-          <section className="ppob-entrance ppob-sheen relative overflow-hidden rounded-[36px] border border-white/70 bg-[linear-gradient(135deg,#271744_0%,#25245f_48%,#a277ff_100%)] p-5 text-white shadow-[0_28px_90px_-58px_rgba(17,24,39,0.82)] sm:p-7">
-            <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[#12b981]/22" />
-            <div className="pointer-events-none absolute bottom-0 left-1/3 h-44 w-44 rounded-full bg-[#f59e0b]/14" />
+        <div className="mx-auto flex max-w-[1500px] flex-col gap-4">
+          <section className="ppob-entrance ppob-sheen relative overflow-hidden rounded-2xl border border-white/70 bg-[linear-gradient(135deg,#271744_0%,#25245f_48%,#a277ff_100%)] p-5 text-white shadow-[0_28px_90px_-58px_rgba(17,24,39,0.82)] sm:p-7">
+            <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-[#12b981]/22" />
+            <div className="pointer-events-none absolute bottom-0 left-1/3 h-32 w-32 rounded-full bg-[#f59e0b]/14" />
 
-            <div className="relative grid gap-6 xl:grid-cols-[minmax(0,1.15fr)_minmax(430px,0.85fr)] xl:items-end">
+            <div className="relative grid gap-4 xl:grid-cols-[minmax(0,1.15fr)_minmax(430px,0.85fr)] xl:items-end">
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full border border-white/16 bg-white/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.18em] text-white/75">
                   <span className="h-2 w-2 rounded-full bg-[#12b981] ppob-live-dot" />
                   Digital Payment Counter
                 </div>
-                <h1 className="mt-5 max-w-3xl font-headline text-4xl font-black tracking-[-0.06em] text-white sm:text-5xl xl:text-6xl">
+                <h1 className="mt-5 max-w-3xl font-headline text-3xl font-black tracking-[-0.06em] text-white sm:text-5xl xl:text-6xl">
                   PPOB lebih cepat, rapi, dan nyaman untuk ritme kasir harian.
                 </h1>
                 <p className="mt-4 max-w-2xl text-sm font-medium leading-7 text-white/72 sm:text-base">
@@ -250,7 +250,7 @@ export default function PPOBPage() {
             <PpobKpi label="Estimasi Profit" value={formatCurrency(totalMargin)} icon="payments" tone="amber" meta={`${selectedProduct.margin}% margin produk`} delay={190} />
           </section>
 
-          <section className="flex min-w-0 flex-col gap-6">
+          <section className="flex min-w-0 flex-col gap-4">
             <CategoryStrip activeCategory={activeCategory} onSelect={handleSelectCategory} />
 
             <OperatorStrip
@@ -299,11 +299,11 @@ function CategoryStrip({
   onSelect: (categoryId: CategoryId) => void;
 }) {
   return (
-    <section className="ppob-entrance rounded-[34px] border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "230ms" } as CSSProperties}>
+    <section className="ppob-entrance rounded-2xl border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "230ms" } as CSSProperties}>
       <div className="mb-4 flex items-center justify-between gap-3">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.2em] text-[#a277ff]/75">Service Dock</p>
-          <h2 className="mt-2 font-headline text-2xl font-black tracking-[-0.05em] text-on-surface">Pilih layanan</h2>
+          <h2 className="mt-2 font-headline text-xl font-black tracking-[-0.05em] text-on-surface">Pilih layanan</h2>
         </div>
         <span className="hidden rounded-full bg-[#f5edff] px-4 py-2 text-xs font-black text-[#8657ea] sm:inline-flex">
           {categories.length} kategori
@@ -315,7 +315,7 @@ function CategoryStrip({
           <button
             key={category.id}
             onClick={() => onSelect(category.id)}
-            className={`group min-w-[154px] rounded-[24px] border p-4 text-left ${
+            className={`group min-w-[154px] rounded-xl border p-4 text-left ${
               activeCategory === category.id
                 ? "border-[#a277ff]/30 bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] text-white shadow-[0_20px_52px_-32px_rgba(162, 119, 255,0.82)]"
                 : "border-white/70 bg-white/72 text-on-surface hover:-translate-y-1 hover:bg-white"
@@ -347,11 +347,11 @@ function OperatorStrip({
   onSelect: (operatorId: string) => void;
 }) {
   return (
-    <section className="ppob-entrance rounded-[34px] border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "280ms" } as CSSProperties}>
+    <section className="ppob-entrance rounded-2xl border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "280ms" } as CSSProperties}>
       <div className="mb-4 flex items-center justify-between gap-3">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.2em] text-[#12b981]/80">Operator Lane</p>
-          <h2 className="mt-2 font-headline text-2xl font-black tracking-[-0.05em] text-on-surface">Pilih operator</h2>
+          <h2 className="mt-2 font-headline text-xl font-black tracking-[-0.05em] text-on-surface">Pilih operator</h2>
         </div>
       </div>
 
@@ -364,7 +364,7 @@ function OperatorStrip({
             <button
               key={operator.id}
               onClick={() => onSelect(operator.id)}
-              className={`ppob-row min-w-[142px] rounded-[24px] border p-4 text-left ${
+              className={`ppob-row min-w-[142px] rounded-xl border p-4 text-left ${
                 isActive
                   ? "border-[#a277ff]/35 bg-[#f6f7ff] shadow-[0_20px_54px_-38px_rgba(162, 119, 255,0.55)]"
                   : "border-white/70 bg-white/72 hover:bg-white"
@@ -399,12 +399,12 @@ function ProductCatalog({
   onCheckout: () => void;
 }) {
   return (
-    <section className="ppob-entrance overflow-hidden rounded-[34px] border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "330ms" } as CSSProperties}>
+    <section className="ppob-entrance overflow-hidden rounded-2xl border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "330ms" } as CSSProperties}>
       <div className="border-b border-[#ecdfff] px-5 py-4">
         <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.2em] text-[#a277ff]/75">Product Grid</p>
-            <h2 className="mt-2 font-headline text-2xl font-black tracking-[-0.05em] text-on-surface">Pilih produk PPOB</h2>
+            <h2 className="mt-2 font-headline text-xl font-black tracking-[-0.05em] text-on-surface">Pilih produk PPOB</h2>
             <p className="mt-1 text-sm font-medium text-on-surface-variant">Harga dan margin langsung ikut update di drawer checkout.</p>
           </div>
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
@@ -454,7 +454,7 @@ function ProductCard({
   return (
     <button
       onClick={onSelect}
-      className={`ppob-row group relative overflow-hidden rounded-[28px] border p-4 text-left ${
+      className={`ppob-row group relative overflow-hidden rounded-xl border p-4 text-left ${
         selected
           ? "border-[#a277ff]/45 bg-[#f6f7ff] shadow-[0_24px_60px_-38px_rgba(162, 119, 255,0.62)]"
           : "border-white/70 bg-white/78 shadow-[0_20px_54px_-42px_rgba(39, 23, 68,0.38)] hover:bg-white"
@@ -477,7 +477,7 @@ function ProductCard({
         <div className="mt-5 flex items-end justify-between gap-3">
           <div>
             <p className="text-xs font-semibold text-on-surface-variant">Cost {formatCurrency(product.cost)}</p>
-            <p className="mt-1 font-headline text-2xl font-black tracking-[-0.04em] text-[#a277ff]">{formatCurrency(product.price)}</p>
+            <p className="mt-1 font-headline text-xl font-black tracking-[-0.04em] text-[#a277ff]">{formatCurrency(product.price)}</p>
           </div>
           <span className="rounded-full bg-[#e6f7ef] px-3 py-1.5 text-xs font-black text-[#047857]">
             {product.margin}% margin
@@ -543,7 +543,7 @@ function CheckoutDrawer({
         </div>
 
         <div className="flex-1 overflow-y-auto p-3">
-          <div className="ppob-sheen relative overflow-hidden rounded-[24px] bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-4 text-white shadow-[0_28px_70px_-44px_rgba(162, 119, 255,0.92)]">
+          <div className="ppob-sheen relative overflow-hidden rounded-xl bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-4 text-white shadow-[0_28px_70px_-44px_rgba(162, 119, 255,0.92)]">
             <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-[#12b981]/20" />
             <div className="relative">
               <p className="text-xs font-black uppercase tracking-[0.22em] text-white/55">New Transaction</p>
@@ -581,7 +581,7 @@ function CheckoutDrawer({
               </div>
             </label>
 
-            <div className="rounded-[22px] border border-[#ecdfff] bg-white/72 p-3.5">
+            <div className="rounded-xl border border-[#ecdfff] bg-white/72 p-3.5">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="text-xs font-black uppercase tracking-[0.18em] text-on-surface-variant/70">Selected Product</p>
@@ -598,7 +598,7 @@ function CheckoutDrawer({
               </div>
             </div>
 
-            <div className="rounded-[22px] border border-[#ecdfff] bg-white/72 p-3.5">
+            <div className="rounded-xl border border-[#ecdfff] bg-white/72 p-3.5">
               <p className="text-xs font-black uppercase tracking-[0.18em] text-on-surface-variant/70">Profit Snapshot</p>
               <div className="mt-3 grid grid-cols-2 gap-2.5">
                 <MiniSummary label="Margin" value={`${product.margin}%`} />
@@ -640,7 +640,7 @@ function CheckoutDock({
         hidden ? "pointer-events-none translate-y-4 opacity-0" : "translate-y-0 opacity-100"
       }`}
     >
-      <div className="rounded-[24px] border border-white/70 bg-white/92 p-2.5 shadow-[0_26px_80px_-42px_rgba(39, 23, 68,0.55)] backdrop-blur-xl">
+      <div className="rounded-xl border border-white/70 bg-white/92 p-2.5 shadow-[0_26px_80px_-42px_rgba(39, 23, 68,0.55)] backdrop-blur-xl">
         <div className="flex items-center gap-2.5">
           <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-[18px] font-headline text-[11px] font-black ${toneClass[operator.tone].icon}`}>
             {operator.icon}
@@ -664,12 +664,12 @@ function CheckoutDock({
 
 function RecentActivity({ activities }: { activities: Activity[] }) {
   return (
-    <section className="ppob-entrance overflow-hidden rounded-[34px] border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "430ms" } as CSSProperties}>
+    <section className="ppob-entrance overflow-hidden rounded-2xl border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "430ms" } as CSSProperties}>
       <div className="border-b border-[#ecdfff] px-5 py-4">
         <div className="flex items-center justify-between gap-3">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.2em] text-[#a277ff]/75">Recent Activity</p>
-            <h2 className="mt-2 font-headline text-2xl font-black tracking-[-0.05em] text-on-surface">Aktivitas terbaru</h2>
+            <h2 className="mt-2 font-headline text-xl font-black tracking-[-0.05em] text-on-surface">Aktivitas terbaru</h2>
           </div>
           <button className="rounded-full bg-[#f5edff] px-4 py-2 text-xs font-black text-[#8657ea] hover:bg-[#e6d9ff]" type="button">
             View All
@@ -696,7 +696,7 @@ function ActivityRow({ activity, delay }: { activity: Activity; delay: number })
 
   return (
     <div
-      className="ppob-row rounded-[24px] border border-white/70 bg-white/78 p-4 shadow-[0_18px_42px_-34px_rgba(39, 23, 68,0.38)]"
+      className="ppob-row rounded-xl border border-white/70 bg-white/78 p-4 shadow-[0_18px_42px_-34px_rgba(39, 23, 68,0.38)]"
       style={{ "--delay": `${delay}ms` } as CSSProperties}
     >
       <div className="flex items-center justify-between gap-3">
@@ -739,7 +739,7 @@ function PpobKpi({
 
   return (
     <div
-      className="ppob-entrance group relative overflow-hidden rounded-[30px] border border-white/70 bg-white/78 p-5 shadow-[0_24px_70px_-48px_rgba(39, 23, 68,0.38)] hover:-translate-y-1 hover:bg-white"
+      className="ppob-entrance group relative overflow-hidden rounded-xl border border-white/70 bg-white/78 p-5 shadow-[0_24px_70px_-48px_rgba(39, 23, 68,0.38)] hover:-translate-y-1 hover:bg-white"
       style={{ "--delay": `${delay}ms` } as CSSProperties}
     >
       <div className={`pointer-events-none absolute -right-14 -top-14 h-36 w-36 rounded-full bg-gradient-to-br ${style.glow}`} />
@@ -747,7 +747,7 @@ function PpobKpi({
       <div className="relative flex items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="text-xs font-black uppercase tracking-[0.18em] text-on-surface-variant/70">{label}</p>
-          <p className="mt-4 truncate font-headline text-3xl font-black tracking-[-0.05em] text-on-surface sm:text-4xl">{value}</p>
+          <p className="mt-4 truncate font-headline text-xl font-black tracking-[-0.05em] text-on-surface sm:text-4xl">{value}</p>
         </div>
         <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${style.icon}`}>
           <span className="material-symbols-outlined icon-fill text-[23px]">{icon}</span>
@@ -763,7 +763,7 @@ function PpobKpi({
 
 function HeroMiniStat({ label, value, icon }: { label: string; value: string; icon: string }) {
   return (
-    <div className="rounded-[24px] border border-white/16 bg-white/10 p-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">
+    <div className="rounded-xl border border-white/16 bg-white/10 p-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">
       <div className="flex items-center justify-between gap-3">
         <span className="text-[11px] font-black uppercase tracking-[0.2em] text-white/55">{label}</span>
         <span className="material-symbols-outlined text-[18px] text-[#a7f3d0]">{icon}</span>
@@ -790,3 +790,4 @@ function MiniSummary({ label, value }: { label: string; value: string }) {
     </div>
   );
 }
+

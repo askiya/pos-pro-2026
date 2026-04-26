@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { CSSProperties } from "react";
@@ -385,18 +385,18 @@ export default function PurchaseOrdersPage() {
   return (
     <ResponsiveLayout>
       <div className="h-full overflow-y-auto px-4 py-5 pb-28 md:px-6 md:pb-8">
-        <div className="mx-auto flex max-w-[1500px] flex-col gap-6">
-          <section className="po-entrance po-sheen relative overflow-hidden rounded-[36px] border border-white/70 bg-[linear-gradient(135deg,#271744_0%,#25245f_48%,#a277ff_100%)] p-5 text-white shadow-[0_28px_90px_-58px_rgba(17,24,39,0.82)] sm:p-7">
-            <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[#f59e0b]/22" />
-            <div className="pointer-events-none absolute bottom-0 left-1/3 h-44 w-44 rounded-full bg-[#12b981]/14" />
+        <div className="mx-auto flex max-w-[1500px] flex-col gap-4">
+          <section className="po-entrance po-sheen relative overflow-hidden rounded-2xl border border-white/70 bg-[linear-gradient(135deg,#271744_0%,#25245f_48%,#a277ff_100%)] p-5 text-white shadow-[0_28px_90px_-58px_rgba(17,24,39,0.82)] sm:p-7">
+            <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-[#f59e0b]/22" />
+            <div className="pointer-events-none absolute bottom-0 left-1/3 h-32 w-32 rounded-full bg-[#12b981]/14" />
 
-            <div className="relative grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(420px,0.8fr)] xl:items-end">
+            <div className="relative grid gap-4 xl:grid-cols-[minmax(0,1.2fr)_minmax(420px,0.8fr)] xl:items-end">
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full border border-white/16 bg-white/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.18em] text-white/75">
                   <span className="h-2 w-2 rounded-full bg-[#f59e0b] po-live-dot" />
                   Procurement Command Center
                 </div>
-                <h1 className="mt-5 max-w-3xl font-headline text-4xl font-black tracking-[-0.06em] text-white sm:text-5xl xl:text-6xl">
+                <h1 className="mt-5 max-w-3xl font-headline text-3xl font-black tracking-[-0.06em] text-white sm:text-5xl xl:text-6xl">
                   Purchase order lebih rapi, cepat dibuat, dan mudah dipantau.
                 </h1>
                 <p className="mt-4 max-w-2xl text-sm font-medium leading-7 text-white/72 sm:text-base">
@@ -455,14 +455,14 @@ export default function PurchaseOrdersPage() {
                     setSelectedPO(null);
                     if (poItems.length === 0) addPOItem();
                   }}
-                  className="po-entrance group overflow-hidden rounded-[30px] bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-5 text-left text-white shadow-[0_24px_64px_-44px_rgba(162, 119, 255,0.92)] hover:-translate-y-1"
+                  className="po-entrance group overflow-hidden rounded-xl bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-5 text-left text-white shadow-[0_24px_64px_-44px_rgba(162, 119, 255,0.92)] hover:-translate-y-1"
                   style={{ "--delay": "190ms" } as CSSProperties}
                   type="button"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <p className="text-xs font-black uppercase tracking-[0.18em] text-white/55">Quick Action</p>
-                      <p className="mt-4 font-headline text-3xl font-black tracking-[-0.05em]">New PO</p>
+                      <p className="mt-4 font-headline text-xl font-black tracking-[-0.05em]">New PO</p>
                       <p className="mt-2 text-sm font-medium text-white/68">Buat restock order</p>
                     </div>
                     <span className="material-symbols-outlined rounded-2xl bg-white/12 p-3 text-[24px] transition group-hover:rotate-90">add</span>
@@ -497,13 +497,13 @@ export default function PurchaseOrdersPage() {
                 />
               </section>
 
-              <section className="grid gap-6 xl:grid-cols-[minmax(0,1.4fr)_minmax(360px,0.8fr)]">
-                <div className="po-entrance overflow-hidden rounded-[34px] border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "290ms" } as CSSProperties}>
+              <section className="grid gap-4 xl:grid-cols-[minmax(0,1.4fr)_minmax(360px,0.8fr)]">
+                <div className="po-entrance overflow-hidden rounded-2xl border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "290ms" } as CSSProperties}>
                   <div className="border-b border-[#ecdfff] px-5 py-4">
                     <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
                       <div>
                         <p className="text-xs font-black uppercase tracking-[0.2em] text-[#a277ff]/75">PO Ledger</p>
-                        <h2 className="mt-2 font-headline text-2xl font-black tracking-[-0.05em] text-on-surface">Daftar Purchase Order</h2>
+                        <h2 className="mt-2 font-headline text-xl font-black tracking-[-0.05em] text-on-surface">Daftar Purchase Order</h2>
                       </div>
                       <div className="rounded-full bg-[#f5edff] px-4 py-2 text-sm font-black text-[#8657ea]">
                         {purchaseOrders.length} order total
@@ -514,7 +514,7 @@ export default function PurchaseOrdersPage() {
                   <div className="grid gap-3 p-4">
                     {loading ? (
                       Array.from({ length: 4 }).map((_, index) => (
-                        <div key={index} className="h-28 animate-pulse rounded-[28px] bg-white/80" />
+                        <div key={index} className="h-28 animate-pulse rounded-xl bg-white/80" />
                       ))
                     ) : loadError ? (
                       <ErrorState
@@ -606,13 +606,13 @@ function CreatePurchaseOrderView({
   onSubmit: () => void;
 }) {
   return (
-    <section className="grid gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(360px,0.75fr)]">
-      <div className="flex flex-col gap-6">
-        <section className="po-entrance rounded-[34px] border border-white/70 bg-white/76 p-5 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]">
+    <section className="grid gap-4 xl:grid-cols-[minmax(0,1.35fr)_minmax(360px,0.75fr)]">
+      <div className="flex flex-col gap-4">
+        <section className="po-entrance rounded-2xl border border-white/70 bg-white/76 p-5 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]">
           <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.2em] text-[#a277ff]/75">Create Purchase Order</p>
-              <h2 className="mt-2 font-headline text-3xl font-black tracking-[-0.05em] text-on-surface">Supplier & PO details</h2>
+              <h2 className="mt-2 font-headline text-xl font-black tracking-[-0.05em] text-on-surface">Supplier & PO details</h2>
               <p className="mt-2 text-sm font-medium text-on-surface-variant">Isi supplier lalu masukkan item yang ingin direstock.</p>
             </div>
             <div className="flex gap-2">
@@ -687,11 +687,11 @@ function CreatePurchaseOrderView({
           </div>
         </section>
 
-        <section className="po-entrance overflow-hidden rounded-[34px] border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "80ms" } as CSSProperties}>
+        <section className="po-entrance overflow-hidden rounded-2xl border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "80ms" } as CSSProperties}>
           <div className="flex flex-col justify-between gap-3 border-b border-[#ecdfff] px-5 py-4 md:flex-row md:items-center">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.2em] text-[#f59e0b]/80">Order Items</p>
-              <h2 className="mt-2 font-headline text-2xl font-black tracking-[-0.05em] text-on-surface">Produk Restock</h2>
+              <h2 className="mt-2 font-headline text-xl font-black tracking-[-0.05em] text-on-surface">Produk Restock</h2>
             </div>
             <button
               onClick={onAddItem}
@@ -705,8 +705,8 @@ function CreatePurchaseOrderView({
 
           <div className="grid gap-3 p-4">
             {poItems.length === 0 ? (
-              <div className="rounded-[30px] border border-dashed border-[#d4c8e3] bg-white/70 p-8 text-center">
-                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-[30px] bg-[#fff7df] text-[#b45309]">
+              <div className="rounded-xl border border-dashed border-[#d4c8e3] bg-white/70 p-5 text-center">
+                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-xl bg-[#fff7df] text-[#b45309]">
                   <span className="material-symbols-outlined icon-fill text-4xl">add_shopping_cart</span>
                 </div>
                 <p className="mt-5 font-headline text-2xl font-black text-on-surface">Belum ada item PO</p>
@@ -731,17 +731,17 @@ function CreatePurchaseOrderView({
         </section>
       </div>
 
-      <aside className="po-entrance rounded-[34px] border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] xl:sticky xl:top-4" style={{ "--delay": "120ms" } as CSSProperties}>
-        <div className="overflow-hidden rounded-[30px] bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-5 text-white shadow-[0_28px_70px_-44px_rgba(162, 119, 255,0.92)]">
+      <aside className="po-entrance rounded-2xl border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] xl:sticky xl:top-4" style={{ "--delay": "120ms" } as CSSProperties}>
+        <div className="overflow-hidden rounded-xl bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-5 text-white shadow-[0_28px_70px_-44px_rgba(162, 119, 255,0.92)]">
           <p className="text-xs font-black uppercase tracking-[0.22em] text-white/55">Order Summary</p>
-          <h3 className="mt-3 font-headline text-3xl font-black tracking-[-0.05em]">PO Preview</h3>
+          <h3 className="mt-3 font-headline text-xl font-black tracking-[-0.05em]">PO Preview</h3>
 
           <div className="mt-6 grid grid-cols-2 gap-3">
             <SummaryBox label="Items" value={String(poItems.length)} />
             <SummaryBox label="Total Qty" value={String(totalQuantity)} />
           </div>
 
-          <div className="mt-5 rounded-[26px] border border-white/14 bg-white/10 p-4">
+          <div className="mt-5 rounded-xl border border-white/14 bg-white/10 p-4">
             <p className="text-[11px] font-black uppercase tracking-[0.2em] text-white/52">Supplier</p>
             <p className="mt-2 truncate font-headline text-xl font-black">{supplier || "Belum diisi"}</p>
             <p className="mt-2 text-xs font-semibold text-white/65">
@@ -749,20 +749,20 @@ function CreatePurchaseOrderView({
             </p>
           </div>
 
-          <div className="mt-4 rounded-[26px] border border-white/14 bg-white/10 p-4">
+          <div className="mt-4 rounded-xl border border-white/14 bg-white/10 p-4">
             <p className="text-[11px] font-black uppercase tracking-[0.2em] text-white/52">Notes</p>
             <p className="mt-2 text-sm font-semibold leading-6 text-white/78">{poNotes || "Belum ada catatan PO"}</p>
           </div>
 
           <div className="mt-5 border-t border-white/12 pt-5">
             <p className="text-xs font-black uppercase tracking-[0.18em] text-white/52">Total Purchase</p>
-            <p className="mt-2 font-headline text-4xl font-black tracking-[-0.06em] text-[#a7f3d0]">{formatCurrency(totalAmount)}</p>
+            <p className="mt-2 font-headline text-3xl font-black tracking-[-0.06em] text-[#a7f3d0]">{formatCurrency(totalAmount)}</p>
           </div>
 
           <button
             onClick={onSubmit}
             disabled={submitting}
-            className="mt-6 flex w-full items-center justify-between rounded-[26px] bg-white px-5 py-4 text-left text-[#a277ff] shadow-[0_24px_52px_-32px_rgba(255,255,255,0.78)] hover:-translate-y-0.5 disabled:opacity-55"
+            className="mt-6 flex w-full items-center justify-between rounded-xl bg-white px-5 py-4 text-left text-[#a277ff] shadow-[0_24px_52px_-32px_rgba(255,255,255,0.78)] hover:-translate-y-0.5 disabled:opacity-55"
             type="button"
           >
             <span className="font-headline text-xl font-black">{submitting ? "Submitting..." : "Submit Order"}</span>
@@ -788,7 +788,7 @@ function POItemCard({
   onRemove: (index: number) => void;
 }) {
   return (
-    <div className="po-row rounded-[28px] border border-white/70 bg-white/78 p-4 shadow-[0_20px_54px_-42px_rgba(39, 23, 68,0.38)]" style={{ "--delay": `${index * 30}ms` } as CSSProperties}>
+    <div className="po-row rounded-xl border border-white/70 bg-white/78 p-4 shadow-[0_20px_54px_-42px_rgba(39, 23, 68,0.38)]" style={{ "--delay": `${index * 30}ms` } as CSSProperties}>
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1.5fr)_120px_160px_160px_48px] xl:items-end">
         <label className="block">
           <span className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-on-surface-variant">Product</span>
@@ -822,7 +822,7 @@ function POItemCard({
 
         <div>
           <span className="mb-2 block text-xs font-black uppercase tracking-[0.16em] text-on-surface-variant">Subtotal</span>
-          <div className="rounded-[22px] bg-[#f5edff] px-4 py-3 text-right font-headline text-lg font-black text-[#8657ea]">
+          <div className="rounded-xl bg-[#f5edff] px-4 py-3 text-right font-headline text-lg font-black text-[#8657ea]">
             {formatCurrency(item.quantity * item.unitCost)}
           </div>
         </div>
@@ -880,7 +880,7 @@ function PurchaseOrderCard({
   return (
     <button
       onClick={onSelect}
-      className={`po-row w-full rounded-[28px] border p-4 text-left shadow-[0_20px_54px_-42px_rgba(39, 23, 68,0.38)] ${
+      className={`po-row w-full rounded-xl border p-4 text-left shadow-[0_20px_54px_-42px_rgba(39, 23, 68,0.38)] ${
         selected ? "border-[#a277ff]/45 bg-[#f6f7ff]" : "border-white/70 bg-white/78 hover:bg-white"
       }`}
       style={{ "--delay": `${delay}ms` } as CSSProperties}
@@ -888,7 +888,7 @@ function PurchaseOrderCard({
     >
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div className="flex min-w-0 gap-4">
-          <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-[22px] ${toneClass[status.tone].icon}`}>
+          <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl ${toneClass[status.tone].icon}`}>
             <span className="material-symbols-outlined icon-fill text-[24px]">{status.icon}</span>
           </div>
           <div className="min-w-0">
@@ -904,7 +904,7 @@ function PurchaseOrderCard({
         </div>
 
         <div className="flex items-center justify-between gap-4 md:block md:text-right">
-          <p className="font-headline text-2xl font-black tracking-[-0.05em] text-on-surface">
+          <p className="font-headline text-xl font-black tracking-[-0.05em] text-on-surface">
             {formatCurrency(Number(purchaseOrder.totalAmount))}
           </p>
           <span className="material-symbols-outlined mt-1 text-[#a277ff]">chevron_right</span>
@@ -925,9 +925,9 @@ function PurchaseOrderDetail({
 }) {
   if (!selectedPO) {
     return (
-      <aside className="po-entrance rounded-[34px] border border-white/70 bg-white/76 p-5 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] xl:sticky xl:top-4" style={{ "--delay": "340ms" } as CSSProperties}>
-        <div className="flex min-h-[360px] flex-col items-center justify-center rounded-[30px] border border-dashed border-[#d4c8e3] bg-white/60 p-8 text-center">
-          <div className="flex h-20 w-20 items-center justify-center rounded-[30px] bg-[#f5edff] text-[#a277ff]">
+      <aside className="po-entrance rounded-2xl border border-white/70 bg-white/76 p-5 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] xl:sticky xl:top-4" style={{ "--delay": "340ms" } as CSSProperties}>
+        <div className="flex min-h-[360px] flex-col items-center justify-center rounded-xl border border-dashed border-[#d4c8e3] bg-white/60 p-5 text-center">
+          <div className="flex h-20 w-20 items-center justify-center rounded-xl bg-[#f5edff] text-[#a277ff]">
             <span className="material-symbols-outlined icon-fill text-4xl">receipt_long</span>
           </div>
           <p className="mt-5 font-headline text-2xl font-black text-on-surface">Pilih purchase order</p>
@@ -938,12 +938,12 @@ function PurchaseOrderDetail({
   }
 
   return (
-    <aside className="po-entrance rounded-[34px] border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] xl:sticky xl:top-4" style={{ "--delay": "340ms" } as CSSProperties}>
-      <div className="overflow-hidden rounded-[30px] bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-5 text-white">
+    <aside className="po-entrance rounded-2xl border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] xl:sticky xl:top-4" style={{ "--delay": "340ms" } as CSSProperties}>
+      <div className="overflow-hidden rounded-xl bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-5 text-white">
         <div className="flex items-start justify-between gap-3">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.22em] text-white/55">PO Detail</p>
-            <h3 className="mt-3 font-headline text-3xl font-black tracking-[-0.05em]">{selectedPO.poNumber}</h3>
+            <h3 className="mt-3 font-headline text-xl font-black tracking-[-0.05em]">{selectedPO.poNumber}</h3>
             <p className="mt-2 text-sm font-medium text-white/68">{selectedPO.supplier}</p>
           </div>
           <StatusBadge status={selectedPO.status} inverted />
@@ -964,7 +964,7 @@ function PurchaseOrderDetail({
         <button
           onClick={onReceive}
           disabled={receiving}
-          className="mt-4 flex w-full items-center justify-between rounded-[26px] bg-[#047857] px-5 py-4 text-left text-white shadow-[0_22px_52px_-32px_rgba(4,120,87,0.62)] disabled:opacity-60"
+          className="mt-4 flex w-full items-center justify-between rounded-xl bg-[#047857] px-5 py-4 text-left text-white shadow-[0_22px_52px_-32px_rgba(4,120,87,0.62)] disabled:opacity-60"
           type="button"
         >
           <span>
@@ -976,7 +976,7 @@ function PurchaseOrderDetail({
           <span className="material-symbols-outlined text-[24px]">inventory_2</span>
         </button>
       ) : (
-        <div className="mt-4 rounded-[26px] border border-[#bbf7d0] bg-[#e6f7ef] px-4 py-3 text-sm font-semibold text-[#047857]">
+        <div className="mt-4 rounded-xl border border-[#bbf7d0] bg-[#e6f7ef] px-4 py-3 text-sm font-semibold text-[#047857]">
           {selectedPO.receiver?.name
             ? `PO ini sudah diterima oleh ${selectedPO.receiver.name}.`
             : "PO ini sudah diterima dan masuk ke stok cabang."}
@@ -984,17 +984,17 @@ function PurchaseOrderDetail({
       )}
 
       {selectedPO.notes ? (
-        <div className="mt-4 rounded-[30px] border border-[#ecdfff] bg-white/70 p-4">
+        <div className="mt-4 rounded-xl border border-[#ecdfff] bg-white/70 p-4">
           <p className="text-xs font-black uppercase tracking-[0.2em] text-on-surface-variant/70">Catatan PO</p>
           <p className="mt-3 text-sm font-medium leading-6 text-on-surface">{selectedPO.notes}</p>
         </div>
       ) : null}
 
-      <div className="mt-4 rounded-[30px] border border-[#ecdfff] bg-white/70 p-4">
+      <div className="mt-4 rounded-xl border border-[#ecdfff] bg-white/70 p-4">
         <p className="text-xs font-black uppercase tracking-[0.2em] text-on-surface-variant/70">Item Breakdown</p>
         <div className="mt-4 space-y-3">
           {selectedPO.items.map((item) => (
-            <div key={item.id} className="rounded-[24px] bg-white/84 p-4 shadow-[0_18px_42px_-34px_rgba(39, 23, 68,0.32)]">
+            <div key={item.id} className="rounded-xl bg-white/84 p-4 shadow-[0_18px_42px_-34px_rgba(39, 23, 68,0.32)]">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <p className="truncate font-headline text-base font-black text-on-surface">{item.product.name}</p>
@@ -1012,7 +1012,7 @@ function PurchaseOrderDetail({
 
         <div className="mt-5 flex items-center justify-between border-t border-[#ecdfff] pt-5">
           <span className="font-headline text-lg font-black text-on-surface">Total</span>
-          <span className="font-headline text-2xl font-black tracking-[-0.05em] text-[#a277ff]">
+          <span className="font-headline text-xl font-black tracking-[-0.05em] text-[#a277ff]">
             {formatCurrency(Number(selectedPO.totalAmount))}
           </span>
         </div>
@@ -1040,7 +1040,7 @@ function ProcurementKpi({
 
   return (
     <div
-      className="po-entrance group relative overflow-hidden rounded-[30px] border border-white/70 bg-white/78 p-5 shadow-[0_24px_70px_-48px_rgba(39, 23, 68,0.38)] hover:-translate-y-1 hover:bg-white"
+      className="po-entrance group relative overflow-hidden rounded-xl border border-white/70 bg-white/78 p-5 shadow-[0_24px_70px_-48px_rgba(39, 23, 68,0.38)] hover:-translate-y-1 hover:bg-white"
       style={{ "--delay": `${delay}ms` } as CSSProperties}
     >
       <div className={`pointer-events-none absolute -right-14 -top-14 h-36 w-36 rounded-full bg-gradient-to-br ${style.glow}`} />
@@ -1048,7 +1048,7 @@ function ProcurementKpi({
       <div className="relative flex items-start justify-between gap-3">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.18em] text-on-surface-variant/70">{label}</p>
-          <p className="mt-4 font-headline text-3xl font-black tracking-[-0.05em] text-on-surface sm:text-4xl">{value}</p>
+          <p className="mt-4 font-headline text-xl font-black tracking-[-0.05em] text-on-surface sm:text-4xl">{value}</p>
         </div>
         <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${style.icon}`}>
           <span className="material-symbols-outlined icon-fill text-[23px]">{icon}</span>
@@ -1080,7 +1080,7 @@ function ActionButton({
   return (
     <button
       onClick={onClick}
-      className="group relative overflow-hidden rounded-[28px] border border-white/70 bg-white/76 p-5 text-left shadow-[0_20px_54px_-42px_rgba(39, 23, 68,0.38)] hover:-translate-y-1 hover:bg-white"
+      className="group relative overflow-hidden rounded-xl border border-white/70 bg-white/76 p-5 text-left shadow-[0_20px_54px_-42px_rgba(39, 23, 68,0.38)] hover:-translate-y-1 hover:bg-white"
       type="button"
     >
       <div className={`absolute inset-x-5 top-0 h-1 rounded-full bg-gradient-to-r ${style.line}`} />
@@ -1099,7 +1099,7 @@ function ActionButton({
 
 function HeroMiniStat({ label, value, icon }: { label: string; value: string; icon: string }) {
   return (
-    <div className="rounded-[24px] border border-white/16 bg-white/10 p-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">
+    <div className="rounded-xl border border-white/16 bg-white/10 p-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">
       <div className="flex items-center justify-between gap-3">
         <span className="text-[11px] font-black uppercase tracking-[0.2em] text-white/55">{label}</span>
         <span className="material-symbols-outlined text-[18px] text-[#fde68a]">{icon}</span>
@@ -1111,7 +1111,7 @@ function HeroMiniStat({ label, value, icon }: { label: string; value: string; ic
 
 function SummaryBox({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-[24px] border border-white/14 bg-white/10 p-4">
+    <div className="rounded-xl border border-white/14 bg-white/10 p-4">
       <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/52">{label}</p>
       <p className="mt-2 truncate font-headline text-xl font-black tracking-[-0.04em] text-white">{value}</p>
     </div>
@@ -1120,7 +1120,7 @@ function SummaryBox({ label, value }: { label: string; value: string }) {
 
 function DetailBox({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-[24px] border border-[#ecdfff] bg-white/70 p-4">
+    <div className="rounded-xl border border-[#ecdfff] bg-white/70 p-4">
       <p className="text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/60">{label}</p>
       <p className="mt-2 font-headline text-lg font-black text-on-surface">{value}</p>
     </div>
@@ -1149,11 +1149,11 @@ function StatusBadge({ status, inverted = false }: { status: string; inverted?: 
 
 function EmptyPOState({ onCreate }: { onCreate: () => void }) {
   return (
-    <div className="rounded-[30px] border border-dashed border-[#d4c8e3] bg-white/70 p-8 text-center">
-      <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-[30px] bg-[#f5edff] text-[#a277ff]">
+    <div className="rounded-xl border border-dashed border-[#d4c8e3] bg-white/70 p-5 text-center">
+      <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-xl bg-[#f5edff] text-[#a277ff]">
         <span className="material-symbols-outlined icon-fill text-4xl">local_shipping</span>
       </div>
-      <p className="mt-5 font-headline text-3xl font-black tracking-[-0.05em] text-on-surface">Belum ada purchase order</p>
+      <p className="mt-5 font-headline text-xl font-black tracking-[-0.05em] text-on-surface">Belum ada purchase order</p>
       <p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-on-surface-variant">
         Buat PO pertama untuk memulai alur restock supplier.
       </p>
@@ -1166,8 +1166,8 @@ function EmptyPOState({ onCreate }: { onCreate: () => void }) {
 
 function ErrorState({ message, onRetry }: { message: string; onRetry: () => void }) {
   return (
-    <div className="rounded-[30px] border border-dashed border-[#fecdd3] bg-[#fff7f7] p-8 text-center">
-      <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-[30px] bg-[#fff1f2] text-[#be123c]">
+    <div className="rounded-xl border border-dashed border-[#fecdd3] bg-[#fff7f7] p-5 text-center">
+      <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-xl bg-[#fff1f2] text-[#be123c]">
         <span className="material-symbols-outlined icon-fill text-4xl">cloud_off</span>
       </div>
       <p className="mt-5 font-headline text-2xl font-black text-on-surface">Data PO belum termuat</p>
@@ -1178,3 +1178,4 @@ function ErrorState({ message, onRetry }: { message: string; onRetry: () => void
     </div>
   );
 }
+

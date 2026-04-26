@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { CSSProperties } from "react";
@@ -190,18 +190,18 @@ export default function ReportsPage() {
   return (
     <ResponsiveLayout>
       <div className="h-full overflow-y-auto px-4 py-5 pb-28 md:px-6 md:pb-8">
-        <div className="mx-auto flex max-w-[1500px] flex-col gap-6">
-          <section className="report-entrance report-sheen relative overflow-hidden rounded-[36px] border border-white/70 bg-[linear-gradient(135deg,#271744_0%,#25245f_48%,#a277ff_100%)] p-5 text-white shadow-[0_28px_90px_-58px_rgba(17,24,39,0.82)] sm:p-7">
-            <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[#f59e0b]/22" />
-            <div className="pointer-events-none absolute bottom-0 left-1/3 h-44 w-44 rounded-full bg-[#12b981]/14" />
+        <div className="mx-auto flex max-w-[1500px] flex-col gap-4">
+          <section className="report-entrance report-sheen relative overflow-hidden rounded-2xl border border-white/70 bg-[linear-gradient(135deg,#271744_0%,#25245f_48%,#a277ff_100%)] p-5 text-white shadow-[0_28px_90px_-58px_rgba(17,24,39,0.82)] sm:p-7">
+            <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-[#f59e0b]/22" />
+            <div className="pointer-events-none absolute bottom-0 left-1/3 h-32 w-32 rounded-full bg-[#12b981]/14" />
 
-            <div className="relative grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(420px,0.8fr)] xl:items-end">
+            <div className="relative grid gap-4 xl:grid-cols-[minmax(0,1.2fr)_minmax(420px,0.8fr)] xl:items-end">
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full border border-white/16 bg-white/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.18em] text-white/75">
                   <span className="h-2 w-2 rounded-full bg-[#f59e0b] report-live-dot" />
                   Analytics Command Center
                 </div>
-                <h1 className="mt-5 max-w-3xl font-headline text-4xl font-black tracking-[-0.06em] text-white sm:text-5xl xl:text-6xl">
+                <h1 className="mt-5 max-w-3xl font-headline text-3xl font-black tracking-[-0.06em] text-white sm:text-5xl xl:text-6xl">
                   Laporan bisnis yang lebih tajam, cepat dibaca, dan siap dipakai ambil keputusan.
                 </h1>
                 <p className="mt-4 max-w-2xl text-sm font-medium leading-7 text-white/72 sm:text-base">
@@ -295,12 +295,12 @@ export default function ReportsPage() {
             />
           </section>
 
-          <section className="grid gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(360px,0.75fr)]">
+          <section className="grid gap-4 xl:grid-cols-[minmax(0,1.35fr)_minmax(360px,0.75fr)]">
             <RevenueChart data={chartData} loading={loading} />
             <LowStockPanel items={lowStock} loading={loading} />
           </section>
 
-          <section className="grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(360px,0.8fr)]">
+          <section className="grid gap-4 xl:grid-cols-[minmax(0,1.2fr)_minmax(360px,0.8fr)]">
             <TopProductsPanel products={topProducts} loading={loading} />
             <ExecutiveSummary
               bestProduct={reportStats.bestProduct}
@@ -337,7 +337,7 @@ function ReportKpi({
 
   return (
     <div
-      className="report-entrance group relative overflow-hidden rounded-[30px] border border-white/70 bg-white/78 p-5 shadow-[0_24px_70px_-48px_rgba(39, 23, 68,0.38)] hover:-translate-y-1 hover:bg-white"
+      className="report-entrance group relative overflow-hidden rounded-xl border border-white/70 bg-white/78 p-5 shadow-[0_24px_70px_-48px_rgba(39, 23, 68,0.38)] hover:-translate-y-1 hover:bg-white"
       style={{ "--delay": `${delay}ms` } as CSSProperties}
     >
       <div className={`pointer-events-none absolute -right-14 -top-14 h-36 w-36 rounded-full bg-gradient-to-br ${style.glow}`} />
@@ -348,7 +348,7 @@ function ReportKpi({
           {loading ? (
             <div className="mt-4 h-10 w-36 animate-pulse rounded-2xl bg-[#eef1fb]" />
           ) : (
-            <p className="mt-4 truncate font-headline text-3xl font-black tracking-[-0.05em] text-on-surface sm:text-4xl">{value}</p>
+            <p className="mt-4 truncate font-headline text-xl font-black tracking-[-0.05em] text-on-surface sm:text-4xl">{value}</p>
           )}
         </div>
         <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${style.icon}`}>
@@ -386,14 +386,14 @@ function InsightCard({
 
   return (
     <div
-      className="report-entrance group relative overflow-hidden rounded-[28px] border border-white/70 bg-white/76 p-5 shadow-[0_20px_54px_-42px_rgba(39, 23, 68,0.38)] hover:-translate-y-1 hover:bg-white"
+      className="report-entrance group relative overflow-hidden rounded-xl border border-white/70 bg-white/76 p-5 shadow-[0_20px_54px_-42px_rgba(39, 23, 68,0.38)] hover:-translate-y-1 hover:bg-white"
       style={{ "--delay": `${delay}ms` } as CSSProperties}
     >
       <div className={`absolute inset-x-5 top-0 h-1 rounded-full bg-gradient-to-r ${style.line}`} />
       <div className="flex items-center justify-between gap-3">
         <div className="min-w-0">
           <p className="text-xs font-black uppercase tracking-[0.18em] text-on-surface-variant/70">{label}</p>
-          <p className="mt-3 truncate font-headline text-2xl font-black tracking-[-0.04em] text-on-surface">{value}</p>
+          <p className="mt-3 truncate font-headline text-xl font-black tracking-[-0.04em] text-on-surface">{value}</p>
           <p className="mt-2 text-sm font-medium leading-6 text-on-surface-variant">{description}</p>
         </div>
         <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${style.icon}`}>
@@ -408,12 +408,12 @@ function RevenueChart({ data, loading }: { data: DayData[]; loading: boolean }) 
   const maxRevenue = Math.max(...data.map((item) => Number(item.revenue)), 1);
 
   return (
-    <section className="report-entrance overflow-hidden rounded-[34px] border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "350ms" } as CSSProperties}>
+    <section className="report-entrance overflow-hidden rounded-2xl border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "350ms" } as CSSProperties}>
       <div className="border-b border-[#ecdfff] px-5 py-4">
         <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.2em] text-[#a277ff]/75">Revenue Pulse</p>
-            <h2 className="mt-2 font-headline text-2xl font-black tracking-[-0.05em] text-on-surface">Revenue 7 Hari Terakhir</h2>
+            <h2 className="mt-2 font-headline text-xl font-black tracking-[-0.05em] text-on-surface">Revenue 7 Hari Terakhir</h2>
             <p className="mt-1 text-sm font-medium text-on-surface-variant">Hover bar untuk melihat detail transaksi.</p>
           </div>
           <div className="inline-flex items-center gap-2 rounded-full bg-[#f5edff] px-4 py-2 text-xs font-black text-[#8657ea]">
@@ -461,12 +461,12 @@ function RevenueChart({ data, loading }: { data: DayData[]; loading: boolean }) 
 
 function LowStockPanel({ items, loading }: { items: LowStockItem[]; loading: boolean }) {
   return (
-    <section className="report-entrance overflow-hidden rounded-[34px] border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "390ms" } as CSSProperties}>
+    <section className="report-entrance overflow-hidden rounded-2xl border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "390ms" } as CSSProperties}>
       <div className="border-b border-[#ecdfff] px-5 py-4">
         <div className="flex items-center justify-between gap-3">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.2em] text-[#f59e0b]/80">Stock Risk</p>
-            <h2 className="mt-2 font-headline text-2xl font-black tracking-[-0.05em] text-on-surface">Stok Hampir Habis</h2>
+            <h2 className="mt-2 font-headline text-xl font-black tracking-[-0.05em] text-on-surface">Stok Hampir Habis</h2>
           </div>
           <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${items.length > 0 ? "bg-[#fff7df] text-[#b45309]" : "bg-[#e6f7ef] text-[#047857]"}`}>
             <span className="material-symbols-outlined icon-fill text-[24px]">{items.length > 0 ? "warning" : "verified"}</span>
@@ -476,14 +476,14 @@ function LowStockPanel({ items, loading }: { items: LowStockItem[]; loading: boo
 
       <div className="grid gap-3 p-4">
         {loading ? (
-          Array.from({ length: 4 }).map((_, index) => <div key={index} className="h-20 animate-pulse rounded-[24px] bg-white/80" />)
+          Array.from({ length: 4 }).map((_, index) => <div key={index} className="h-20 animate-pulse rounded-xl bg-white/80" />)
         ) : items.length === 0 ? (
           <EmptyPanel icon="inventory_2" title="Stok aman" description="Tidak ada produk yang perlu perhatian dari data laporan saat ini." compact />
         ) : (
           items.map((item, index) => (
             <div
               key={`${item.sku ?? item.name}-${index}`}
-              className="report-row rounded-[24px] border border-white/70 bg-white/78 p-4 shadow-[0_18px_42px_-34px_rgba(39, 23, 68,0.38)]"
+              className="report-row rounded-xl border border-white/70 bg-white/78 p-4 shadow-[0_18px_42px_-34px_rgba(39, 23, 68,0.38)]"
               style={{ "--delay": `${index * 34}ms` } as CSSProperties}
             >
               <div className="flex items-center justify-between gap-3">
@@ -505,12 +505,12 @@ function LowStockPanel({ items, loading }: { items: LowStockItem[]; loading: boo
 
 function TopProductsPanel({ products, loading }: { products: TopProduct[]; loading: boolean }) {
   return (
-    <section className="report-entrance overflow-hidden rounded-[34px] border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "430ms" } as CSSProperties}>
+    <section className="report-entrance overflow-hidden rounded-2xl border border-white/70 bg-white/76 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)]" style={{ "--delay": "430ms" } as CSSProperties}>
       <div className="border-b border-[#ecdfff] px-5 py-4">
         <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.2em] text-[#12b981]/80">Best Sellers</p>
-            <h2 className="mt-2 font-headline text-2xl font-black tracking-[-0.05em] text-on-surface">Produk Terlaris</h2>
+            <h2 className="mt-2 font-headline text-xl font-black tracking-[-0.05em] text-on-surface">Produk Terlaris</h2>
             <p className="mt-1 text-sm font-medium text-on-surface-variant">Berdasarkan jumlah unit terjual.</p>
           </div>
           <div className="rounded-full bg-[#e6f7ef] px-4 py-2 text-sm font-black text-[#047857]">
@@ -521,7 +521,7 @@ function TopProductsPanel({ products, loading }: { products: TopProduct[]; loadi
 
       <div className="grid gap-3 p-4">
         {loading ? (
-          Array.from({ length: 5 }).map((_, index) => <div key={index} className="h-24 animate-pulse rounded-[28px] bg-white/80" />)
+          Array.from({ length: 5 }).map((_, index) => <div key={index} className="h-24 animate-pulse rounded-xl bg-white/80" />)
         ) : products.length === 0 ? (
           <EmptyPanel icon="leaderboard" title="Belum ada produk terlaris" description="Produk akan muncul setelah transaksi mulai tercatat." />
         ) : (
@@ -544,7 +544,7 @@ function TopProductRow({ product, rank, delay }: { product: TopProduct; rank: nu
 
   return (
     <div
-      className="report-row grid gap-4 rounded-[28px] border border-white/70 bg-white/78 p-4 shadow-[0_20px_54px_-42px_rgba(39, 23, 68,0.38)] hover:bg-white md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-center"
+      className="report-row grid gap-4 rounded-xl border border-white/70 bg-white/78 p-4 shadow-[0_20px_54px_-42px_rgba(39, 23, 68,0.38)] hover:bg-white md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-center"
       style={{ "--delay": `${delay}ms` } as CSSProperties}
     >
       <div className={`flex h-12 w-12 items-center justify-center rounded-2xl font-headline text-lg font-black ${rankStyle}`}>
@@ -579,12 +579,12 @@ function ExecutiveSummary({
   onRefresh: () => void;
 }) {
   return (
-    <aside className="report-entrance rounded-[34px] border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] xl:sticky xl:top-4" style={{ "--delay": "470ms" } as CSSProperties}>
-      <div className="report-sheen relative overflow-hidden rounded-[30px] bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-5 text-white shadow-[0_28px_70px_-44px_rgba(162, 119, 255,0.92)]">
+    <aside className="report-entrance rounded-2xl border border-white/70 bg-white/76 p-4 shadow-[0_24px_70px_-54px_rgba(39, 23, 68,0.38)] xl:sticky xl:top-4" style={{ "--delay": "470ms" } as CSSProperties}>
+      <div className="report-sheen relative overflow-hidden rounded-xl bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] p-5 text-white shadow-[0_28px_70px_-44px_rgba(162, 119, 255,0.92)]">
         <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-[#f59e0b]/20" />
         <div className="relative">
           <p className="text-xs font-black uppercase tracking-[0.22em] text-white/55">Executive Summary</p>
-          <h3 className="mt-3 font-headline text-3xl font-black tracking-[-0.05em]">Ringkasan performa</h3>
+          <h3 className="mt-3 font-headline text-xl font-black tracking-[-0.05em]">Ringkasan performa</h3>
           <p className="mt-2 text-sm font-medium leading-6 text-white/68">
             Snapshot cepat untuk melihat kondisi penjualan dan prioritas operasional.
           </p>
@@ -619,7 +619,7 @@ function ExecutiveSummary({
 
       <button
         onClick={onRefresh}
-        className="mt-4 flex w-full items-center justify-between rounded-[26px] bg-[#f5edff] px-5 py-4 text-left text-[#8657ea] hover:-translate-y-0.5 hover:bg-[#e6d9ff]"
+        className="mt-4 flex w-full items-center justify-between rounded-xl bg-[#f5edff] px-5 py-4 text-left text-[#8657ea] hover:-translate-y-0.5 hover:bg-[#e6d9ff]"
         type="button"
       >
         <span className="font-headline text-lg font-black">Refresh laporan</span>
@@ -631,7 +631,7 @@ function ExecutiveSummary({
 
 function HeroMiniStat({ label, value, icon }: { label: string; value: string; icon: string }) {
   return (
-    <div className="rounded-[24px] border border-white/16 bg-white/10 p-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">
+    <div className="rounded-xl border border-white/16 bg-white/10 p-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]">
       <div className="flex items-center justify-between gap-3">
         <span className="text-[11px] font-black uppercase tracking-[0.2em] text-white/55">{label}</span>
         <span className="material-symbols-outlined text-[18px] text-[#fde68a]">{icon}</span>
@@ -652,7 +652,7 @@ function MiniData({ label, value }: { label: string; value: string }) {
 
 function SummaryBox({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-[24px] border border-white/14 bg-white/10 p-4">
+    <div className="rounded-xl border border-white/14 bg-white/10 p-4">
       <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/52">{label}</p>
       <p className="mt-2 truncate font-headline text-lg font-black tracking-[-0.04em] text-white">{value}</p>
     </div>
@@ -671,7 +671,7 @@ function DetailStat({
   description: string;
 }) {
   return (
-    <div className="rounded-[24px] border border-[#ecdfff] bg-white/72 p-4 shadow-[0_18px_42px_-36px_rgba(39, 23, 68,0.34)]">
+    <div className="rounded-xl border border-[#ecdfff] bg-white/72 p-4 shadow-[0_18px_42px_-36px_rgba(39, 23, 68,0.34)]">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="text-xs font-black uppercase tracking-[0.16em] text-on-surface-variant/65">{label}</p>
@@ -696,8 +696,8 @@ function EmptyPanel({
   compact?: boolean;
 }) {
   return (
-    <div className={`flex flex-col items-center justify-center rounded-[30px] border border-dashed border-[#d4c8e3] bg-white/60 p-8 text-center ${compact ? "min-h-[260px]" : "min-h-[300px]"}`}>
-      <div className="flex h-20 w-20 items-center justify-center rounded-[30px] bg-[#f5edff] text-[#a277ff]">
+    <div className={`flex flex-col items-center justify-center rounded-xl border border-dashed border-[#d4c8e3] bg-white/60 p-5 text-center ${compact ? "min-h-[260px]" : "min-h-[300px]"}`}>
+      <div className="flex h-20 w-20 items-center justify-center rounded-xl bg-[#f5edff] text-[#a277ff]">
         <span className="material-symbols-outlined icon-fill text-4xl">{icon}</span>
       </div>
       <p className="mt-5 font-headline text-2xl font-black text-on-surface">{title}</p>
@@ -708,7 +708,7 @@ function EmptyPanel({
 
 function ReportError({ message, onRetry }: { message: string; onRetry: () => void }) {
   return (
-    <div className="report-entrance rounded-[30px] border border-[#fecdd3] bg-[#fff7f7] p-5 text-[#be123c]" style={{ "--delay": "20ms" } as CSSProperties}>
+    <div className="report-entrance rounded-xl border border-[#fecdd3] bg-[#fff7f7] p-5 text-[#be123c]" style={{ "--delay": "20ms" } as CSSProperties}>
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div className="flex gap-3">
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#fff1f2]">
@@ -726,3 +726,4 @@ function ReportError({ message, onRetry }: { message: string; onRetry: () => voi
     </div>
   );
 }
+
