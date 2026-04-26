@@ -10,7 +10,7 @@ export async function POST(request: Request, props: { params: Promise<{ id: stri
     }
     
     return proxyToLaravel(request, `/super-admin/users/${params.id}/license`);
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 401 });
+  } catch (error: unknown) {
+    return NextResponse.json({ error: (error as Error).message }, { status: 401 });
   }
 }

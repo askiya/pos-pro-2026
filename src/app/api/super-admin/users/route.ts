@@ -9,7 +9,7 @@ export async function GET(request: Request) {
     }
     
     return proxyToLaravel(request, "/super-admin/users");
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 401 });
+  } catch (error: unknown) {
+    return NextResponse.json({ error: (error as Error).message }, { status: 401 });
   }
 }

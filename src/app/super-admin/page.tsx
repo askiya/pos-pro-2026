@@ -5,15 +5,23 @@ import Link from "next/link";
 import { 
   ShieldCheck, 
   Users, 
-  Key, 
   ArrowLeft,
   BadgeCheck,
   XCircle,
   Clock
 } from "lucide-react";
 
+type UserData = {
+  id: string;
+  name: string;
+  email: string;
+  created_at: string;
+  license_active: boolean;
+  trial_ends_at: string | null;
+};
+
 export default function SuperAdminPage() {
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<UserData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [processingId, setProcessingId] = useState("");
@@ -30,8 +38,8 @@ export default function SuperAdminPage() {
       }
       const data = await res.json();
       setUsers(data);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError((err as Error).message);
     } finally {
       setLoading(false);
     }
@@ -51,8 +59,8 @@ export default function SuperAdminPage() {
       
       // Refresh data
       fetchUsers();
-    } catch (err: any) {
-      alert(err.message);
+    } catch (err: unknown) {
+      alert((err as Error).message);
     } finally {
       setProcessingId("");
     }
@@ -76,7 +84,7 @@ export default function SuperAdminPage() {
   }
 
   const activeLicenses = users.filter(u => u.license_active).length;
-  const onTrial = users.filter(u => !u.license_active && new Date(u.trial_ends_at) > new Date()).length;
+  const onTrial = users.filter(u => !u.license_active && u.trial_ends_at && new Date(u.trial_ends_at) > new Date()).length;
   const expired = users.filter(u => !u.license_active && (!u.trial_ends_at || new Date(u.trial_ends_at) < new Date())).length;
 
   return (
@@ -148,7 +156,7 @@ export default function SuperAdminPage() {
               </thead>
               <tbody className="divide-y divide-pos-white/5">
                 {users.map((user) => {
-                  const isTrial = !user.license_active && new Date(user.trial_ends_at) > new Date();
+                  const isTrial = !user.license_active && user.trial_ends_at && new Date(user.trial_ends_at) > new Date();
                   const isExpired = !user.license_active && (!user.trial_ends_at || new Date(user.trial_ends_at) < new Date());
                   
                   return (
