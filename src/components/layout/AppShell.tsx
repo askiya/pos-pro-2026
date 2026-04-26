@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { LicenseGate } from "@/components/layout/LicenseGate";
 import ResponsiveLayout from "@/components/layout/ResponsiveLayout";
 
-const PUBLIC_PATHS = ["/login"];
+const PUBLIC_PATHS = ["/login", "/super-admin"];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
