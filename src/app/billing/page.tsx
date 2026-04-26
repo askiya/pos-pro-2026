@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -37,6 +37,27 @@ export default function BillingPage() {
   const [session, setSession] = useState<BillingSession | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+
+  const handleCheckout = async () => {
+    setIsCheckingOut(true);
+    try {
+      const res = await fetch("/api/billing/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan_days: 30, amount: 99000 }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Gagal membuat sesi pembayaran");
+      
+      if (data.payment_url) {
+        window.location.href = data.payment_url;
+      }
+    } catch (err: unknown) {
+      alert((err as Error).message);
+      setIsCheckingOut(false);
+    }
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -228,6 +249,16 @@ export default function BillingPage() {
             </p>
 
             <div className="mt-5 flex flex-col gap-3">
+              <button
+                onClick={handleCheckout}
+                disabled={isCheckingOut}
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-[linear-gradient(135deg,#7c3aed_0%,#4f46e5_100%)] px-4 py-4 text-sm font-black text-white shadow-[0_18px_46px_-26px_rgba(124,58,237,0.82)] transition hover:scale-[1.01] disabled:opacity-50"
+              >
+                <span className="material-symbols-outlined text-[20px]">
+                  {isCheckingOut ? 'hourglass_empty' : 'payments'}
+                </span>
+                {isCheckingOut ? 'Memproses...' : 'Perpanjang 30 Hari (Rp 99.000)'}
+              </button>
               <a
                 href={LICENSE_WHATSAPP_URL}
                 target="_blank"
