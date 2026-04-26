@@ -92,6 +92,35 @@ export default function SuperAdminPage() {
     }
   }
 
+  async function impersonateUser(user: UserData) {
+    if (!confirm(`Anda akan login sebagai "${user.name}".\n\nUntuk kembali ke akun Super Admin, Anda harus logout dari dashboard tenant dan login ulang menggunakan akun Google Anda.\n\nLanjutkan?`)) return;
+    
+    setProcessingId(user.id);
+    try {
+      const res = await fetch(`/api/super-admin/users/${user.id}/impersonate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          trialEndsAt: user.trial_ends_at,
+          licenseActive: user.license_active,
+        }),
+      });
+      
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Gagal melakukan impersonasi");
+      
+      if (data.redirectTo) {
+        window.location.href = data.redirectTo;
+      }
+    } catch (err: unknown) {
+      alert((err as Error).message);
+      setProcessingId("");
+    }
+  }
+
   const filteredUsers = useMemo(() => {
     if (!searchQuery) return users;
     const lowerQuery = searchQuery.toLowerCase();
@@ -301,6 +330,14 @@ export default function SuperAdminPage() {
                               Edit Trial
                             </button>
                           )}
+
+                          <button
+                            onClick={() => impersonateUser(user)}
+                            className="px-4 py-2 bg-[#fcfaff] hover:bg-[#f5edff] text-[#a277ff] border border-[#a277ff]/20 hover:border-[#a277ff]/50 text-xs font-bold rounded-xl shadow-sm transition-all"
+                            title="Login as this tenant"
+                          >
+                            Login as
+                          </button>
 
                           {user.license_active && (
                             <button

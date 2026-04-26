@@ -19,6 +19,7 @@ type GateState = "checking" | "allowed" | "blocked";
 
 export function LicenseGate({ children }: LicenseGateProps) {
   const [gateState, setGateState] = useState<GateState>("checking");
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -69,6 +70,29 @@ export function LicenseGate({ children }: LicenseGateProps) {
     };
   }, []);
 
+  const handleCheckout = async () => {
+    setIsCheckingOut(true);
+    try {
+      // Create a 30 Days Premium Plan (Or 30 days trial extension via iPaymu)
+      // Actually we will just pass plan_days=30 and amount=99000
+      const res = await fetch("/api/billing/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan_days: 30, amount: 99000 }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Gagal membuat sesi pembayaran");
+      
+      // Redirect to iPaymu Payment URL
+      if (data.payment_url) {
+        window.location.href = data.payment_url;
+      }
+    } catch (err: any) {
+      alert(err.message);
+      setIsCheckingOut(false);
+    }
+  };
+
   return (
     <>
       {children}
@@ -93,17 +117,31 @@ export function LicenseGate({ children }: LicenseGateProps) {
                 </div>
                 <h1 className="mt-6 text-2xl font-black text-white">Masa Trial Anda Telah Habis</h1>
                 <p className="mt-3 text-sm leading-relaxed text-slate-300">
-                  Masa percobaan gratis 7 hari sudah berakhir. Untuk membuka kembali dashboard POS PRO V2, silakan hubungi admin untuk aktivasi lisensi.
+                  Masa percobaan gratis 7 hari sudah berakhir. Untuk membuka kembali dashboard POS PRO V2, silakan perpanjang lisensi Anda secara instan.
                 </p>
-                <a
-                  href={LICENSE_WHATSAPP_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-8 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 px-4 py-4 text-sm font-bold text-white transition-all hover:from-green-400 hover:to-emerald-500"
-                >
-                  <span className="material-symbols-outlined text-[20px]">chat</span>
-                  Hubungi Admin via WhatsApp
-                </a>
+                
+                <div className="mt-8 space-y-3">
+                  <button
+                    onClick={handleCheckout}
+                    disabled={isCheckingOut}
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-600 px-4 py-4 text-sm font-bold text-white transition-all hover:from-indigo-400 hover:to-purple-500 disabled:opacity-50"
+                  >
+                    <span className="material-symbols-outlined text-[20px]">
+                      {isCheckingOut ? 'hourglass_empty' : 'payments'}
+                    </span>
+                    {isCheckingOut ? 'Memproses...' : 'Perpanjang 30 Hari (Rp 99.000)'}
+                  </button>
+                  
+                  <a
+                    href={LICENSE_WHATSAPP_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-white/5 px-4 py-4 text-sm font-bold text-white transition-all hover:bg-white/10"
+                  >
+                    <span className="material-symbols-outlined text-[20px]">chat</span>
+                    Hubungi Admin via WhatsApp
+                  </a>
+                </div>
               </>
             )}
           </div>
