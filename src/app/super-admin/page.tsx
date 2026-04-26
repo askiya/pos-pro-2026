@@ -1,18 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { format } from "date-fns";
-import { id } from "date-fns/locale";
-import Link from "next/link";
 import { 
-  ShieldCheckIcon, 
-  UsersIcon, 
-  KeyIcon, 
-  ArrowLeftIcon,
-  CheckBadgeIcon,
-  XCircleIcon,
-  ClockIcon
-} from "@heroicons/react/24/outline";
+  ShieldCheck, 
+  Users, 
+  Key, 
+  ArrowLeft,
+  BadgeCheck,
+  XCircle,
+  Clock
+} from "lucide-react";
 
 export default function SuperAdminPage() {
   const [users, setUsers] = useState<any[]>([]);
@@ -68,7 +65,7 @@ export default function SuperAdminPage() {
     return (
       <div className="flex h-screen items-center justify-center bg-pos-dark-1">
         <div className="text-center">
-          <XCircleIcon className="mx-auto h-16 w-16 text-red-500 mb-4" />
+          <XCircle className="mx-auto h-16 w-16 text-red-500 mb-4" />
           <h1 className="text-2xl font-bold text-pos-white mb-2">Akses Ditolak</h1>
           <p className="text-pos-white/60 mb-6">{error}</p>
           <Link href="/dashboard" className="px-6 py-2 bg-pos-accent text-white rounded-xl">Kembali ke Dashboard</Link>
@@ -89,11 +86,11 @@ export default function SuperAdminPage() {
         <div className="flex items-center justify-between bg-pos-dark-2/50 backdrop-blur-xl p-6 rounded-2xl border border-pos-white/5">
           <div className="flex items-center gap-4">
             <Link href="/dashboard" className="p-2 bg-pos-white/5 hover:bg-pos-white/10 rounded-xl transition-colors">
-              <ArrowLeftIcon className="w-5 h-5 text-pos-white/70" />
+              <ArrowLeft className="w-5 h-5 text-pos-white/70" />
             </Link>
             <div>
               <div className="flex items-center gap-2">
-                <ShieldCheckIcon className="w-6 h-6 text-emerald-400" />
+                <ShieldCheck className="w-6 h-6 text-emerald-400" />
                 <h1 className="text-2xl font-bold tracking-tight">Super Admin Backoffice</h1>
               </div>
               <p className="text-sm text-pos-white/50 mt-1">SaaS License & Tenant Management</p>
@@ -105,28 +102,28 @@ export default function SuperAdminPage() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="bg-pos-dark-2 p-5 rounded-2xl border border-pos-white/5">
             <div className="flex items-center gap-3 mb-2">
-              <UsersIcon className="w-5 h-5 text-blue-400" />
+              <Users className="w-5 h-5 text-blue-400" />
               <h3 className="text-pos-white/60 text-sm">Total Tenants</h3>
             </div>
             <p className="text-3xl font-black">{users.length}</p>
           </div>
           <div className="bg-pos-dark-2 p-5 rounded-2xl border border-pos-white/5">
             <div className="flex items-center gap-3 mb-2">
-              <CheckBadgeIcon className="w-5 h-5 text-emerald-400" />
+              <BadgeCheck className="w-5 h-5 text-emerald-400" />
               <h3 className="text-pos-white/60 text-sm">Active Licenses</h3>
             </div>
             <p className="text-3xl font-black">{activeLicenses}</p>
           </div>
           <div className="bg-pos-dark-2 p-5 rounded-2xl border border-pos-white/5">
             <div className="flex items-center gap-3 mb-2">
-              <ClockIcon className="w-5 h-5 text-yellow-400" />
+              <Clock className="w-5 h-5 text-yellow-400" />
               <h3 className="text-pos-white/60 text-sm">On Trial (7 Days)</h3>
             </div>
             <p className="text-3xl font-black">{onTrial}</p>
           </div>
           <div className="bg-pos-dark-2 p-5 rounded-2xl border border-pos-white/5">
             <div className="flex items-center gap-3 mb-2">
-              <XCircleIcon className="w-5 h-5 text-red-400" />
+              <XCircle className="w-5 h-5 text-red-400" />
               <h3 className="text-pos-white/60 text-sm">Expired</h3>
             </div>
             <p className="text-3xl font-black">{expired}</p>
@@ -158,7 +155,7 @@ export default function SuperAdminPage() {
                       <td className="p-4">
                         <div className="font-medium text-pos-white">{user.name}</div>
                         <div className="text-pos-white/50 text-xs mt-1">{user.email}</div>
-                        <div className="text-pos-white/30 text-[10px] mt-1">Joined: {format(new Date(user.created_at), 'dd MMM yyyy')}</div>
+                        <div className="text-pos-white/30 text-[10px] mt-1">Joined: {new Date(user.created_at).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })}</div>
                       </td>
                       <td className="p-4">
                         {user.license_active ? (
@@ -180,7 +177,7 @@ export default function SuperAdminPage() {
                           <span className="text-pos-white/50 text-xs">Lifetime / Custom</span>
                         ) : user.trial_ends_at ? (
                           <span className={`text-xs ${isExpired ? 'text-red-400' : 'text-pos-white/70'}`}>
-                            {format(new Date(user.trial_ends_at), 'dd MMM yyyy, HH:mm', { locale: id })}
+                            {new Date(user.trial_ends_at).toLocaleString('id-ID', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                           </span>
                         ) : (
                           "-"
