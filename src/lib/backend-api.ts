@@ -132,6 +132,7 @@ export async function buildLaravelHeaders(
     const session = await requireSessionToken();
     headers.set("X-Pos-User-Id", session.id);
     headers.set("X-Pos-User-Role", session.role);
+    headers.set("X-Pos-User-Email", session.email);
     headers.set("X-Pos-Branch-Id", session.branchId ?? "");
   }
 

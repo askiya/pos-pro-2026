@@ -30,6 +30,15 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
+  // Lindungi /super-admin
+  if (pathname.startsWith('/super-admin')) {
+    const superAdminEmail = process.env.SUPER_ADMIN_EMAIL;
+    if (!superAdminEmail || payload.email !== superAdminEmail) {
+      // Tendang ke dashboard
+      return NextResponse.redirect(new URL('/dashboard', request.url));
+    }
+  }
+
   // Pass user info in headers if needed downstream
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set('x-user-id', payload.id as string);
