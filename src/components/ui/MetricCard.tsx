@@ -31,7 +31,7 @@ export default function MetricCard({
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-      className="app-surface rounded-[28px] p-5 md:p-6 flex flex-col gap-4 relative group"
+      className="app-surface rounded-xl p-4 md:p-5 flex flex-col gap-4 relative group"
     >
       {/* Background Enhancements */}
       {isAlert ? (
@@ -43,9 +43,9 @@ export default function MetricCard({
 
       {/* Header */}
       <div className="flex justify-between items-start z-10">
-        <p className="font-body text-sm text-on-surface-variant font-medium">{title}</p>
+        <p className="font-body text-xs text-on-surface-variant font-medium">{title}</p>
         <span 
-          className={`material-symbols-outlined text-[20px] p-2.5 rounded-2xl shadow-[0_16px_38px_-28px_rgba(39, 23, 68,0.4)] ${
+          className={`material-symbols-outlined text-[18px] p-2 rounded-xl shadow-[0_16px_38px_-28px_rgba(39, 23, 68,0.4)] ${
             isAlert 
               ? 'text-error bg-error-container' 
               : 'text-secondary bg-white/85'
@@ -57,7 +57,7 @@ export default function MetricCard({
 
       {/* Content */}
       <div className="z-10">
-        <h3 className="font-headline text-3xl font-bold text-on-surface tracking-tight">{value}</h3>
+        <h3 className="font-headline text-2xl font-bold text-on-surface tracking-tight">{value}</h3>
         
         {/* Trend / Subtitle section */}
         {(trend || subtitle) && (

@@ -75,7 +75,7 @@
 
   .app-field {
     width: 100%;
-    border-radius: 1.15rem;
+    border-radius: 0.75rem;
     border: 1px solid rgba(198, 198, 205, 0.4);
     background: #fcfaff;
     color: theme('colors.on-surface');
@@ -129,11 +129,11 @@
 
   .app-icon-btn {
     display: inline-flex;
-    height: 2.9rem;
-    width: 2.9rem;
+    height: 2.5rem;
+    width: 2.5rem;
     align-items: center;
     justify-content: center;
-    border-radius: 1rem;
+    border-radius: 0.75rem;
     border: 1px solid rgba(198, 198, 205, 0.48);
     background: rgba(255, 255, 255, 0.76);
     color: theme('colors.on-surface-variant');

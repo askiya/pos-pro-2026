@@ -275,7 +275,7 @@ function ResponsiveShell({ children }: { children: React.ReactNode }) {
 
         <div className="relative flex h-full min-h-0 flex-col overflow-hidden px-3 pb-24 pt-3 md:px-3.5 md:pb-5 md:pt-3.5">
           <header className="relative z-40 shrink-0">
-            <div className="app-surface rounded-[28px] px-3.5 py-2.5 md:px-4">
+            <div className="app-surface rounded-xl px-3 py-2 md:px-4">
               <div className="flex items-center justify-between gap-3">
                 <div className="flex min-w-0 items-center gap-3 md:gap-5">
                   <Link href="/dashboard" className="group flex items-center gap-3">
@@ -302,7 +302,7 @@ function ResponsiveShell({ children }: { children: React.ReactNode }) {
                         <Link
                           key={shortcut.label}
                           href={shortcut.href ?? "#"}
-                          className={`rounded-[18px] px-3.5 py-1.5 text-[13px] font-medium ${
+                          className={`rounded-lg px-3.5 py-1.5 text-xs font-medium ${
                             active ? "app-chip-active" : "app-chip"
                           }`}
                         >
@@ -314,7 +314,7 @@ function ResponsiveShell({ children }: { children: React.ReactNode }) {
                 </div>
 
                 <div className="flex items-center gap-2 md:gap-2.5">
-                  <div className="hidden 2xl:flex items-center gap-2.5 rounded-[22px] border border-outline-variant/15 bg-white/65 px-3.5 py-1.5 shadow-[0_12px_28px_-24px_rgba(39, 23, 68,0.32)]">
+                  <div className="hidden 2xl:flex items-center gap-2.5 rounded-xl border border-outline-variant/15 bg-white/65 px-3.5 py-1.5 shadow-[0_12px_28px_-24px_rgba(39, 23, 68,0.32)]">
                     <StatPill label="User Aktif" value={session?.name ?? "Tim POS PRO"} />
                     <Separator />
                     <StatPill
@@ -370,21 +370,21 @@ function ResponsiveShell({ children }: { children: React.ReactNode }) {
           </header>
 
           <div className="mt-3 flex min-h-0 flex-1 gap-3 overflow-hidden">
-            <aside className="hidden h-full w-[248px] shrink-0 md:block xl:w-[252px]">
-              <div className="app-surface flex h-full flex-col rounded-[30px] px-3 py-3.5">
-                <div className="mb-3.5 rounded-[22px] border border-outline-variant/15 bg-gradient-to-br from-primary-container to-secondary px-3.5 py-3.5 text-white shadow-[0_20px_44px_-34px_rgba(162, 119, 255,0.78)]">
-                  <p className="text-xs uppercase tracking-[0.2em] text-white/70">Operator</p>
-                  <h2 className="mt-2 font-headline text-lg font-bold leading-tight">{session?.name ?? "Tim POS PRO"}</h2>
-                  <p className="mt-1 text-[13px] text-white/80">{session?.branch?.name ?? "Siapkan cabang aktif"}</p>
+            <aside className="hidden h-full w-[220px] shrink-0 md:block xl:w-[230px]">
+              <div className="app-surface flex h-full flex-col rounded-2xl px-3 py-2.5">
+                <div className="mb-3.5 rounded-xl border border-outline-variant/15 bg-gradient-to-br from-primary-container to-secondary px-3.5 py-3 text-white shadow-[0_20px_44px_-34px_rgba(162, 119, 255,0.78)]">
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-white/70">Operator</p>
+                  <h2 className="mt-1 font-headline text-base font-bold leading-tight">{session?.name ?? "Tim POS PRO"}</h2>
+                  <p className="mt-1 text-xs text-white/80">{session?.branch?.name ?? "Siapkan cabang aktif"}</p>
                   <div className="mt-3 grid grid-cols-2 gap-1.5">
                     <InfoMini label="Role" value={session?.role ?? "USER"} />
                     <InfoMini label="Sales" value={formatCurrency(todayRevenue)} />
                   </div>
-                  <div className="mt-2.5 rounded-[20px] border border-white/15 bg-white/10 px-3 py-2.5">
+                  <div className="mt-2.5 rounded-xl border border-white/15 bg-white/10 px-3 py-2">
                     <div className="flex items-center justify-between gap-3">
                       <div>
-                        <div className="text-[11px] uppercase tracking-[0.18em] text-white/65">Billing</div>
-                        <div className="mt-1 font-headline text-[13px] font-bold leading-5 text-white">
+                        <div className="text-[10px] uppercase tracking-[0.18em] text-white/65">Billing</div>
+                        <div className="mt-1 font-headline text-xs font-bold leading-5 text-white">
                           {licenseSummary.statusLabel}
                         </div>
                       </div>
@@ -432,7 +432,7 @@ function ResponsiveShell({ children }: { children: React.ReactNode }) {
             </aside>
 
             <main className="min-h-0 flex-1 overflow-hidden">
-              <div className="flex h-full min-h-0 flex-col rounded-[30px] md:p-0.5">
+              <div className="flex h-full min-h-0 flex-col rounded-2xl md:p-0.5">
                 {children}
               </div>
             </main>
@@ -440,7 +440,7 @@ function ResponsiveShell({ children }: { children: React.ReactNode }) {
         </div>
 
         <nav className="md:hidden fixed bottom-3 left-3 right-3 z-50">
-          <div className="app-surface rounded-[28px] px-3 py-3">
+          <div className="app-surface rounded-xl px-3 py-2.5">
             <div className="flex justify-between gap-2">
               {mobileNav.map((item) => (
                 <MobileNavItem
@@ -484,17 +484,17 @@ function SidebarItem({
       {active ? (
         <motion.div
           layoutId="sidebarActiveIndicator"
-          className="absolute inset-0 z-0 rounded-[20px] bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] shadow-[0_20px_40px_-30px_rgba(162, 119, 255,0.88)]"
+          className="absolute inset-0 z-0 rounded-xl bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] shadow-[0_20px_40px_-30px_rgba(162, 119, 255,0.88)]"
           transition={{ type: "spring", stiffness: 350, damping: 28 }}
         />
       ) : null}
       <span className={`relative z-10 material-symbols-outlined text-[18px] transition-colors duration-200 ${active ? "icon-fill text-white" : "group-hover:text-primary"}`}>{icon}</span>
-      <span className={`relative z-10 font-headline text-[13px] transition-colors duration-200 ${active ? "font-bold text-white tracking-wide" : "font-semibold group-hover:text-on-surface"}`}>{label}</span>
+      <span className={`relative z-10 font-headline text-xs transition-colors duration-200 ${active ? "font-bold text-white tracking-wide" : "font-semibold group-hover:text-on-surface"}`}>{label}</span>
       {active ? <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} className="relative z-10 ml-auto h-1.5 w-1.5 rounded-full bg-white/80 animate-pulse-soft shadow-[0_0_8px_2px_rgba(255,255,255,0.35)]" /> : null}
     </>
   );
 
-  const className = `group relative flex items-center gap-2.5 overflow-hidden rounded-[20px] px-3 py-2.5 text-[13px] transition-all duration-300 ${
+  const className = `group relative flex items-center gap-2.5 overflow-hidden rounded-xl px-3 py-2 text-xs transition-all duration-300 ${
     active
       ? "text-white"
       : "text-on-surface-variant hover:bg-white/80 hover:shadow-sm"
@@ -550,14 +550,14 @@ function MobileNavItem({
         onClick={onNavigate}
         whileHover={{ y: -2 }}
         whileTap={{ scale: 0.9 }}
-        className={`relative flex flex-col items-center justify-center w-full gap-1 rounded-[20px] px-2 py-2.5 text-[11px] font-black tracking-wide transition-colors z-10 ${
+        className={`relative flex flex-col items-center justify-center w-full gap-1 rounded-xl px-2 py-2 text-[10px] font-black tracking-wide transition-colors z-10 ${
           active ? "text-white" : "text-on-surface-variant hover:text-primary"
         }`}
       >
         {active && (
           <motion.div
             layoutId="mobileNavIndicator"
-            className="absolute inset-0 z-0 rounded-[20px] bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] shadow-[0_12px_24px_-12px_rgba(162, 119, 255,0.8)]"
+            className="absolute inset-0 z-0 rounded-xl bg-[linear-gradient(135deg,#271744_0%,#a277ff_100%)] shadow-[0_12px_24px_-12px_rgba(162, 119, 255,0.8)]"
             transition={{ type: "spring", stiffness: 400, damping: 28 }}
           />
         )}
@@ -597,16 +597,16 @@ function StatPill({
   return (
     <div className="flex flex-col">
       <span className="text-[10px] uppercase tracking-[0.16em] text-on-surface-variant/70">{label}</span>
-      <span className={`font-headline text-[13px] font-bold ${toneClass}`}>{value}</span>
+      <span className={`font-headline text-xs font-bold ${toneClass}`}>{value}</span>
     </div>
   );
 }
 
 function InfoMini({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-[18px] border border-white/15 bg-white/10 px-3 py-1.5">
+    <div className="rounded-lg border border-white/15 bg-white/10 px-3 py-1">
       <div className="text-[10px] uppercase tracking-[0.16em] text-white/65">{label}</div>
-      <div className="mt-1 font-headline text-[13px] font-bold text-white">{value}</div>
+      <div className="mt-1 font-headline text-xs font-bold text-white">{value}</div>
     </div>
   );
 }
