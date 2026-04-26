@@ -3,7 +3,7 @@ import { proxyToLaravel, requireSessionToken } from "@/lib/backend-api";
 
 export async function POST(request: Request) {
   try {
-    const session = await requireSessionToken();
+    await requireSessionToken();
     
     // proxyToLaravel automatically forwards the POST body and attaches the auth headers
     return proxyToLaravel(request, '/billing/checkout');

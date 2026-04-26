@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { requireSessionToken, proxyToLaravel } from "@/lib/backend-api";
+import { requireSessionToken } from "@/lib/backend-api";
 import { createAuthSessionResponse } from "@/app/api/auth/shared";
 
 export async function POST(

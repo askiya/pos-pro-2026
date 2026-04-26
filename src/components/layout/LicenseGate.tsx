@@ -87,8 +87,8 @@ export function LicenseGate({ children }: LicenseGateProps) {
       if (data.payment_url) {
         window.location.href = data.payment_url;
       }
-    } catch (err: any) {
-      alert(err.message);
+    } catch (err: unknown) {
+      alert((err as Error).message);
       setIsCheckingOut(false);
     }
   };
