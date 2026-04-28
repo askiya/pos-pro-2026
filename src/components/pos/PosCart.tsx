@@ -53,7 +53,7 @@ export default function PosCart({
     }
   }, [printerError, showToast]);
 
-  const handlePrintReceipt = async (orderNumber: string, currentItems: any[], currentSubtotal: number, currentDiscount: number, currentTax: number, currentTotal: number) => {
+  const handlePrintReceipt = async (orderNumber: string, currentItems: { name: string; quantity: number; price: number }[], currentSubtotal: number, currentDiscount: number, currentTax: number, currentTotal: number) => {
     if (!isConnected) return;
     
     const encoder = new EscPosEncoder(32);

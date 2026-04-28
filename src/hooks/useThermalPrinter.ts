@@ -11,7 +11,7 @@ interface SerialPort {
 }
 
 interface NavigatorSerial {
-  requestPort(options?: { filters: any[] }): Promise<SerialPort>;
+  requestPort(options?: { filters: Array<{ usbVendorId?: number; usbProductId?: number }> }): Promise<SerialPort>;
   getPorts(): Promise<SerialPort[]>;
 }
 
