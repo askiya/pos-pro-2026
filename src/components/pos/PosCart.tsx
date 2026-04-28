@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 import { useToast } from "@/components/ui/ToastProvider";
 import { formatCurrency } from "@/lib/format";
 import { useCartStore } from "@/store/cartStore";
+import { useThermalPrinter } from "@/hooks/useThermalPrinter";
+import { EscPosEncoder } from "@/lib/escpos";
 
 type PaymentType = "CASH" | "TRANSFER" | "QRIS" | "SPLIT";
 
@@ -34,6 +36,9 @@ export default function PosCart({
   const [selectedPayment, setSelectedPayment] = useState<PaymentType>("CASH");
   const [isProcessing, setIsProcessing] = useState(false);
   const { showToast } = useToast();
+  
+  // Thermal Printer Hook
+  const { isSupported, isConnected, error: printerError, connect, print } = useThermalPrinter();
 
   const subtotal = getSubtotal();
   const tax = getTaxAmount();
@@ -41,6 +46,64 @@ export default function PosCart({
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
   const selectedPaymentLabel = paymentMethods.find((method) => method.type === selectedPayment)?.label ?? selectedPayment;
   const compact = variant === "drawer";
+
+  useEffect(() => {
+    if (printerError) {
+      showToast({ title: "Printer Error", description: printerError, variant: "error" });
+    }
+  }, [printerError, showToast]);
+
+  const handlePrintReceipt = async (orderNumber: string, currentItems: any[], currentSubtotal: number, currentDiscount: number, currentTax: number, currentTotal: number) => {
+    if (!isConnected) return;
+    
+    const encoder = new EscPosEncoder(32);
+    encoder.init()
+      .alignCenter()
+      .bold(true)
+      .size(2, 2)
+      .line("POS PRO V2")
+      .size(1, 1)
+      .bold(false)
+      .line("Jl. Teknologi No. 123")
+      .line("Telp: 081234567890")
+      .divider("=")
+      .alignLeft()
+      .line(`No   : ${orderNumber}`)
+      .line(`Kasir: Admin`)
+      .line(`Waktu: ${new Date().toLocaleString('id-ID')}`)
+      .divider("-");
+      
+    currentItems.forEach(item => {
+      encoder.line(item.name);
+      encoder.tableRow(`${item.quantity} x ${formatCurrency(item.price)}`, formatCurrency(item.price * item.quantity));
+    });
+    
+    encoder.divider("-")
+      .tableRow("Subtotal", formatCurrency(currentSubtotal));
+      
+    if (currentDiscount > 0) {
+      encoder.tableRow("Diskon", `-${formatCurrency(currentDiscount)}`);
+    }
+    
+    if (currentTax > 0) {
+      encoder.tableRow("Pajak (PPN)", formatCurrency(currentTax));
+    }
+    
+    encoder.bold(true)
+      .tableRow("TOTAL", formatCurrency(currentTotal))
+      .bold(false)
+      .divider("=")
+      .alignCenter()
+      .feed(1)
+      .line("Terima Kasih!")
+      .line("Barang yang sudah dibeli")
+      .line("tidak dapat ditukar/dikembalikan")
+      .feed(3)
+      .cut()
+      .openDrawer();
+      
+    await print(encoder.build());
+  };
 
   const handleCharge = async () => {
     if (items.length === 0) return;
@@ -60,10 +123,17 @@ export default function PosCart({
       const payload = await res.json();
 
       if (res.ok) {
+        const orderNum = payload.orderNumber ?? "Order baru";
+        
+        // Print receipt before clearing cart
+        if (isConnected) {
+          handlePrintReceipt(orderNum, items, subtotal, discount, tax, total);
+        }
+        
         clearCart();
         showToast({
           title: "Transaksi berhasil",
-          description: `${payload.orderNumber ?? "Order baru"} - ${formatCurrency(total)}`,
+          description: `${orderNum} - ${formatCurrency(total)}`,
           variant: "success",
         });
         onCharged?.();
@@ -310,6 +380,23 @@ export default function PosCart({
               </span>
             </button>
           </div>
+
+          {isSupported && (
+            <button
+              onClick={isConnected ? () => {
+                showToast({ title: "Printer Terhubung", description: "Printer siap mencetak struk.", variant: "success" });
+              } : connect}
+              className={`w-full flex items-center justify-center ${compact ? "mt-2.5 rounded-xl px-2.5 py-2 text-[11px]" : "mt-3 rounded-xl px-3 py-2 text-xs"} border font-black transition-colors ${isConnected ? "border-[#10b981]/30 bg-[#10b981]/15 text-[#34d399] hover:bg-[#10b981]/20" : "border-white/12 bg-white/10 text-white/80 hover:bg-white/14"}`}
+              type="button"
+            >
+              <span className="flex items-center justify-center gap-1.5">
+                <span className={`material-symbols-outlined ${compact ? "text-[15px]" : "text-[16px]"}`}>
+                  {isConnected ? "print" : "print_disabled"}
+                </span>
+                {isConnected ? "Printer Terhubung (Siap Cetak)" : "Hubungkan Printer USB"}
+              </span>
+            </button>
+          )}
         </div>
       </div>
     </section>
